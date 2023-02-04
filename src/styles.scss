@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'app/app.component.scss-theme.scss';
+@import 'app/shared/styles/variables';
+
+@font-face {
+  font-family: "Ahellya";
+  src: local("Ahellya"), url(./assets/fonts/Ahellya.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Ahellya-Italic";
+  src: local("Ahellya-Italic"), url(./assets/fonts/Ahellya-Italic.ttf) format("truetype");
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: $accent; }

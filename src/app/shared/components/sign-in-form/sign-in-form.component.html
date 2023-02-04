@@ -1,0 +1,46 @@
+<form class="form" [formGroup]="form">
+  <mat-card>
+    <mat-form-field appearance="outline">
+      <mat-label>Електронна скринька</mat-label>
+      <input matInput type="email" formControlName="email" [placeholder]="'Електронна скринька'">
+      <mat-icon matSuffix [color]="'accent'" *ngIf="formEmail.valid || !formEmail.touched">email</mat-icon>
+      <mat-icon matSuffix [color]="'warn'" *ngIf="formEmail.invalid && formEmail.touched">unsubscribe</mat-icon>
+      <mat-error *ngIf="formEmail.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error
+        *ngIf="formEmail.getError('email') && !formEmail.hasError('minlength') && !formEmail.getError('maxlength')">Це не схоже на електронну скриньку</mat-error>
+      <mat-error *ngIf="formEmail.hasError('minlength')">
+        Мінімальна довжина:
+        {{formEmail.getError('minlength')['requiredLength']}}
+      </mat-error>
+      <mat-error *ngIf="formEmail.getError('maxlength')">
+        Максимальна довжина:
+        {{formEmail.getError('maxlength')['requiredLength']}}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Пароль</mat-label>
+      <input matInput formControlName="password" [type]="showPass ? 'text' : 'password'"
+        [placeholder]="'Пароль'">
+      <mat-icon matSuffix [color]="'primary'" [ngStyle]="{cursor: 'pointer'}" (click)="showPassword()">remove_red_eye
+      </mat-icon>
+      <mat-error *ngIf="formPassword.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error *ngIf="formPassword.getError('pattern')">
+        Має бути хоча б одна маленька, одна велика літера та цифра
+      </mat-error>
+      <mat-error *ngIf="formPassword.hasError('minlength')">
+        Мінімальна довжина:
+        {{formPassword.getError('minlength')['requiredLength']}}
+      </mat-error>
+      <mat-error *ngIf="formPassword.getError('maxlength')">
+        Максимальна довжина:
+        {{formPassword.getError('maxlength')['requiredLength']}}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="buttons">
+      <button mat-raised-button [disabled]="form.invalid" color="accent" (click)="submit()">
+        Увійти</button>
+    </div>
+  </mat-card>
+</form>

@@ -1,0 +1,134 @@
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+@include mat.core();
+
+$my-customblue: (
+  50 : #e5f2f8,
+  100 : #bddfee,
+  200 : #92cae2,
+  300 : #66b5d6,
+  400 : #45a5ce,
+  500 : #2495c5,
+  600 : #208dbf,
+  700 : #1b82b8,
+  800 : #1678b0,
+  900 : #0d67a3,
+  A100 : #d2ebff,
+  A200 : #9fd5ff,
+  A400 : #6cbeff,
+  A700 : #52b3ff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+$my-accent: (
+  50 : #f9fdff,
+  100 : #f1fafe,
+  200 : #e7f6fe,
+  300 : #ddf2fe,
+  400 : #d6f0fd,
+  500 : #cfedfd,
+  600 : #caebfd,
+  700 : #c3e8fc,
+  800 : #bde5fc,
+  900 : #b2e0fc,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffffff,
+  A700 : #ffffff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+$my-warning: (
+  50 : #f8eae5,
+  100 : #eeccbd,
+  200 : #e2aa92,
+  300 : #d68766,
+  400 : #ce6e45,
+  500 : #c55424,
+  600 : #bf4d20,
+  700 : #b8431b,
+  800 : #b03a16,
+  900 : #a3290d,
+  A100 : #ffd9d2,
+  A200 : #ffad9f,
+  A400 : #ff826c,
+  A700 : #ff6c52,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+// mandatory stuff for theming
+$my-light-primary: mat.define-palette($my-customblue);
+$my-light-accent:  mat.define-palette($my-accent);
+$my-light-warning:  mat.define-palette($my-warning);
+
+$my-custom-typography-config: mat.define-typography-config(
+  //$headline-1: mat.define-typography-level(112px, 112px, 300, "Ahellya", $letter-spacing: -0.05em),
+  //$headline-2: mat.define-typography-level(56px, 56px, 400, "Ahellya", $letter-spacing: -0.02em),
+  //$headline-3: mat.define-typography-level(45px, 48px, 400, "Ahellya", $letter-spacing: -0.005em),
+  //$headline-4: mat.define-typography-level(34px, 40px, 400, "Ahellya"),
+  //$headline-5: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  $headline-6: mat.define-typography-level(24px, 32px, 400, '"Ahellya", Roboto, "Helvetica Neue", sans-serif'),
+  //$subtitle-1: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$subtitle-2: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$body-1: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$body-2: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$caption: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$button: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  //$overline: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+);
+
+// include the custom theme components into a theme object
+$bv-theme: mat.define-light-theme((
+  color: (
+    primary: $my-light-primary,
+    accent: $my-light-accent,
+    warn: $my-light-warning
+  ),
+  typography: $my-custom-typography-config
+));
+
+// include the custom theme object into the angular material theme
+@include angular-material-theme($bv-theme);
