@@ -4,10 +4,18 @@
   </button>
   <h1>ЕНЕРІ</h1>
   <span class="spacer"></span>
-  <button mat-icon-button color="accent" (click)="dialog('signup')" class="example-icon favorite-icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button color="accent" (click)="dialog('signin')" class="example-icon">
-    <mat-icon>share</mat-icon>
-  </button>
+  <ng-container *ngIf="user$ | async as user else notAuthenticated">
+    <span class="m-r-10">Привіт: {{user.username}}</span>
+    <button mat-flat-button color="primary" (click)="logout()">
+      Вийти
+    </button>
+  </ng-container>
+  <ng-template #notAuthenticated>
+    <button mat-flat-button color="primary" (click)="dialog('signup')">
+      СТАТИ АВАНТЮРИСТОМ
+    </button>
+    <button mat-flat-button color="primary" (click)="dialog('signin')">
+      ЗАЙТИ У ГІЛЬДІЮ
+    </button>
+  </ng-template>
 </mat-toolbar>

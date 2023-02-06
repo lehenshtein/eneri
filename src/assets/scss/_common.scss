@@ -1,0 +1,86 @@
+@import './src/assets/scss/variables';
+
+.d-block {
+  display: block !important;
+}
+
+.d-i-block {
+  display: inline-block !important;
+}
+
+.d-flex {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.justify-center {
+  justify-content: center;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.m-l-0 {
+  margin-left: 0 !important;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.m-r-10 {
+  margin-right: 10px!important;
+}
+
+.m-b-5 {
+  margin-bottom: 5px;
+}
+
+.m-b-10 {
+  margin-bottom: 10px!important;
+}
+
+.p-r-10 {
+  padding-right: 10px;
+}
+.p-l-10 {
+  padding-left: 10px;
+}
+.p-b-10 {
+  padding-bottom: 10px;
+}
+
+.p-r-25 {
+  padding-right: 25px;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.position-fixed {
+  position: fixed !important;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+mat-card {
+  & .date {
+    font-size: .8rem;
+    opacity: .5;
+  }
+}

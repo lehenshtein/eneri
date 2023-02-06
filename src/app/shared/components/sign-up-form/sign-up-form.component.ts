@@ -1,25 +1,28 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { compareValidator } from '@shared/validators/compare.validator';
 import { UserRegisterInterface } from '@shared/models/user.interface';
 import { passPattern } from '@app/shared/helpers/regex-patterns';
 import { AuthModalService } from '@shared/services/auth-modal.service';
+import { AuthHttpService } from '@shared/services/auth-http.service';
+import { takeUntil } from 'rxjs';
+import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 
 @Component({
   selector: 'app-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss']
 })
-export class SignUpFormComponent implements OnInit {
-  @Output() onSubmit = new EventEmitter<UserRegisterInterface>();
+export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
   form!: FormGroup;
   passPattern = passPattern;
   showPass = false;
 
   constructor(
     private fb: FormBuilder,
-    private authModalService: AuthModalService
-  ) { }
+    private authModalService: AuthModalService,
+    private authHttpService: AuthHttpService
+  ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
@@ -54,19 +57,22 @@ export class SignUpFormComponent implements OnInit {
   }
 
   submit () {
-    this.authModalService.setModalData = this.form.getRawValue();
-    this.authModalService.close();//test
-    console.log(this.authModalService.getModalData);
-
     if (this.form.invalid) {
       return;
     }
     const form = this.form.getRawValue();
-    const authData = {
-      name: form.login,
+    const authData: UserRegisterInterface = {
+      username: form.login,
       email: form.email,
       password: form.password
     }
-    this.onSubmit.emit(authData);
+    // this.authModalService.setModalData = this.form.getRawValue();
+
+    this.authHttpService.register(authData).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
+      console.log(res);
+      if (res) {
+        this.authModalService.close();//test
+      }
+    })
   }
 }

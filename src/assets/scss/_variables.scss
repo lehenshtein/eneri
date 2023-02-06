@@ -1,0 +1,21 @@
+$primaryClassic: #2495c5;
+$primaryModern: #250b8e;
+$accentClassic: #cfedfd;
+$accentModern: #e1f241;
+$darkClassic: #1678b0;
+$darkModern: #1b087b;
+
+$primary: $primaryModern;
+$accent: $accentModern;
+$warning: #c55424;
+$analogue1: #24c5a5;
+$analogue2: #2445c5;
+$dark: $darkModern;
+
+$primary-gradient: linear-gradient(90deg, $dark 0%, $primary 100%);
+$primary-shadow-color: rgba(27, 8, 123, 0.35);
+$primary-shadow: 0 5px 5px 0 $primary-shadow-color;
+
+$border-radius-xl: 20px;
+
+$default-font-size: 14px;

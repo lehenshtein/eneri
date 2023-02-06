@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@shared/shared.module';
 import { HeaderComponent } from './layout/header/header.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from '@shared/interceptors/token.interceptor';
+import { ErrorInterceptor } from '@shared/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -16,12 +19,24 @@ import { HeaderComponent } from './layout/header/header.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     SharedModule
   ],
   exports: [
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: TokenInterceptor
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: ErrorInterceptor
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

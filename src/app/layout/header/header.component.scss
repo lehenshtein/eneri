@@ -1,5 +1,4 @@
-@import './src/app/shared/styles/variables';
-
+@import './src/assets/scss/variables';
 .spacer {
   flex: 1 1 auto;
 }
@@ -7,5 +6,4 @@
   background: $primary-gradient;
   border-radius: 0 0 $border-radius-xl $border-radius-xl;
   box-shadow: $primary-shadow;
-  //font-family: "Ahellya", Roboto, "Helvetica Neue", sans-serif;
 }

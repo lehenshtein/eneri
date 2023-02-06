@@ -1,24 +1,26 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { passPattern } from '@shared/helpers/regex-patterns';
-import { UserLoginInterface } from '@shared/models/user.interface';
 import { AuthModalService } from '@shared/services/auth-modal.service';
+import { AuthHttpService } from '@shared/services/auth-http.service';
+import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in-form',
   templateUrl: './sign-in-form.component.html',
   styleUrls: ['./sign-in-form.component.scss']
 })
-export class SignInFormComponent implements OnInit {
-  @Output() onSubmit = new EventEmitter<UserLoginInterface>();
+export class SignInFormComponent extends UnsubscribeAbstract implements OnInit {
   form!: FormGroup;
   passPattern = passPattern;
   showPass = false;
 
   constructor(
     private fb: FormBuilder,
-    private authModalService: AuthModalService
-  ) { }
+    private authModalService: AuthModalService,
+    private authHttpService: AuthHttpService
+  ) { super(); }
 
   ngOnInit(): void {
     this.initForm();
@@ -43,11 +45,14 @@ export class SignInFormComponent implements OnInit {
   }
 
   submit () {
-    this.authModalService.setModalData = this.form.getRawValue();
-    this.authModalService.close();//test
     if (this.form.invalid) {
       return;
     }
-    this.onSubmit.emit(this.form.getRawValue());
+    this.authHttpService.login(this.form.getRawValue()).pipe(takeUntil(this.ngUnsubscribe$),).subscribe(res => {
+      console.log(res);
+      if (res) {
+        this.authModalService.close();//test
+      }
+    })
   }
 }

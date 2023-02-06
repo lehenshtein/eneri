@@ -1,0 +1,15 @@
+@import './src/assets/scss/variables';
+.form {
+  padding: 15px 15px;
+  background: $accent;
+  mat-card {
+    padding: 10px 15px;
+  }
+  .mat-form-field {
+    width: 100%;
+  }
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}

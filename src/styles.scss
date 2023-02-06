@@ -1,6 +1,7 @@
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'app/app.component.scss-theme.scss';
-@import 'app/shared/styles/variables';
+@import 'assets/scss/variables';
+@import 'assets/scss/common';
 
 @font-face {
   font-family: "Ahellya";
@@ -10,5 +11,11 @@
   font-family: "Ahellya-Italic";
   src: local("Ahellya-Italic"), url(./assets/fonts/Ahellya-Italic.ttf) format("truetype");
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: $accent; }
+html, body { height: 100%; font-size: $default-font-size; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+h1 {
+  font-family: "Ahellya", Roboto, "Helvetica Neue", sans-serif;
+}
+button {
+  font-size: 1rem;
+}

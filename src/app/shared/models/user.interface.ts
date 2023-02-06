@@ -5,11 +5,32 @@ export interface UserLoginInterface {
 }
 
 export interface UserRegisterInterface extends UserLoginInterface {
-  name: string
+  username: string
 }
 export interface UserInterface {
   _id: number,
   name: string,
+  username: string,
   email: string,
-  createdAt: Date
+  confirmedEmail: boolean,
+  password: string,
+  salt: string,
+  birthDate: Date,
+  role: 'superAdmin' | 'admin' | 'moderator' | 'user',
+  gameRole: 'player' | 'both',
+  gamesLeaded: number,
+  gamesPlayed: number,
+  rate: number,
+  status: 'default' | 'muted' | 'banned',
+  statusTillDate: Date | null,
+  contactData: IContactData,
+  avatar: string,
+  updatedAt: Date,
+  createdAt: Date,
+}
+
+interface IContactData {
+  city: { name: string, code: number },
+  phone: number,
+  telegram: string
 }
