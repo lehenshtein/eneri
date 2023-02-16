@@ -1,71 +1,71 @@
 <form class="form" [formGroup]="form">
   <mat-card>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Логін</mat-label>
       <input matInput formControlName="login" [placeholder]="'Логін'">
-      <mat-icon matSuffix [color]="'accent'" *ngIf="formLogin.valid || !formLogin.touched">sentiment_very_satisfied
+      <mat-icon matSuffix [color]="'primary'" *ngIf="formLogin.valid || !formLogin.touched">sentiment_very_satisfied
       </mat-icon>
       <mat-icon matSuffix [color]="'warn'" *ngIf="formLogin.invalid && formLogin.touched">sentiment_very_dissatisfied
       </mat-icon>
-      <mat-error *ngIf="formLogin.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error *ngIf="formLogin.getError('required')">{{texts.validations.required}}</mat-error>
       <mat-error *ngIf="formLogin.hasError('minlength')">
-        Мінімальна довжина:
-        {{formLogin.getError('minlength')['requiredLength']}}
+        {{texts.validations.minLength}}
+        {{ formLogin.getError('minlength')['requiredLength']}}
       </mat-error>
       <mat-error *ngIf="formLogin.getError('maxlength')">
-        Максимальна довжина:
-        {{formLogin.getError('maxlength')['requiredLength']}}
+        {{texts.validations.maxLength}}
+        {{ formLogin.getError('maxlength')['requiredLength']}}
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Електронна скринька</mat-label>
       <input matInput type="email" formControlName="email" [placeholder]="'Електронна скринька'">
-      <mat-icon matSuffix [color]="'accent'" *ngIf="formEmail.valid || !formEmail.touched">email</mat-icon>
+      <mat-icon matSuffix [color]="'primary'" *ngIf="formEmail.valid || !formEmail.touched">email</mat-icon>
       <mat-icon matSuffix [color]="'warn'" *ngIf="formEmail.invalid && formEmail.touched">unsubscribe</mat-icon>
-      <mat-error *ngIf="formEmail.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error *ngIf="formEmail.getError('required')">{{texts.validations.required}}</mat-error>
       <mat-error
-        *ngIf="formEmail.getError('email') && !formEmail.hasError('minlength') && !formEmail.getError('maxlength')">Це не схоже на електронну скриньку</mat-error>
+        *ngIf="formEmail.getError('email') && !formEmail.hasError('minlength') && !formEmail.getError('maxlength')">{{texts.validations.email}}</mat-error>
       <mat-error *ngIf="formEmail.hasError('minlength')">
-        Мінімальна довжина:
-        {{formEmail.getError('minlength')['requiredLength']}}
+        {{texts.validations.minLength}}
+        {{ formEmail.getError('minlength')['requiredLength']}}
       </mat-error>
       <mat-error *ngIf="formEmail.getError('maxlength')">
-        Максимальна довжина:
-        {{formEmail.getError('maxlength')['requiredLength']}}
+        {{texts.validations.maxLength}}
+        {{ formEmail.getError('maxlength')['requiredLength']}}
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Пароль</mat-label>
       <input matInput formControlName="password" [type]="showPass ? 'text' : 'password'" [placeholder]="'Пароль'">
       <mat-icon matSuffix [color]="'primary'" [ngStyle]="{cursor: 'pointer'}" (click)="showPassword()">remove_red_eye
       </mat-icon>
-      <mat-error *ngIf="formPassword.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error *ngIf="formPassword.getError('required')">{{texts.validations.required}}</mat-error>
       <mat-error
         *ngIf="formPassword.getError('pattern') && !formPassword.hasError('minlength') && !formPassword.getError('maxlength')">
-        Має бути хоча б одна маленька, одна велика літера та цифра
+        {{texts.validations.password}}
       </mat-error>
       <mat-error *ngIf="formPassword.hasError('minlength')">
-        Мінімальна довжина:
-        {{formPassword.getError('minlength')['requiredLength']}}
+        {{texts.validations.minLength}}
+        {{ formPassword.getError('minlength')['requiredLength']}}
       </mat-error>
       <mat-error *ngIf="formPassword.getError('maxlength')">
-        Максимальна довжина:
-        {{formPassword.getError('maxlength')['requiredLength']}}
+        {{texts.validations.maxLength}}
+        {{ formPassword.getError('maxlength')['requiredLength']}}
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Повтори пароль</mat-label>
       <input matInput formControlName="repeatPassword" [type]="showPass ? 'text' : 'password'"
              [placeholder]="'Повтори пароль'">
       <mat-icon matSuffix [color]="'primary'" [ngStyle]="{cursor: 'pointer'}" (click)="showPassword()">remove_red_eye
       </mat-icon>
-      <mat-error *ngIf="formRepeatPassword.getError('required')">Це поле обов'язкове</mat-error>
+      <mat-error *ngIf="formRepeatPassword.getError('required')">{{texts.validations.required}}</mat-error>
 
       <mat-error *ngIf="formRepeatPassword.getError('notSame')">
-        Паролі не однакові
+        {{texts.validations.passwordIdentity}}
       </mat-error>
     </mat-form-field>
 

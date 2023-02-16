@@ -1,0 +1,7 @@
+<div class="container">
+  <ng-container *ngIf="games$ | async as games">
+    <div class="with-border" *ngFor="let game of games">
+      <app-game-card  [game]="game"></app-game-card>
+    </div>
+  </ng-container>
+</div>

@@ -31,6 +31,9 @@
 .m-l-0 {
   margin-left: 0 !important;
 }
+.m-l-5 {
+  margin-left: 5px;
+}
 
 .m-r-5 {
   margin-right: 5px;
@@ -38,6 +41,10 @@
 
 .m-r-10 {
   margin-right: 10px!important;
+}
+
+.m-t-10 {
+  margin-top: 10px!important;
 }
 
 .m-b-5 {
@@ -74,13 +81,32 @@
   position: fixed !important;
 }
 
+.w-100 {
+  width: 100%;
+}
+
 .bold {
   font-weight: bold;
 }
-
+mat-form-field {
+  width: 100%;
+}
 mat-card {
   & .date {
     font-size: .8rem;
     opacity: .5;
+  }
+}
+
+mat-datepicker-toggle {
+  button {
+    color: $accent!important;
+  }
+}
+ngx-mat-datetime-content {
+  button {
+    background-color: $accent;
+    color: $black!important;
+    border: none!important;
   }
 }

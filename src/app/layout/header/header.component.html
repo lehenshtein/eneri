@@ -1,21 +1,23 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h1>ЕНЕРІ</h1>
-  <span class="spacer"></span>
-  <ng-container *ngIf="user$ | async as user else notAuthenticated">
-    <span class="m-r-10">Привіт: {{user.username}}</span>
-    <button mat-flat-button color="primary" (click)="logout()">
-      Вийти
+<mat-toolbar color="accent" class="wrapper">
+  <div class="items-container">
+    <button mat-icon-button class="example-icon">
+      <mat-icon>menu</mat-icon>
     </button>
-  </ng-container>
-  <ng-template #notAuthenticated>
-    <button mat-flat-button color="primary" (click)="dialog('signup')">
-      СТАТИ АВАНТЮРИСТОМ
-    </button>
-    <button mat-flat-button color="primary" (click)="dialog('signin')">
-      ЗАЙТИ У ГІЛЬДІЮ
-    </button>
-  </ng-template>
+    <h1>ЕНЕРІ</h1>
+    <span class="spacer"></span>
+    <ng-container *ngIf="user$ | async as user else notAuthenticated">
+      <span class="m-r-10">Привіт: {{user.username}}</span>
+      <button mat-flat-button color="accent" (click)="logout()">
+        Вийти
+      </button>
+    </ng-container>
+    <ng-template #notAuthenticated>
+      <button mat-flat-button color="accent" (click)="dialog('signup')">
+        СТАТИ АВАНТЮРИСТОМ
+      </button>
+      <button mat-flat-button color="accent" (click)="dialog('signin')">
+        ЗАЙТИ У ГІЛЬДІЮ
+      </button>
+    </ng-template>
+  </div>
 </mat-toolbar>

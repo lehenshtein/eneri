@@ -5,6 +5,7 @@ import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { takeUntil } from 'rxjs';
+import { texts } from '@shared/helpers/texts';
 
 @Component({
   selector: 'app-sign-in-form',
@@ -15,6 +16,7 @@ export class SignInFormComponent extends UnsubscribeAbstract implements OnInit {
   form!: FormGroup;
   passPattern = passPattern;
   showPass = false;
+  texts = texts;
 
   constructor(
     private fb: FormBuilder,

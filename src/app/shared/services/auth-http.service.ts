@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserInterface, UserLoginInterface, UserRegisterInterface } from '@shared/models/user.interface';
+import { IUser, IUserLogin, IUserRegister } from '@shared/models/user.interface';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -9,9 +9,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthHttpService {
   jwtHelper = new JwtHelperService();
-  private user?: UserInterface;
-  private userSubject = new BehaviorSubject<UserInterface | undefined>(undefined);
-  user$: Observable<UserInterface | undefined> = this.userSubject.asObservable();
+  private user?: IUser;
+  private userSubject = new BehaviorSubject<IUser | undefined>(undefined);
+  user$: Observable<IUser | undefined> = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -25,11 +25,11 @@ export class AuthHttpService {
     return localStorage.getItem('auth-token');
   }
 
-  set setUser (user: UserInterface | undefined) {
+  set setUser (user: IUser | undefined) {
     this.user = user;
   }
 
-  get getUSer (): UserInterface | undefined {
+  get getUSer (): IUser | undefined {
     return this.user;
   }
 
@@ -38,14 +38,14 @@ export class AuthHttpService {
   }
 
 
-  getUser (): Observable<UserInterface | undefined> {
+  getUser (): Observable<IUser | undefined> {
     if (this.token && !this.jwtHelper.isTokenExpired(this.token)) {
-      return this.http.get<UserInterface>(`/user`);
+      return this.http.get<IUser>(`/user`);
     }
     return of(undefined);
   }
 
-  register (data: UserRegisterInterface): Observable<{ token: string }> {
+  register (data: IUserRegister): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`/auth/register`, data).pipe(
       tap(({token}) => {
         this.setAllUserData(token);
@@ -53,7 +53,7 @@ export class AuthHttpService {
     );
   }
 
-  login (data: UserLoginInterface): Observable<{ token: string }> {
+  login (data: IUserLogin): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`/auth/login`, data).pipe(
       tap(({token}) => {
         this.setAllUserData(token);
@@ -66,7 +66,7 @@ export class AuthHttpService {
       this.setToken(token);
     }
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      this.getUser().pipe(take(1)).subscribe((res: UserInterface | undefined) => {
+      this.getUser().pipe(take(1)).subscribe((res: IUser | undefined) => {
         console.log(res);
         this.setUser = res;
         this.userSubject.next(res);

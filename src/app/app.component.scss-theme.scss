@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'sass:map';
 @import '@angular/material/theming';
 @include mat.core();
 
@@ -34,7 +35,6 @@ $my-primaryClassic: (
     A700 : #000000,
   )
 );
-
 $my-accentClassic: (
   50 : #f9fdff,
   100 : #f1fafe,
@@ -67,8 +67,7 @@ $my-accentClassic: (
     A700 : #000000,
   )
 );
-
-$my-primaryModern: (
+$my-accentModern: (
   50 : #e5e2f1,
   100 : #beb6dd,
   200 : #9285c7,
@@ -100,7 +99,7 @@ $my-primaryModern: (
     A700 : #ffffff,
   )
 );
-$my-accentModern: (
+$my-primaryModern: (
   50 : #fbfde8,
   100 : #f6fbc6,
   200 : #f0f9a0,
@@ -132,31 +131,30 @@ $my-accentModern: (
     A700 : #000000,
   )
 );
-
 $my-warning: (
-  50 : #f8eae5,
-  100 : #eeccbd,
-  200 : #e2aa92,
-  300 : #d68766,
-  400 : #ce6e45,
-  500 : #c55424,
-  600 : #bf4d20,
-  700 : #b8431b,
-  800 : #b03a16,
-  900 : #a3290d,
-  A100 : #ffd9d2,
-  A200 : #ffad9f,
-  A400 : #ff826c,
-  A700 : #ff6c52,
+  50 : #ffeceb,
+  100 : #ffcfcc,
+  200 : #ffafaa,
+  300 : #fe8f88,
+  400 : #fe776f,
+  500 : #fe5f55,
+  600 : #fe574e,
+  700 : #fe4d44,
+  800 : #fe433b,
+  900 : #fd322a,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffd7d5,
+  A700 : #ffbebc,
   contrast: (
     50 : #000000,
     100 : #000000,
     200 : #000000,
     300 : #000000,
     400 : #000000,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
     800 : #ffffff,
     900 : #ffffff,
     A100 : #000000,
@@ -165,6 +163,62 @@ $my-warning: (
     A700 : #000000,
   )
 );
+$my-darkpalette: (
+  50 : #e3e3e3,
+  100 : #b9b9b9,
+  200 : #8a8a8a,
+  300 : #5b5b5b,
+  400 : #383838,
+  500 : #151515,
+  600 : #121212,
+  700 : #0f0f0f,
+  800 : #0c0c0c,
+  900 : #060606,
+  A100 : #a6a6a6,
+  A200 : #8c8c8c,
+  A400 : #737373,
+  A700 : #666666,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+@function modify-background($theme, $background-color) {
+
+  $theme-color: map.get($theme, color);
+  $color-background-palette: map.get($theme-color, background);
+  $color-background-palette: map.merge($color-background-palette, (background: $background-color));
+  $color-background-palette: map.merge($color-background-palette, (raised-button: $background-color));
+  $color-background-palette: map.merge($color-background-palette, (card: map.get($my-darkpalette, 500)));
+  $color-background-palette: map.merge($color-background-palette, (dialog: map.get($my-darkpalette, 500)));
+
+  // Replace the background in the background palette.
+  $background-palette: map.get($theme, background);
+  $background-palette: map.merge($background-palette, (background: $background-color));
+  $background-palette: map.merge($background-palette, (raised-button: $background-color));
+  $background-palette: map.merge($background-palette, (card: map.get($my-darkpalette, 500)));
+  $background-palette: map.merge($background-palette, (dialog: map.get($my-darkpalette, 500)));
+
+  // Merge the changes into a new theme.
+  $modified-theme-color: map.merge($theme-color, (background: $color-background-palette));
+  $modified-theme: map.merge($theme, (color: $modified-theme-color));
+  $modified-theme: map.merge($modified-theme, (background: $background-palette));
+
+  @return $modified-theme;
+}
 
 // mandatory stuff for theming
 $my-light-primary: mat.define-palette($my-primaryModern);
@@ -188,7 +242,7 @@ $my-custom-typography-config: mat.define-typography-config(
 );
 
 // include the custom theme components into a theme object
-$bv-theme: mat.define-light-theme((
+$bv-theme: mat.define-dark-theme((
   color: (
     primary: $my-light-primary,
     accent: $my-light-accent,
@@ -196,6 +250,7 @@ $bv-theme: mat.define-light-theme((
   ),
   //typography: $my-custom-typography-config
 ));
+$bv-theme: modify-background($bv-theme, map.get($my-darkpalette, 500));
 
 // include the custom theme object into the angular material theme
 @include angular-material-theme($bv-theme);

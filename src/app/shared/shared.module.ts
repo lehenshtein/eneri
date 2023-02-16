@@ -11,6 +11,15 @@ import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.comp
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+import { GameCardComponent } from './components/game-card/game-card.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 const Material = [
   MatSlideToggleModule,
@@ -20,21 +29,30 @@ const Material = [
   MatFormFieldModule,
   MatDialogModule,
   MatCardModule,
-  MatInputModule
+  MatInputModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
 ];
 
 @NgModule({
   declarations: [
     SignInFormComponent,
-    SignUpFormComponent
+    SignUpFormComponent,
+    GameCardComponent
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ...Material,
-    ReactiveFormsModule
+    MatChipsModule,
   ],
   exports: [
-    ...Material
+    ...Material,
+    ReactiveFormsModule,
+    GameCardComponent
   ]
 })
 export class SharedModule { }

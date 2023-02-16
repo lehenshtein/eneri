@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,11 +9,15 @@ import { HeaderComponent } from './layout/header/header.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from '@shared/interceptors/token.interceptor';
 import { ErrorInterceptor } from '@shared/interceptors/error.interceptor';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { registerLocaleData } from '@angular/common';
+import localeUK from '@angular/common/locales/uk';
+registerLocaleData(localeUK);
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +30,8 @@ import { ErrorInterceptor } from '@shared/interceptors/error.interceptor';
     SharedModule
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
     {
       provide: HTTP_INTERCEPTORS,
       multi: true,

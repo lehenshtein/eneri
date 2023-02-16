@@ -1,0 +1,18 @@
+@import './src/assets/scss/variables';
+
+.fields-container {
+  display: flex;
+  justify-content: space-between;
+  mat-form-field {
+    width: 49%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-M) {
+  .fields-container {
+    flex-wrap: wrap;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

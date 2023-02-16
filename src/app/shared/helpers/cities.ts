@@ -1,4 +1,6 @@
-export const cities =
+import { ICity } from '@shared/models/city.interface';
+
+export const cities: ICity[] =
   [
     {
       "name": "ОНЛАЙН",

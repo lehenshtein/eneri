@@ -1,0 +1,48 @@
+<mat-card>
+  <img mat-card-image src="{{game.imgUrl}}" alt="Preview">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="header">{{game.title}}</h2>
+    </mat-card-title>
+
+    <mat-card-subtitle class="m-b-10">
+      <p><b>Майстер/Ведучий: </b> <span class="accent-text">{{game.master.username}}</span></p>
+      <p><b>Ціна: </b> <span class="accent-text">{{game.price}} грн.</span></p>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="m-b-10">
+    <div class="m-b-10">
+      <b class="accent-text d-block m-b-5">Опис:</b>
+      <p>{{game.description}}</p>
+    </div>
+
+    <div class="d-flex align-center">
+      <b class="accent-text">Шо: </b> <span class="m-l-5">{{ getSystem(game.gameSystemId)?.name || ' Інфо у майстра'}}</span>
+      <mat-icon color="primary" class="m-l-5">list_alt</mat-icon>
+    </div>
+
+    <div class="d-flex align-center">
+      <b class="accent-text">Де: </b> <span class="m-l-5">{{ getCity(game.cityCode)?.name || ' Інфо у майстра'}}</span>
+      <mat-icon color="primary" class="m-l-5">location_city</mat-icon>
+    </div>
+
+    <div class="d-flex align-center">
+      <span><b class="accent-text">Коли: </b>{{ game.startDateTime | date:'dd MMMM y'}}</span>
+      <span class="m-l-5"><b class="accent-text">Час: </b>{{ game.startDateTime | date:'HH:mm'}}</span>
+      <mat-icon color="primary" class="m-l-5">access_time</mat-icon>
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <mat-card-content>
+      <mat-chip-set>
+        <mat-chip *ngFor="let tag of game.tags">{{tag}}</mat-chip>
+      </mat-chip-set>
+    </mat-card-content>
+  </mat-card-footer>
+
+<!--  <pre>-->
+<!--        {{game | json}}-->
+<!--      </pre>-->
+</mat-card>

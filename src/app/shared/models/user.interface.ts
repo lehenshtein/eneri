@@ -1,13 +1,13 @@
 
-export interface UserLoginInterface {
+export interface IUserLogin {
   email: string,
   password: string
 }
 
-export interface UserRegisterInterface extends UserLoginInterface {
+export interface IUserRegister extends IUserLogin {
   username: string
 }
-export interface UserInterface {
+export interface IUser {
   _id: number,
   name: string,
   username: string,

@@ -1,0 +1,9 @@
+@import './src/assets/scss/variables';
+
+b {
+  font-weight: 500;
+}
+
+mat-card-footer {
+  background-color: $primary;
+}

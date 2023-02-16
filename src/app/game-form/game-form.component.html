@@ -1,0 +1,136 @@
+<div class="with-border w-100">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="header">Створити гру</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="form" [formGroup]="form">
+        <mat-form-field>
+          <mat-label>Назва гри</mat-label>
+          <input matInput formControlName="title" [placeholder]="'Як буде називатися завдання'">
+          <mat-icon matSuffix [color]="'primary'" *ngIf="formTitle.valid || !formTitle.touched">sentiment_very_satisfied
+          </mat-icon>
+          <mat-icon matSuffix [color]="'warn'" *ngIf="formTitle.invalid && formTitle.touched">
+            sentiment_very_dissatisfied
+          </mat-icon>
+          <mat-error *ngIf="formTitle.getError('required')">{{texts.validations.required}}</mat-error>
+          <mat-error *ngIf="formTitle.hasError('minlength')">
+            {{texts.validations.minLength}}
+            {{ formTitle.getError('minlength')['requiredLength']}}
+          </mat-error>
+          <mat-error *ngIf="formTitle.getError('maxlength')">
+            {{texts.validations.maxLength}}
+            {{ formTitle.getError('maxlength')['requiredLength']}}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Подробиці</mat-label>
+          <textarea matInput formControlName="description"
+                    [placeholder]="'Деталі завдання - хто, де, коли'"></textarea>
+          <mat-error *ngIf="formDescription.hasError('minlength')">
+            {{texts.validations.minLength}}
+            {{ formDescription.getError('minlength')['requiredLength']}}
+          </mat-error>
+          <mat-error *ngIf="formDescription.getError('maxlength')">
+            {{texts.validations.maxLength}}
+            {{ formDescription.getError('maxlength')['requiredLength']}}
+          </mat-error>
+          <mat-error *ngIf="formDescription.getError('required')">{{texts.validations.required}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Теги, через кому</mat-label>
+          <input matInput formControlName="tags" [placeholder]="'Щоб авантюристам було легше орієнтуватися'">
+          <mat-icon matSuffix [color]="formTags.valid || !formTags.touched ? 'primary' : 'warn'">#</mat-icon>
+          <mat-error *ngIf="formTags.getError('maxlength')">
+            {{texts.validations.maxLength}}
+            {{ formTags.getError('maxlength')['requiredLength']}}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Посилання на каринку</mat-label>
+          <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">
+          <mat-icon matSuffix
+                    [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">
+            add_photo_alternate
+          </mat-icon>
+          <mat-error
+            *ngIf="formImgUrl.getError('pattern') || formImgUrl.getError('wrongImageLink')">
+            {{texts.validations.imgPattern}}
+          </mat-error>
+          <mat-error *ngIf="formImgUrl.getError('maxlength')">
+            {{texts.validations.maxLength}}
+            {{ formImgUrl.getError('maxlength')['requiredLength']}}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="fields-container">
+          <mat-form-field>
+            <mat-label>Обери гру</mat-label>
+            <mat-select formControlName="gameSystemId">
+              <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGameSystemId.getError('required')">{{texts.validations.required}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput [ngxMatDatetimePicker]="picker" [min]="$any(minDate)" placeholder="Коли чекати"
+                   formControlName="startDateTime">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [showSeconds]="false">
+              <ng-template>
+                <!-- <mat-icon>star</mat-icon> -->
+                <span>Спланувати</span>
+              </ng-template>
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
+
+        <div class="fields-container">
+          <mat-form-field>
+            <mat-label>Ціна, грн.</mat-label>
+            <input type="number" min="0" matInput formControlName="price" [placeholder]="'Або твоя винагорода'">
+            <mat-icon matSuffix
+                      [color]="formPrice.valid || !formPrice.touched ? 'primary' : 'warn'">
+              toll
+            </mat-icon>
+            <mat-error *ngIf="formPrice.getError('required')">{{texts.validations.required}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Гравці</mat-label>
+            <input type="number" min="1" matInput formControlName="maxPlayers" [placeholder]="'Максимум пригодників'">
+            <mat-icon matSuffix
+                      [color]="formMaxPlayers.valid || !formMaxPlayers.touched ? 'primary' : 'warn'">
+              elderly
+            </mat-icon>
+            <mat-error *ngIf="formMaxPlayers.getError('required')">{{texts.validations.required}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="fields-container">
+          <mat-form-field>
+            <mat-label>Місто, або онлайн</mat-label>
+            <mat-select formControlName="cityCode">
+              <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formCityCode.getError('required')">{{texts.validations.required}}</mat-error>
+          </mat-form-field>
+        </div>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <div class="buttons">
+        <button mat-raised-button color="accent" (click)="submit()">
+          текст
+        </button>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>
