@@ -1,0 +1,24 @@
+@import 'src/assets/scss/variables';
+.site-info {
+  padding: 0 $padding-default;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  & .glow {
+    text-shadow: 1px 1px 1px $primary, -1px -1px 1px $primary,  -1px 1px 1px $primary,  1px -1px 1px $primary;
+  }
+  & .logo {
+    height: calc(100% - 16px);
+    margin-right: $padding-xl;
+  }
+}
+
+.sidebar-wrapper {
+  min-width: 320px;
+}
+
+.list-item--warn {
+  //background-color: $warning;
+  border-bottom: 1px solid $warning;
+  color: $warning;
+}

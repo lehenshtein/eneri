@@ -1,0 +1,28 @@
+<div class="sidebar-wrapper">
+  <div class="site-info">
+    <img class="logo" src="./assets/images/eneri-logo.png" alt="logo">
+    <h1>Е<span class="glow">Н</span>Е<span class="glow">РІ</span></h1>
+  </div>
+
+  <mat-nav-list>
+    <ng-container *ngIf="user$ | async as user else notAuthenticated">
+      <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
+      <button mat-stroked-button color="warn" (click)="logout()" class="w-100">Вийти</button>
+    </ng-container>
+
+    <ng-template #notAuthenticated>
+      <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
+      <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
+    </ng-template>
+  </mat-nav-list>
+
+  <h3 class="p-l-16 primary-text">Фільтра</h3>
+
+<!--  <mat-card>-->
+<!--    <nav>-->
+<!--      <a [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="tryCloseMenu()">-->
+<!--        <span>Some text</span>-->
+<!--      </a>-->
+<!--    </nav>-->
+<!--  </mat-card>-->
+</div>
