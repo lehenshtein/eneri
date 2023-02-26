@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 
 @Component({
@@ -9,6 +9,15 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
 export class AppComponent implements OnInit {
   showNavbar = true;
   constructor (private authHttpService: AuthHttpService) {
+  }
+
+  @ViewChild('drawer')
+  private sidenav: any;
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.sidenav.open();
+    }, 250);
   }
 
   ngOnInit (): void {

@@ -16,6 +16,8 @@
 
 .sidebar-wrapper {
   min-width: 320px;
+  position: sticky;
+  top: 0;
 }
 
 .list-item--warn {
