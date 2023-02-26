@@ -1,7 +1,7 @@
 @use 'sass:map';
 //@import '../../app/app.component.scss-theme';
 @import './src/assets/scss/palettes';
-$primaryClassic: map.get($my-palette-primary, 500);
+$primaryClassic: map.get($my-palette-primary, 500); //A400 ???
 $primaryModern: #250b8e;
 $accentClassic: map.get($my-palette-accent, 500);
 $accentModern: #e1f241;
@@ -15,12 +15,14 @@ $analogue1: #24c5a5;
 $analogue2: #2445c5;
 $dark: $darkClassic;
 $black: #060606;
+$white: #ffffff;
+$whiteSecondary: #e3e3e3;
 
 $primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
 $primary-shadow-color: rgba(0,0,0,0.8);
 $primary-shadow: 0 5px 5px 0 $primary-shadow-color;
 
-$border-radius-xl: 20px;
+$border-radius-xl: 24px;
 
 $default-font-size: 14px;
 $content-width: 1000px;
@@ -33,5 +35,7 @@ $padding-s: 8px;
 $padding-xs: 5px;
 
 $cards-margin: 60px;
+$page-top-padding: 50px;
 
-$breakpoint-M: 600px;
+$breakpoint-S: 600px;
+$breakpoint-M: 1350px;

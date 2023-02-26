@@ -4,12 +4,9 @@
   background: $primary;
   mat-card {
     padding: 10px 15px;
+    border-radius: $border-radius-xl!important;
   }
   .mat-form-field {
     width: 100%;
   }
-}
-.buttons {
-  display: flex;
-  justify-content: flex-end;
 }

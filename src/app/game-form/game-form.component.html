@@ -1,5 +1,6 @@
+<div class="wrapper">
 <div class="w-100">
-  <mat-card>
+  <mat-card class="card-special">
     <mat-card-header>
       <mat-card-title>
         <h2 class="header">Створити гру</h2>
@@ -124,13 +125,15 @@
 
       </form>
     </mat-card-content>
-
-    <mat-card-footer>
-      <div class="buttons">
-        <button mat-raised-button color="accent" (click)="submit()">
-          текст
-        </button>
-      </div>
-    </mat-card-footer>
+    <mat-card-content>
+      <mat-card-footer>
+        <div class="buttons">
+          <button mat-raised-button color="primary" (click)="submit()">
+            Створити
+          </button>
+        </div>
+      </mat-card-footer>
+    </mat-card-content>
   </mat-card>
+</div>
 </div>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IGameResponse } from '@shared/models/game.interface';
 
 @Component({
-  selector: 'app-games-wrapper.wrapper',
+  selector: 'app-games-wrapper',
   templateUrl: './games-wrapper.component.html',
   styleUrls: ['./games-wrapper.component.scss']
 })

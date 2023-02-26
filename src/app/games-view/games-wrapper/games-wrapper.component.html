@@ -1,7 +1,21 @@
-<div class="container">
-  <ng-container *ngIf="games$ | async as games">
-    <div *ngFor="let game of games">
-      <app-game-card  [game]="game"></app-game-card>
+<header class="primary-banner">
+  <div class="primary-banner__image"></div>
+  <div class="darken"></div>
+  <div class="title">
+    <div>
+      <h1>ЕНЕРІ</h1>
+      <h3 class="subtitle">Створюй. Шукай. Грай.</h3>
     </div>
-  </ng-container>
+  </div>
+</header>
+<div class="content">
+  <div class="wrapper">
+    <div class="container">
+      <ng-container *ngIf="games$ | async as games">
+        <div *ngFor="let game of games">
+          <app-game-card  [game]="game"></app-game-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>

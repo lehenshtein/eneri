@@ -1,5 +1,5 @@
 <div class="sidebar-wrapper">
-  <div class="site-info">
+  <div class="site-info" [routerLink]="'/'">
     <img class="logo" src="./assets/images/eneri-logo.png" alt="logo">
     <h1>Е<span class="glow">Н</span>Е<span class="glow">РІ</span></h1>
   </div>
@@ -14,6 +14,7 @@
       <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
     </ng-template>
+    <a [routerLink]="'create-game'"><mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item></a>
   </mat-nav-list>
 
   <h3 class="p-l-16 primary-text">Фільтра</h3>

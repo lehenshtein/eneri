@@ -11,7 +11,7 @@ import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 
 @Component({
-  selector: 'app-game-form.wrapper',
+  selector: 'app-game-form.content',
   templateUrl: './game-form.component.html',
   styleUrls: ['./game-form.component.scss']
 })

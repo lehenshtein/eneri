@@ -1,4 +1,7 @@
 @import './src/assets/scss/variables';
+.w-100 {
+  min-height: calc(100vh - $page-top-padding);
+}
 
 .fields-container {
   display: flex;
@@ -8,7 +11,7 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-M) {
+@media screen and (max-width: $breakpoint-S) {
   .fields-container {
     flex-wrap: wrap;
     mat-form-field {

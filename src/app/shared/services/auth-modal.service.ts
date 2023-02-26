@@ -19,7 +19,7 @@ export class AuthModalService {
   private modalData: any;
 
   openDialog(component: ComponentType<any>) {
-    this.dialog.open(component, {minWidth: '50%', width: '700px', maxWidth: '90vw'});
+    this.dialog.open(component, {minWidth: '50%', width: '700px', maxWidth: '90vw', panelClass: 'custom-popup'});
   }
 
   close() {

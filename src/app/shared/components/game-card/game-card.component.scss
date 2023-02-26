@@ -7,11 +7,7 @@ img {
 b {
   font-weight: 500;
 }
-mat-card {
-  border-radius: 24px;
-  background: linear-gradient(0deg, rgba(19,18,27,1) 0%, rgba(54,54,61,1) 100%);
-  box-shadow: 0 10px 20px 0 $primary-shadow-color;
-}
+
 mat-card-footer {
   background-color: $primary;
   border-radius: 0 0 24px 24px;
