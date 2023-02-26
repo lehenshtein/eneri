@@ -12,12 +12,14 @@ import { ErrorInterceptor } from '@shared/interceptors/error.interceptor';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localeUK from '@angular/common/locales/uk';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
 registerLocaleData(localeUK);
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ registerLocaleData(localeUK);
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule
+
   ],
   exports: [
     SharedModule

@@ -7,6 +7,7 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  showNavbar = true;
   constructor (private authHttpService: AuthHttpService) {
   }
 

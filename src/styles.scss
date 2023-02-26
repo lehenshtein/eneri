@@ -1,5 +1,6 @@
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import 'app/app.component.scss-theme.scss';
+//@import './src/app/app.component.scss-theme';
+@import 'assets/scss/theme';
 @import 'assets/scss/variables';
 @import 'assets/scss/common';
 
@@ -15,7 +16,7 @@ html, body { height: 100%; font-size: $default-font-size; }
 body {
   margin: 0 auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #151515;
+  background-color: #0e0d14;
   color: white;
 }
 p {
@@ -37,17 +38,26 @@ button {
   justify-content: center;
 }
 .with-border {
-  border: 15px solid $accent;
+  border: 15px solid $primary;
   border-radius: 4px;
-  background: $accent;
+  background: $primary;
   height: fit-content;
   mat-card {
     box-shadow: none;
-    border-radius: 4px;
-    overflow: hidden;
   }
 }
-
 .accent-text {
   color: $accent;
+}
+.primary-text {
+  color: $primary;
+}
+.semibold {
+  font-weight: 600!important;
+}
+.mat-drawer {
+  background: #1f1c2c;
+  border: none!important;
+  //border-radius: 0 0 $border-radius-xl $border-radius-xl;
+  box-shadow: -5px 0 5px 0 $primary-shadow-color;
 }

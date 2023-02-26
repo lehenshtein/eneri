@@ -1,4 +1,10 @@
-<app-header></app-header>
-https://www.npmjs.com/package/ngx-mat-select-search
-<div class="content"><router-outlet></router-outlet></div>
+
+
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer #drawer opened class="sidenav" mode="side" position="end">
+    <app-sidebar></app-sidebar>
+  </mat-drawer>
+<!--  <app-header (toggleMenu)="drawer.toggle()" [showNavbar]="showNavbar"></app-header>-->
+  <div class="content"><router-outlet></router-outlet></div>
+</mat-drawer-container>
 

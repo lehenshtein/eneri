@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
 import { SignInFormComponent } from '@shared/components/sign-in-form/sign-in-form.component';
@@ -10,9 +10,10 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  @Input() showNavbar: boolean = true;
+  @Output() toggleMenu: EventEmitter<any> = new EventEmitter<any>();
   user$ = this.authHttpService.user$;
   constructor (private authModalService: AuthModalService, private authHttpService: AuthHttpService) {
-
   }
 
 

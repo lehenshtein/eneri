@@ -1,20 +1,23 @@
-$primaryClassic: #2495c5;
+@use 'sass:map';
+//@import '../../app/app.component.scss-theme';
+@import './src/assets/scss/palettes';
+$primaryClassic: map.get($my-palette-primary, 500);
 $primaryModern: #250b8e;
-$accentClassic: #cfedfd;
+$accentClassic: map.get($my-palette-accent, 500);
 $accentModern: #e1f241;
-$darkClassic: #1678b0;
+$darkClassic: map.get($my-palette-primary, 900);
 $darkModern: #1b087b;
 
-$primary: $primaryModern;
-$accent: $accentModern;
-$warning: #fe5f55;
+$primary: $primaryClassic;
+$accent: $accentClassic;
+$warning: map.get($my-warningClassic, 500);
 $analogue1: #24c5a5;
 $analogue2: #2445c5;
-$dark: $darkModern;
+$dark: $darkClassic;
 $black: #060606;
 
-$primary-gradient: linear-gradient(90deg, $dark 0%, $primary 100%);
-$primary-shadow-color: rgba(27, 8, 123, 0.35);
+$primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
+$primary-shadow-color: rgba(0,0,0,0.8);
 $primary-shadow: 0 5px 5px 0 $primary-shadow-color;
 
 $border-radius-xl: 20px;
@@ -28,5 +31,7 @@ $padding-l: 12px;
 $padding-m: 10px;
 $padding-s: 8px;
 $padding-xs: 5px;
+
+$cards-margin: 60px;
 
 $breakpoint-M: 600px;

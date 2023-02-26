@@ -1,0 +1,64 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@import '@angular/material/theming';
+@include mat.core();
+@import './palettes';
+
+@function modify-background($theme, $background-color) {
+
+  $theme-color: map.get($theme, color);
+  $color-background-palette: map.get($theme-color, background);
+  $color-background-palette: map.merge($color-background-palette, (background: $background-color));
+  $color-background-palette: map.merge($color-background-palette, (raised-button: $background-color));
+  $color-background-palette: map.merge($color-background-palette, (card: map.get($my-darkpalette, 500)));
+  $color-background-palette: map.merge($color-background-palette, (dialog: map.get($my-darkpalette, 500)));
+
+  // Replace the background in the background palette.
+  $background-palette: map.get($theme, background);
+  $background-palette: map.merge($background-palette, (background: $background-color));
+  $background-palette: map.merge($background-palette, (raised-button: $background-color));
+  $background-palette: map.merge($background-palette, (card: map.get($my-darkpalette, 500)));
+  $background-palette: map.merge($background-palette, (dialog: map.get($my-darkpalette, 500)));
+
+  // Merge the changes into a new theme.
+  $modified-theme-color: map.merge($theme-color, (background: $color-background-palette));
+  $modified-theme: map.merge($theme, (color: $modified-theme-color));
+  $modified-theme: map.merge($modified-theme, (background: $background-palette));
+
+  @return $modified-theme;
+}
+
+// mandatory stuff for theming
+$my-primary: mat.define-palette($my-palette-primary);
+$my-accent:  mat.define-palette($my-palette-accent);
+$my-warning:  mat.define-palette($my-palette-warning);
+
+$my-custom-typography-config: mat.define-typography-config(
+  //$headline-1: mat.define-typography-level(112px, 112px, 300, "Ahellya", $letter-spacing: -0.05em),
+  //$headline-2: mat.define-typography-level(56px, 56px, 400, "Ahellya", $letter-spacing: -0.02em),
+  //$headline-3: mat.define-typography-level(45px, 48px, 400, "Ahellya", $letter-spacing: -0.005em),
+  //$headline-4: mat.define-typography-level(34px, 40px, 400, "Ahellya"),
+  //$headline-5: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+  $headline-6: mat.define-typography-level(24px, 32px, 400, '"Ahellya", Roboto, "Helvetica Neue", sans-serif'),
+  //$subtitle-1: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$subtitle-2: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$body-1: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$body-2: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$caption: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$button: mat.define-typography-level(24px, 32px, 400, "Roboto"),
+  //$overline: mat.define-typography-level(24px, 32px, 400, "Ahellya"),
+);
+
+// include the custom theme components into a theme object
+$bv-theme: mat.define-dark-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warning
+  ),
+  //typography: $my-custom-typography-config
+));
+$bv-theme: modify-background($bv-theme, map.get($my-darkpalette, 500));
+
+// include the custom theme object into the angular material theme
+@include angular-material-theme($bv-theme);

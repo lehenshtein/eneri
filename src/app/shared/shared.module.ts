@@ -20,6 +20,8 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { GameCardComponent } from './components/game-card/game-card.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 const Material = [
   MatSlideToggleModule,
@@ -35,6 +37,8 @@ const Material = [
   NgxMatDatetimePickerModule,
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
+  MatSidenavModule,
+  MatListModule
 ];
 
 @NgModule({

@@ -3,7 +3,7 @@
   flex: 1 1 auto;
 }
 .mat-toolbar {
-  background: $primary-gradient;
+  background: #1f1c2c;
   border-radius: 0 0 $border-radius-xl $border-radius-xl;
   box-shadow: $primary-shadow;
 }
@@ -11,7 +11,16 @@
   display: flex;
   align-items: center;
   width: $content-width;
+  height: inherit;
+  & .logo {
+    height: calc(100% - 16px);
+    margin-right: $padding-xl;
+  }
 }
 button {
   background-color: transparent!important;
+}
+
+.glow {
+  text-shadow: 1px 1px 1px $primary, -1px -1px 1px $primary,  -1px 1px 1px $primary,  1px -1px 1px $primary;
 }

@@ -1,9 +1,8 @@
-<mat-toolbar color="accent" class="wrapper">
+<mat-toolbar class="wrapper">
   <div class="items-container">
-    <button mat-icon-button class="example-icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1>ЕНЕРІ</h1>
+    <img class="logo" src="./assets/images/eneri-logo.png" alt="logo">
+
+    <h1>Е<span class="glow">Н</span>Е<span class="glow">РІ</span></h1>
     <span class="spacer"></span>
     <ng-container *ngIf="user$ | async as user else notAuthenticated">
       <span class="m-r-10">Привіт: {{user.username}}</span>
@@ -12,11 +11,15 @@
       </button>
     </ng-container>
     <ng-template #notAuthenticated>
-      <button mat-flat-button color="accent" (click)="dialog('signup')">
+      <button mat-flat-button color="default" (click)="dialog('signup')">
         СТАТИ АВАНТЮРИСТОМ
       </button>
-      <button mat-flat-button color="accent" (click)="dialog('signin')">
+      <button mat-flat-button color="default" (click)="dialog('signin')">
         ЗАЙТИ У ГІЛЬДІЮ
+      </button>
+
+      <button mat-icon-button class="example-icon" (click)="toggleMenu.emit();">
+        <mat-icon>menu</mat-icon>
       </button>
     </ng-template>
   </div>
