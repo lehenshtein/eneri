@@ -14,7 +14,6 @@ export interface IUser {
   email: string,
   confirmedEmail: boolean,
   password: string,
-  salt: string,
   birthDate: Date,
   role: 'superAdmin' | 'admin' | 'moderator' | 'user',
   gameRole: 'player' | 'both',

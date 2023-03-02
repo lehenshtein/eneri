@@ -1,6 +1,6 @@
 @import './src/assets/scss/variables';
 .w-100 {
-  min-height: calc(100vh - $page-top-padding);
+  min-height: $page-height;
 }
 
 .fields-container {

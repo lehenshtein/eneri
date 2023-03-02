@@ -6,8 +6,10 @@
 
   <mat-nav-list>
     <ng-container *ngIf="user$ | async as user else notAuthenticated">
-      <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
-      <button mat-stroked-button color="warn" (click)="logout()" class="w-100">Вийти</button>
+      <a [routerLink]="'user'">
+        <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
+      </a>
+      <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100">Вийти</button>
     </ng-container>
 
     <ng-template #notAuthenticated>

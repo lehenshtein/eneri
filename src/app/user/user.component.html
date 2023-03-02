@@ -1,0 +1,64 @@
+<div class="wrapper">
+  <div class="w-100">
+    <mat-card class="card-special" *ngIf="user">
+      <mat-card-header class="justify-space-between">
+        <mat-card-title>
+          <h2 class="header">Дані: {{user.username}}</h2>
+        </mat-card-title>
+        <button class="menu" [matTooltip]="'Редагувати'" [matTooltipClass]="'tooltip'" [color]="form.disabled ? undefined : 'accent'" (click)="toggleForm()" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="form" [formGroup]="form">
+          <mat-form-field>
+            <mat-label>Ім'я</mat-label>
+            <input matInput formControlName="name" [placeholder]="'Твоє звичайне ім\'я'">
+            <mat-icon matSuffix [color]="'primary'" *ngIf="formName.valid || !formName.touched">sentiment_very_satisfied
+            </mat-icon>
+            <mat-icon matSuffix [color]="'warn'" *ngIf="formName.invalid && formName.touched">
+              sentiment_very_dissatisfied
+            </mat-icon>
+            <mat-error *ngIf="formName.getError('maxlength')">
+              {{texts.validations.maxLength}}
+              {{ formName.getError('maxlength')['requiredLength']}}
+            </mat-error>
+          </mat-form-field>
+
+          <div formGroupName="contactData">
+            <mat-form-field>
+              <mat-label>Телефон</mat-label>
+              <input matInput formControlName="phone" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
+              <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">phone</mat-icon>
+              <mat-error *ngIf="formPhone.getError('minlength')">
+                {{texts.validations.minLength}}
+                {{ formName.getError('minLength')['requiredLength']}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Нік в телеграм</mat-label>
+              <input matInput formControlName="telegram" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
+              <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">telegram</mat-icon>
+              <mat-error *ngIf="formPhone.getError('minlength')">
+                {{texts.validations.minLength}}
+                {{ formName.getError('minLength')['requiredLength']}}
+              </mat-error>
+              <mat-error *ngIf="formPhone.getError('maxlength')">
+                {{texts.validations.maxLength}}
+                {{ formName.getError('maxLength')['requiredLength']}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex justify-space-between">
+            <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити</button></p>
+
+            <button mat-raised-button color="primary" [disabled]="form.disabled || form.invalid" (click)="submit()">
+              Редагувати
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

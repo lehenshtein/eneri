@@ -71,7 +71,6 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
     // this.authModalService.setModalData = this.form.getRawValue();
 
     this.authHttpService.register(authData).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
-      console.log(res);
       if (res) {
         this.authModalService.close();//test
       }

@@ -29,7 +29,7 @@ export class AuthHttpService {
     this.user = user;
   }
 
-  get getUSer (): IUser | undefined {
+  get getUser (): IUser | undefined {
     return this.user;
   }
 
@@ -38,7 +38,7 @@ export class AuthHttpService {
   }
 
 
-  getUser (): Observable<IUser | undefined> {
+  fetchUser (): Observable<IUser | undefined> {
     if (this.token && !this.jwtHelper.isTokenExpired(this.token)) {
       return this.http.get<IUser>(`/user`);
     }
@@ -66,8 +66,7 @@ export class AuthHttpService {
       this.setToken(token);
     }
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      this.getUser().pipe(take(1)).subscribe((res: IUser | undefined) => {
-        console.log(res);
+      this.fetchUser().pipe(take(1)).subscribe((res: IUser | undefined) => {
         this.setUser = res;
         this.userSubject.next(res);
       });
@@ -76,6 +75,6 @@ export class AuthHttpService {
 
   logout () {
     localStorage.removeItem('auth-token');
-    window.location.reload();
+    window.location.href = '/';
   }
 }

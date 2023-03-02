@@ -22,6 +22,7 @@ import { GameCardComponent } from './components/game-card/game-card.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const Material = [
   MatSlideToggleModule,
@@ -38,7 +39,8 @@ const Material = [
   NgxMatTimepickerModule,
   NgxMatNativeDateModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatTooltipModule
 ];
 
 @NgModule({

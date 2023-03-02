@@ -39,3 +39,5 @@ $page-top-padding: 50px;
 
 $breakpoint-S: 600px;
 $breakpoint-M: 1350px;
+
+$page-height: calc(100vh - $page-top-padding);

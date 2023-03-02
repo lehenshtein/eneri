@@ -11,15 +11,6 @@ export class AppComponent implements OnInit {
   constructor (private authHttpService: AuthHttpService) {
   }
 
-  @ViewChild('drawer')
-  private sidenav: any;
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.sidenav.open();
-    }, 250);
-  }
-
   ngOnInit (): void {
     this.tryLogin()
   }
