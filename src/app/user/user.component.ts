@@ -57,7 +57,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
     return this.formContactDataGroup.get('phone') as FormControl;
   }
   get formTelegram(): FormControl {
-    return this.contactDataGroup.get('telegram') as FormControl;
+    return this.formContactDataGroup.get('telegram') as FormControl;
   }
 
   toggleForm () {

@@ -23,6 +23,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PhoneDirective } from './directives/phone.directive';
+import { TextDialogComponent } from './components/text-dialog/text-dialog.component';
 
 const Material = [
   MatSlideToggleModule,
@@ -47,7 +49,9 @@ const Material = [
   declarations: [
     SignInFormComponent,
     SignUpFormComponent,
-    GameCardComponent
+    GameCardComponent,
+    PhoneDirective,
+    TextDialogComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,8 @@ const Material = [
   exports: [
     ...Material,
     ReactiveFormsModule,
-    GameCardComponent
+    GameCardComponent,
+    PhoneDirective
   ]
 })
 export class SharedModule { }

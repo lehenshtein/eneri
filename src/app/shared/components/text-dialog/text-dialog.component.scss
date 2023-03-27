@@ -1,0 +1,27 @@
+@import './src/assets/scss/variables';
+.text-dialog {
+  background-color: red;
+  ::ng-deep {
+  app-text-dialog {
+    color: red!important;
+
+    ::ng-deep.mdc-dialog__surface {
+      border-radius: $border-radius-xl !important;
+      padding: 5px 5px;
+      background: $primary !important;
+    }
+  }
+  }
+  ::ng-deep {
+    .mdc-dialog__surface {
+      border-radius: $border-radius-xl!important;
+      padding: 5px 5px;
+      background: $primary!important;
+    }
+  }
+}
+
+mat-card {
+  padding: 10px 15px;
+  border-radius: $border-radius-xl!important;
+}

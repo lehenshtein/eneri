@@ -69,3 +69,10 @@ input {
   //border-radius: 0 0 $border-radius-xl $border-radius-xl;
   box-shadow: -5px 0 5px 0 $primary-shadow-color;
 }
+.bordered-dialog {
+  .mdc-dialog__surface {
+    border-radius: $border-radius-xl!important;
+    padding: 5px 5px;
+    background: $primary!important;
+  }
+}
