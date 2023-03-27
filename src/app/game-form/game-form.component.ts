@@ -4,9 +4,9 @@ import { cities } from '@app/shared/helpers/cities';
 import { imgPattern } from '@app/shared/helpers/regex-patterns';
 import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
-import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
+import { IGamePost, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { Observable, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 
@@ -21,7 +21,6 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   texts = texts;
   minDate = new Date(Date.now());
   cities: ICity[] = cities;
-  games$: Observable<IGameResponse[]> = this.gameHttpService.fetchGames();
   gameSystems: IGameSystem[] = gameSystems;
 
   constructor (private fb: FormBuilder, private gameHttpService: GameHttpService) {

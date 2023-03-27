@@ -11,11 +11,9 @@
 <div class="content">
   <div class="wrapper">
     <div class="container">
-      <ng-container *ngIf="games$ | async as games">
-        <div *ngFor="let game of games">
-          <app-game-card [user]="user$ | async" [game]="game"></app-game-card>
-        </div>
-      </ng-container>
+      <div *ngFor="let game of games">
+        <app-game-card [user]="user$ | async" [game]="game"></app-game-card>
+      </div>
     </div>
   </div>
 </div>

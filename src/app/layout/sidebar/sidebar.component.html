@@ -23,6 +23,8 @@
   </mat-nav-list>
 
   <h3 class="p-l-16 primary-text">Фільтра</h3>
+  <app-search></app-search>
+  <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Показати закриті ігри</mat-slide-toggle>
 
 <!--  <mat-card>-->
 <!--    <nav>-->

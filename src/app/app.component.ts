@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthHttpService } from '@shared/services/auth-http.service';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { MatDrawerMode } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +9,17 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  showNavbar = true;
-  constructor (private authHttpService: AuthHttpService) {
+  showSidebar = true;
+  modeSidebar: MatDrawerMode = 'side';
+  backdropSidebar = false;
+  constructor (
+    private authHttpService: AuthHttpService,
+    private breakpointObserver: BreakpointObserver,) {
   }
 
   ngOnInit (): void {
-    this.tryLogin()
+    this.tryLogin();
+    this.resize();
   }
 
   private tryLogin () {
@@ -20,5 +27,22 @@ export class AppComponent implements OnInit {
     if (token && !this.authHttpService.isTokenExpired()) {
       this.authHttpService.setAllUserData(token);
     }
+  }
+
+  private resize () {
+    this.breakpointObserver.observe([
+      '(max-width: 900px)',
+      '(max-width: 1180px)'
+    ]).subscribe((result: BreakpointState) => {
+      if (result.breakpoints['(max-width: 1180px)']) {
+        this.showSidebar = false;
+        this.modeSidebar = 'over';
+        this.backdropSidebar = true;
+      } else {
+        this.showSidebar = true;
+        this.modeSidebar = 'side';
+        this.backdropSidebar = false;
+      }
+    });
   }
 }

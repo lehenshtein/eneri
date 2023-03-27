@@ -25,6 +25,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PhoneDirective } from './directives/phone.directive';
 import { TextDialogComponent } from './components/text-dialog/text-dialog.component';
+import { SearchComponent } from '@shared/components/search/search.component';
 
 const Material = [
   MatSlideToggleModule,
@@ -51,7 +52,8 @@ const Material = [
     SignUpFormComponent,
     GameCardComponent,
     PhoneDirective,
-    TextDialogComponent
+    TextDialogComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
@@ -63,6 +65,7 @@ const Material = [
     ...Material,
     ReactiveFormsModule,
     GameCardComponent,
+    SearchComponent,
     PhoneDirective
   ]
 })
