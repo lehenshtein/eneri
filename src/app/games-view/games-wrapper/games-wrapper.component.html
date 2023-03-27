@@ -13,7 +13,7 @@
     <div class="container">
       <ng-container *ngIf="games$ | async as games">
         <div *ngFor="let game of games">
-          <app-game-card  [game]="game"></app-game-card>
+          <app-game-card [user]="user$ | async" [game]="game"></app-game-card>
         </div>
       </ng-container>
     </div>

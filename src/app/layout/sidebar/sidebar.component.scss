@@ -5,12 +5,18 @@
   align-items: center;
   height: 64px;
   cursor: pointer;
+  &:hover {
+    .logo {
+      transform: rotateZ(180deg);
+    }
+  }
   & .glow {
     text-shadow: 1px 1px 1px $primary, -1px -1px 1px $primary,  -1px 1px 1px $primary,  1px -1px 1px $primary;
   }
   & .logo {
     height: calc(100% - 16px);
     margin-right: $padding-xl;
+    transition: all .3s;
   }
 }
 

@@ -9,6 +9,9 @@
       <a [routerLink]="'user'">
         <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
+      <a [routerLink]="'user'">
+        <mat-list-item>ПРОФІЛЬ</mat-list-item>
+      </a>
       <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100">Вийти</button>
     </ng-container>
 

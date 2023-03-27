@@ -37,6 +37,13 @@
       <b class="primary-text semibold">Гравці: </b> <span class="m-l-5">{{ game.players.length}}/{{game.maxPlayers}}</span>
       <mat-icon color="primary" class="m-l-5">supervised_user_circle</mat-icon>
     </div>
+
+    <div class="buttons">
+      <button mat-raised-button class="m-r-10">Деталі</button>
+      <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game)" (click)="apply(game)">
+        {{applyText ? applyText : 'Записатися'}}
+      </button>
+    </div>
   </mat-card-content>
 
   <mat-card-footer>

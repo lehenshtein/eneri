@@ -26,27 +26,34 @@
           </mat-form-field>
 
           <div formGroupName="contactData">
-            <mat-form-field>
-              <mat-label>Телефон</mat-label>
-              <input matInput formControlName="phone" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
-              <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">phone</mat-icon>
-              <mat-error *ngIf="formPhone.getError('minlength')">
-                {{texts.validations.minLength}}
-                {{ formName.getError('minLength')['requiredLength']}}
-              </mat-error>
-            </mat-form-field>
+            <div class="phone__form-wrapper">
+              <mat-form-field class="phone__code">
+<!--                <mat-label>+38</mat-label>-->
+                <input matInput disabled value="+38">
+              </mat-form-field>
+              <mat-form-field class="phone__field" [ngClass]="{filled: formPhone.value}">
+                <mat-label>Телефон</mat-label>
+                <input matInput formControlName="phone" type="tel" appPhone
+                  [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
+                <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">phone</mat-icon>
+                <mat-error *ngIf="formPhone.hasError('minlength')">
+                  {{texts.validations.minLength}}
+                  {{ formPhone.getError('minlength')['requiredLength']}}
+                </mat-error>
+              </mat-form-field>
+            </div>
 
             <mat-form-field>
               <mat-label>Нік в телеграм</mat-label>
               <input matInput formControlName="telegram" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
-              <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">telegram</mat-icon>
-              <mat-error *ngIf="formPhone.getError('minlength')">
+              <mat-icon matSuffix [color]="formTelegram.valid || !formTelegram.touched ? 'primary' : 'warn'">telegram</mat-icon>
+              <mat-error *ngIf="formTelegram.hasError('minlength')">
                 {{texts.validations.minLength}}
-                {{ formName.getError('minLength')['requiredLength']}}
+                {{ formTelegram.getError('minlength')['requiredLength']}}
               </mat-error>
-              <mat-error *ngIf="formPhone.getError('maxlength')">
+              <mat-error *ngIf="formTelegram.hasError('maxlength')">
                 {{texts.validations.maxLength}}
-                {{ formName.getError('maxLength')['requiredLength']}}
+                {{ formTelegram.getError('maxlength')['requiredLength']}}
               </mat-error>
             </mat-form-field>
           </div>

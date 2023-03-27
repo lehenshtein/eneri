@@ -1,0 +1,33 @@
+$padding-for-phone-prefix: 55px;
+
+.phone {
+  &__form-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__code {
+    position: absolute;
+    width: $padding-for-phone-prefix;
+    left: 0;
+    & ::ng-deep.mdc-text-field {
+      border-top-right-radius: 0!important;
+    }
+    input {
+      transform: translateY(8px);
+    }
+  }
+  &__field {
+    width: 100%;
+    & ::ng-deep.mdc-text-field {
+      border-top-left-radius: 0!important;
+    }
+    &.mat-focused {
+      width: calc(100% - $padding-for-phone-prefix);
+    }
+    &.filled {
+      width: calc(100% - $padding-for-phone-prefix);
+    }
+  }
+
+}
