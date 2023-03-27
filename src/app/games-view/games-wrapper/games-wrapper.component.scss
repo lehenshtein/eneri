@@ -72,4 +72,42 @@
   .container {
     gap: 3%;
   }
+  .primary-banner {
+    height: 350px;
+    & .title {
+      font-size: 4rem;
+    }
+  }
+}
+@media screen and (max-width: $breakpoint-S) {
+  .container {
+    column-count: 1;
+    column-gap: 0;
+    &>div {
+      min-width: 320px;
+      max-width: 440px;
+      margin: 0 auto 60px;
+      display: block;
+    }
+  }
+
+  .primary-banner {
+    height: 250px;
+    & .title {
+      font-size: 3rem;
+      & .subtitle {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .primary-banner {
+    height: 220px;
+    & .title {
+      font-size: 2.5rem;
+    }
+
+  }
 }

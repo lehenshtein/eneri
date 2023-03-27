@@ -9,4 +9,7 @@
   .mat-mdc-form-field-focus-overlay {
     background-color: #060508 !important;
   }
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: $backdrop;
+  }
 }

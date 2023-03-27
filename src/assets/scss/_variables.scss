@@ -17,6 +17,7 @@ $dark: $darkClassic;
 $black: #060606;
 $white: #ffffff;
 $whiteSecondary: #e3e3e3;
+$backdrop: rgba(19, 18, 27, 0.6);
 
 $primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
 $primary-shadow-color: rgba(0,0,0,0.8);
@@ -37,7 +38,8 @@ $padding-xs: 5px;
 $cards-margin: 60px;
 $page-top-padding: 50px;
 
-$breakpoint-S: 600px;
+$breakpoint-XS: 600px;
+$breakpoint-S: 748px;
 $breakpoint-M: 1350px;
 
 $page-height: calc(100vh - $page-top-padding);

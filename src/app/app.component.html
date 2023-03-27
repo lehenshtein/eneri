@@ -2,8 +2,8 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 
-<mat-drawer-container autosize  [hasBackdrop]="false">
-  <mat-drawer style="position: fixed" opened #drawer class="sidenav" mode="side" position="end">
+<mat-drawer-container autosize  [hasBackdrop]="backdropSidebar">
+  <mat-drawer style="position: fixed" [opened]="showSidebar" #drawer class="sidenav" [mode]="modeSidebar" position="end">
     <app-sidebar></app-sidebar>
   </mat-drawer>
 <!--  <app-header (toggleMenu)="drawer.toggle()" [showNavbar]="showNavbar"></app-header>-->
