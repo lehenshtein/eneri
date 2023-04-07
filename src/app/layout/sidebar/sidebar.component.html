@@ -1,18 +1,20 @@
 <div class="sidebar-wrapper">
-  <div class="site-info" [routerLink]="'/'">
+  <div class="site-info" [routerLink]="'/'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
     <img class="logo" src="./assets/images/eneri-logo.png" alt="logo">
     <h1>Е<span class="glow">Н</span>Е<span class="glow">РІ</span></h1>
   </div>
 
   <mat-nav-list>
     <ng-container *ngIf="user$ | async as user else notAuthenticated">
-      <a [routerLink]="'user'">
+      <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
-      <a [routerLink]="'user'">
+      <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>ПРОФІЛЬ</mat-list-item>
       </a>
-      <a [routerLink]="'create-game'" *ngIf="user.gameRole === 'both'"><mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item></a>
+      <a [routerLink]="'create-game'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
+        <mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item>
+      </a>
     </ng-container>
 
     <ng-template #notAuthenticated>

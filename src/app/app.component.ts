@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   showSidebar = true;
   modeSidebar: MatDrawerMode = 'side';
   backdropSidebar = false;
+  hideSidebarOnClick = false;
   constructor (
     private authHttpService: AuthHttpService,
     private breakpointObserver: BreakpointObserver,
@@ -40,11 +41,18 @@ export class AppComponent implements OnInit {
         this.showSidebar = false;
         this.modeSidebar = 'over';
         this.backdropSidebar = true;
+        this.hideSidebarOnClick = true;
       } else {
         this.showSidebar = true;
         this.modeSidebar = 'side';
         this.backdropSidebar = false;
+        this.hideSidebarOnClick = false;
       }
     });
+  }
+
+  closeMenu ($event: any) {
+    console.log($event);
+    this.showSidebar = false;
   }
 }

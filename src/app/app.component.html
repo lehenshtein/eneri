@@ -6,7 +6,7 @@
 
 <mat-drawer-container autosize  [hasBackdrop]="backdropSidebar">
   <mat-drawer style="position: fixed" [opened]="showSidebar" #drawer class="sidenav" [mode]="modeSidebar" position="end">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (closeMenu)="drawer.close()" [hideSidebarOnClick]="hideSidebarOnClick"></app-sidebar>
   </mat-drawer>
 <!--  <app-header (toggleMenu)="drawer.toggle()" [showNavbar]="showNavbar"></app-header>-->
   <main>

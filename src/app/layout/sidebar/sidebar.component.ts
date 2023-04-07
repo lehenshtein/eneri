@@ -20,6 +20,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class SidebarComponent implements OnInit {
   @ViewChild('searchComponent') searchComponent!: SearchComponent;
+  @Input() hideSidebarOnClick: boolean = false;
   @Output() closeMenu: EventEmitter<any> = new EventEmitter<any>();
   form!: FormGroup;
   user$ = this.authHttpService.user$;
@@ -61,6 +62,9 @@ export class SidebarComponent implements OnInit {
   }
 
   dialog (type: 'signup' | 'signin') {
+    if (this.hideSidebarOnClick) {
+      this.closeMenu.emit();
+    }
     if (type === 'signup') {
       this.authModalService.openDialog(SignUpFormComponent);
       return;
@@ -78,6 +82,9 @@ export class SidebarComponent implements OnInit {
   }
 
   search(text: string) {
+    if (this.hideSidebarOnClick) {
+      this.closeMenu.emit();
+    }
     this.form.reset();
     this.sharedService.searchSubjectSet(text);
     this.searchText = text;
@@ -87,6 +94,9 @@ export class SidebarComponent implements OnInit {
   }
 
   submit () {
+    if (this.hideSidebarOnClick) {
+      this.closeMenu.emit();
+    }
     this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent.text});
   }
 }

@@ -8,6 +8,7 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
 import { takeUntil } from 'rxjs';
 import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { texts } from '@app/shared/helpers/texts';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -23,7 +24,8 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authModalService: AuthModalService,
-    private authHttpService: AuthHttpService
+    private authHttpService: AuthHttpService,
+    private notificationService: NotificationService
   ) { super(); }
 
   ngOnInit(): void {
@@ -72,6 +74,7 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
 
     this.authHttpService.register(authData).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
       if (res) {
+        this.notificationService.openSnackBar('success', 'Успіх');
         this.authModalService.close();//test
       }
     })
