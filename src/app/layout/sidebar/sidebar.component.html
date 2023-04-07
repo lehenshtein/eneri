@@ -55,7 +55,7 @@
     </form>
 
     <div class="d-flex justify-space-between align-center">
-      <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Показати закриті ігри</mat-slide-toggle>
+      <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Закриті ігри</mat-slide-toggle>
       <button mat-raised-button color="primary" (click)="submit()">
         Фільтрувати
       </button>
@@ -64,7 +64,7 @@
 
   <hr class="m-t-20">
 
-  <div class="p-l-16 p-r-16 p-t-8">
+  <div class="p-l-16 p-r-16 p-t-8 p-b-10">
     <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100 m-t-10">Вийти</button>
   </div>
 
