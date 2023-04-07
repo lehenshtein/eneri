@@ -19,10 +19,29 @@ export class GameHttpService {
     if(filters.isShowSuspended) {
       params = params.append('isShowSuspended', filters.isShowSuspended)
     }
+    if (filters.gameSystemId || filters.gameSystemId === 0) {
+      params = params.append('gameSystemId', filters.gameSystemId)
+    }
+    if (filters.cityCode || filters.cityCode === 0) {
+      params = params.append('cityCode', filters.cityCode)
+    }
+    if (filters.sort) {
+      params = params.append('sort', filters.sort)
+    }
     return this.http.get<IGameResponse[]>(`/game`, {params});
   }
-  createGame(game: IGamePost): Observable<IGamePost> {
-    return this.http.post<IGamePost>(`/game`, game);
+  fetchGameById(gameId: string, master = false): Observable<IGameResponse> {
+    let params = new HttpParams();
+    if (master) {
+      params = params.append('master', true)
+    }
+    return this.http.get<IGameResponse>(`/game/${gameId}`, {params});
+  }
+  createGame(game: IGamePost): Observable<IGameResponse> {
+    return this.http.post<IGameResponse>(`/game`, game);
+  }
+  updateGame(game: IGamePost, id: string): Observable<IGamePost> {
+    return this.http.put<IGamePost>(`/game/${id}`, game);
   }
   applyToGame(gameId: IGameResponse['_id']): Observable<IResponseMessage> {
     return this.http.get<IResponseMessage>(`/game/apply/${gameId}`);

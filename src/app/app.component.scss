@@ -12,4 +12,12 @@
   .mat-drawer-backdrop.mat-drawer-shown {
     background-color: $backdrop;
   }
+  .mat-badge-before {
+    left: -8px!important;
+    top: -25px!important;
+  }
+  .mat-badge-content {
+    font-family: 'Material Icons';
+    font-size: 1rem;
+  }
 }

@@ -1,6 +1,6 @@
 <mat-card>
   <h1 mat-dialog-title>{{data.title}}</h1>
-  <div mat-dialog-content>{{data.text}}</div>
+  <div mat-dialog-content [innerHTML]="data.text"></div>
   <div mat-dialog-actions align="end">
     <button mat-raised-button mat-dialog-close>Закрити</button>
     <button mat-raised-button *ngIf="data.withConfirm" color="primary" [mat-dialog-close]="true">Підтвердити</button>

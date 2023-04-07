@@ -1,0 +1,9 @@
+<div class="d-flex" [ngClass]="data.type">
+  <mat-icon class="icon icon--accent p-r-10">
+    {{data.type === 'error' ? 'error' : data.type === 'info' ? 'info' : 'check_circle'}}
+  </mat-icon>
+  <div>
+    <b *ngIf="data.title" [innerHTML]="data.title"></b>
+    <div [innerHTML]="data.message"></div>
+  </div>
+</div>

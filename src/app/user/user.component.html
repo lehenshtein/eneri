@@ -38,14 +38,14 @@
                 <mat-icon matSuffix [color]="formPhone.valid || !formPhone.touched ? 'primary' : 'warn'">phone</mat-icon>
                 <mat-error *ngIf="formPhone.hasError('minlength')">
                   {{texts.validations.minLength}}
-                  {{ formPhone.getError('minlength')['requiredLength']}}
+                  {{ 10}}
                 </mat-error>
               </mat-form-field>
             </div>
 
             <mat-form-field>
               <mat-label>Нік в телеграм</mat-label>
-              <input matInput formControlName="telegram" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
+              <input matInput formControlName="telegram" appTelegram [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
               <mat-icon matSuffix [color]="formTelegram.valid || !formTelegram.touched ? 'primary' : 'warn'">telegram</mat-icon>
               <mat-error *ngIf="formTelegram.hasError('minlength')">
                 {{texts.validations.minLength}}
@@ -64,6 +64,9 @@
               Редагувати
             </button>
           </div>
+          <button mat-raised-button color="primary" (click)="becomeMaster()">
+            Стати майстром
+          </button>
         </form>
       </mat-card-content>
     </mat-card>

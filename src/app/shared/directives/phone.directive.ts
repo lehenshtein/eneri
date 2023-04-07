@@ -12,7 +12,7 @@ export class PhoneDirective {
 
     let trimmed = input.value.replace(/\D*/g, '');
 
-    if (trimmed.length > 10) {
+    if (trimmed.length >= 10) {
       trimmed = trimmed.substring(0, 10);
     }
 

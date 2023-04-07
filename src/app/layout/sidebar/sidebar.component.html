@@ -12,19 +12,61 @@
       <a [routerLink]="'user'">
         <mat-list-item>ПРОФІЛЬ</mat-list-item>
       </a>
-      <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100">Вийти</button>
+      <a [routerLink]="'create-game'" *ngIf="user.gameRole === 'both'"><mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item></a>
     </ng-container>
 
     <ng-template #notAuthenticated>
       <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
     </ng-template>
-    <a [routerLink]="'create-game'"><mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item></a>
   </mat-nav-list>
 
-  <h3 class="p-l-16 primary-text">Фільтра</h3>
-  <app-search></app-search>
-  <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Показати закриті ігри</mat-slide-toggle>
+  <hr class="m-t-0">
+
+  <div class="p-l-16 p-r-16 p-t-8">
+    <app-search (searchText)="search($event)" #searchComponent></app-search>
+
+    <form class="form" [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Сортувати</mat-label>
+        <mat-select formControlName="sort" (selectionChange)="submit()">
+          <mat-option  [value]="0">Найближчі</mat-option>
+          <mat-option  [value]="1">Нові</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <h3 class="primary-text m-t-5">Фільтри</h3>
+
+      <mat-form-field>
+        <mat-label>Обери гру</mat-label>
+        <mat-select formControlName="gameSystemId">
+          <mat-option  [value]="null">Будь-яка</mat-option>
+          <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Місто, або онлайн</mat-label>
+        <mat-select formControlName="cityCode">
+          <mat-option  [value]="null">Будь-яке</mat-option>
+          <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <div class="d-flex justify-space-between align-center">
+      <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Показати закриті ігри</mat-slide-toggle>
+      <button mat-raised-button color="primary" (click)="submit()">
+        Фільтрувати
+      </button>
+    </div>
+  </div>
+
+  <hr class="m-t-20">
+
+  <div class="p-l-16 p-r-16 p-t-8">
+    <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100 m-t-10">Вийти</button>
+  </div>
 
 <!--  <mat-card>-->
 <!--    <nav>-->

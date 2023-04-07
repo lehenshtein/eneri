@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
+import { SharedService } from '@shared/services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit {
   backdropSidebar = false;
   constructor (
     private authHttpService: AuthHttpService,
-    private breakpointObserver: BreakpointObserver,) {
+    private breakpointObserver: BreakpointObserver,
+    public sharedService: SharedService) {
   }
 
   ngOnInit (): void {

@@ -9,7 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 import { MatCardModule } from '@angular/material/card';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -26,6 +26,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PhoneDirective } from './directives/phone.directive';
 import { TextDialogComponent } from './components/text-dialog/text-dialog.component';
 import { SearchComponent } from '@shared/components/search/search.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { RouterModule } from '@angular/router';
+import { MatTableModule } from '@angular/material/table';
+import { TelegramDirective } from '@shared/directives/telegram.directive';
+import { NotificationServiceComponent } from '@shared/components/notification-service/notification-service.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SafePipe } from '@shared/pipes/safe-pipe.pipe';
 
 const Material = [
   MatSlideToggleModule,
@@ -43,7 +50,10 @@ const Material = [
   NgxMatNativeDateModule,
   MatSidenavModule,
   MatListModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatBadgeModule,
+  MatTableModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
@@ -52,21 +62,29 @@ const Material = [
     SignUpFormComponent,
     GameCardComponent,
     PhoneDirective,
+    TelegramDirective,
     TextDialogComponent,
-    SearchComponent
+    SearchComponent,
+    NotificationServiceComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ...Material,
     MatChipsModule,
+    FormsModule,
+    RouterModule,
   ],
   exports: [
     ...Material,
     ReactiveFormsModule,
     GameCardComponent,
     SearchComponent,
-    PhoneDirective
+    NotificationServiceComponent,
+    PhoneDirective,
+    TelegramDirective,
+    SafePipe
   ]
 })
 export class SharedModule { }

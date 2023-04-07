@@ -4,7 +4,7 @@
   <div class="title">
     <div>
       <h1>ЕНЕРІ</h1>
-      <h3 class="subtitle">Створюй. Шукай. Грай.</h3>
+      <h3 class="subtitle" [innerHTML]="subtitle | safePipe: 'html'"></h3>
     </div>
   </div>
 </header>

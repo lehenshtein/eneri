@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SecurityContext } from '@angular/core';
 import { IGameResponse, IGameSystem } from '@shared/models/game.interface';
 import { cities } from '@shared/helpers/cities';
 import { ICity } from '@shared/models/city.interface';
@@ -9,6 +9,7 @@ import { TextDialogComponent } from '@shared/components/text-dialog/text-dialog.
 import { GameHttpService } from '@shared/services/game-http.service';
 import { EMPTY, switchMap, take } from 'rxjs';
 import { IResponseMessage } from '@shared/models/response-message.interface';
+import { SharedService } from '@shared/services/shared.service';
 
 @Component({
   selector: 'app-game-card',
@@ -18,11 +19,51 @@ import { IResponseMessage } from '@shared/models/response-message.interface';
 export class GameCardComponent {
   @Input() game!: IGameResponse;
   @Input() user?: Partial<IUser> | null;
+  @Input() detailedCard = false;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
   applyText = '';
+  columns = [
+    {
+      columnDef: 'username',
+      header: 'Нік',
+      cell: (element: any) => `${element.username}`,
+      width: '22%'
+    },
+    {
+      columnDef: 'name',
+      header: 'Ім\'я',
+      cell: (element: any) => `${element.name || ''}`,
+      width: '22%'
+    },
+    {
+      columnDef: 'telegram',
+      header: 'Телеграм',
+      cell: (element: any) => `${element.contactData?.telegram || ''}`,
+      width: '22%'
+    },
+    {
+      columnDef: 'phone',
+      header: 'Телефон',
+      cell: (element: any) => `${element.contactData?.phone || ''}`,
+      width: '22%'
+    },
+    {
+      columnDef: 'actions',
+      header: 'Дії',
+      cell: (element: any) => element,
+      width: '12%'
+    },
+  ];
 
-  constructor (private dialog: MatDialog, private gameHttpService: GameHttpService,) {
+  masterDisplayedColumns = this.columns.map(c => c.columnDef);
+  displayedColumns = [this.columns[0]].map(c => c.columnDef);
+
+  constructor (
+    private dialog: MatDialog,
+    private gameHttpService: GameHttpService,
+    private sharedService: SharedService,
+    ) {
   }
 
   getCity(cityCode: number): ICity | undefined {
@@ -30,6 +71,34 @@ export class GameCardComponent {
   }
   getSystem(id: number): IGameSystem | undefined {
     return this.gameSystems.find((system: IGameSystem) => system._id === id);
+  }
+
+  confirmDeletingPlayer(data: any, index: number) {
+    this.openDeletePlayerDialog(data, index)
+  }
+  openDeletePlayerDialog(data: any, index: number) {
+    const text = `Ви абсолютно точно супер впевнені, що хочете виключити гравця <span class="primary-text semibold">${data.username}</span> з гри?
+                  <br>
+                  Не забудьте повідомити йому, якщо - так`
+    const dialogRef = this.dialog.open(TextDialogComponent, {
+      data: {title: 'Виключення', text, withConfirm: true, auth: false},
+      autoFocus: false,
+      panelClass: 'bordered-dialog'
+    });
+
+    dialogRef.afterClosed().pipe(take(1), switchMap(result => {
+      if (result) {
+        // return this.gameHttpService.applyToGame(this.game._id);
+        console.log(data);
+        return EMPTY;
+      } else {
+        return EMPTY;
+      }
+    })).pipe(take(1)).subscribe((res: IResponseMessage) => {
+      if (res.message === 'success' && this.user && this.user.username) {
+        // this.game.players.push({username: this.user.username})
+      }
+    });
   }
 
   checkIfUserCanApply (game: IGameResponse) {
@@ -51,6 +120,10 @@ export class GameCardComponent {
   apply ($event: IGameResponse) {
     if (!this.user) {
       this.openApplyDialog('Щоб записатися на гру ви маєте бути зареєстровані або залогінені', false, true);
+      return;
+    }
+    if (!this.user.contactData?.telegram) {
+      this.openApplyDialog('Щоб записатися на гру у вас в профілі має бути вказаний телеграм');
       return;
     }
     if ($event.master.username === this.user?.username) {
@@ -77,11 +150,13 @@ export class GameCardComponent {
         return EMPTY;
       }
     })).pipe(take(1)).subscribe((res: IResponseMessage) => {
-      console.log(res);
       if (res.message === 'success' && this.user && this.user.username) {
         this.game.players.push({username: this.user.username})
       }
     });
+  }
 
+  search (tag: string) {
+    this.sharedService.searchSubjectSet(tag);
   }
 }
