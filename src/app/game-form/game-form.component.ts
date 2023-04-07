@@ -4,11 +4,13 @@ import { cities } from '@app/shared/helpers/cities';
 import { imgPattern } from '@app/shared/helpers/regex-patterns';
 import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
-import { IGamePost, IGameSystem } from '../shared/models/game.interface';
+import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { takeUntil } from 'rxjs';
+import { shareReplay, takeUntil } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../shared/services/notification.service';
 
 @Component({
   selector: 'app-game-form.content',
@@ -22,27 +24,51 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   minDate = new Date(Date.now());
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
+  editing = false;
+  game?: IGameResponse;
+  // route$ = this.route.params.pipe(shareReplay(1), takeUntil(this.ngUnsubscribe$));
 
-  constructor (private fb: FormBuilder, private gameHttpService: GameHttpService) {
+  constructor (
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private gameHttpService: GameHttpService,
+    private notificationService: NotificationService,
+    private router: Router,
+    ) {
     super();
   }
 
   ngOnInit (): void {
     this.initForm();
+    this.checkRoute();
   }
 
-  private initForm () {
+  private checkRoute() {
+    if (this.route.snapshot.params['master'] && this.route.snapshot.params['id']) {
+      this.gameHttpService.fetchGameById(this.route.snapshot.params['id']).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
+        this.game = res;
+        if (this.game.master.username === this.route.snapshot.params['master']) {
+          this.editing = true;
+        }
+        this.initForm(res);
+        this.form.updateValueAndValidity();
+      })
+      return;
+    }
+  }
+
+  private initForm (game: IGameResponse | undefined = undefined) {
     this.form = this.fb.group({
-      title: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
-      description: [ '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
-      tags: [ '', Validators.maxLength(100) ],
-      imgUrl: [ null, [ Validators.pattern(this.imgPattern), Validators.maxLength(240) ] ],
-      gameSystemId: [ null, [ Validators.required ] ],
-      cityCode: [ null, [ Validators.required ] ],
-      price: [ 0, [ Validators.required ] ],
-      maxPlayers: [ 1, [ Validators.required ] ],
+      title: [ game?.title || '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
+      description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
+      tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
+      imgUrl: [ game?.imgUrl || null, [ Validators.pattern(this.imgPattern), Validators.maxLength(240) ] ],
+      gameSystemId: [ (game?.gameSystemId || game?.gameSystemId === 0) ? game?.gameSystemId : null, [ Validators.required ] ],
+      cityCode: [ (game?.cityCode || game?.cityCode === 0) ? game?.cityCode : null, [ Validators.required ] ],
+      price: [ game?.price || 0, [ Validators.required ] ],
+      maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
       byInvite: [ false, [ Validators.required ] ],
-      startDateTime: [ '', [ Validators.required ] ],
+      startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
     });
   }
   get formTitle () {
@@ -87,9 +113,20 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       }
     });
     formValue.tags = checkedTags;
-    console.log(formValue);
+    if (this.editing && this.game) {
+      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
+        if (res) {
+          this.notificationService.openSnackBar('success', 'Вдало редаговано');
+          this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
+        }
+      })
+      return;
+    }
     this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
-      console.log(res);
+      if (res) {
+        this.notificationService.openSnackBar('success', 'Вдало створено');
+        this.router.navigate([`/${res.master.username}/${res._id}`]);
+      }
     })
   }
 }

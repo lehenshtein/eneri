@@ -6,16 +6,16 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { delay, mergeMap, Observable, of, retryWhen } from 'rxjs';
-// import { NotificationService } from '@shared/services/notification.service';
+import { NotificationService } from '@shared/services/notification.service';
 
 export const maxRetries = 1;
 export const delayMs = 3000;
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  // get notificationService() {
-  //   return this.injector.get(NotificationService);
-  // }
+  get notificationService() {
+    return this.injector.get(NotificationService);
+  }
 
   constructor(private injector: Injector) {}
 
@@ -25,19 +25,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         return error.pipe(
           mergeMap((error, index) => {
             if (index < maxRetries && error.status == 500) {
-              // this.notificationService.openSnackBar('info', 'Trying again')
+              this.notificationService.openSnackBar('info', 'Пробуємо нашаманити знову')
               return of(error).pipe(delay(delayMs));
             }
 
             if (error.status == 401) {
-              // this.notificationService.openSnackBar('error', 'Помилка авторизації');
+              this.notificationService.openSnackBar('error', 'Захисні чари вас не розпізнали');
               throw error;
             }
 
-            // this.notificationService.openSnackBar('error', error.error && error.error.message
-            //   ? error.error.message
-            //   : error.error?.err && error.error.err.details.length ? this.showAllErrors(error.error?.err.details)
-            //   :'Something went wrong', error.status ? 'Error: ' + error.status : undefined);
+            this.notificationService.openSnackBar('error', error.error && error.error.message
+              ? error.error.message
+              : error.error?.err && error.error.err.details.length ? this.showAllErrors(error.error?.err.details)
+              :'Невдалий кидок, щось пішло не так', error.status ? 'Error: ' + error.status : undefined);
             throw error;
           })
         )

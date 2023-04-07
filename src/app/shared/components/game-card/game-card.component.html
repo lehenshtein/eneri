@@ -1,8 +1,11 @@
-<mat-card class="card-special">
-  <img mat-card-image src="{{game.imgUrl}}" alt="Preview">
-  <mat-card-header>
+<mat-card class="card-special detailed-margin">
+  <img mat-card-image [ngClass]="{'detailed-image': detailedCard}" src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
+  <mat-card-header [ngClass]="{'mw-detailed': detailedCard}">
     <mat-card-title>
-      <h2 class="header">{{game.title}}</h2>
+      <h2 class="header">
+        <a *ngIf="!detailedCard else title" [routerLink]="[game.master.username, game._id]">{{game.title}}</a>
+        <ng-template #title>{{game.title}}</ng-template>
+      </h2>
     </mat-card-title>
 
     <mat-card-subtitle class="m-b-10">
@@ -11,7 +14,7 @@
     </mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content class="m-b-10">
+  <mat-card-content [ngClass]="{'mw-detailed': detailedCard}">
     <div class="m-b-10">
       <b class="primary-text semibold d-block m-b-5">Опис:</b>
       <pre>{{game.description}}</pre>
@@ -38,18 +41,51 @@
       <mat-icon color="primary" class="m-l-5">supervised_user_circle</mat-icon>
     </div>
 
+    <div class="table-wrapper">
+      <table mat-table *ngIf="detailedCard && game.players.length" [dataSource]="game.players">
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+          <th mat-header-cell *matHeaderCellDef
+              [ngStyle]="{width: game.master.username === user?.username ? column.width : '100%'}">
+            {{column.header}}
+          </th>
+          <td mat-cell *matCellDef="let row; let i = index;" [matTooltip]="column.header !== 'Дії' ? column.cell(row) : null"
+              [ngStyle]="{width : game.master.username === user?.username ? column.width : '100%'}">
+          <span *ngIf="column.header === 'Телеграм'" class="link">
+            <a [href]='"https://t.me/" + column.cell(row)' target="_blank">{{column.cell(row)}}</a>
+          </span>
+            <span *ngIf="column.header === 'Дії'" class="link">
+            <mat-icon color="warn" (click)="confirmDeletingPlayer(row, i)">delete</mat-icon>
+          </span>
+            <span *ngIf="column.header !== 'Дії' && column.header !== 'Телеграм'">{{column.cell(row)}}</span>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="game.master.username === user?.username else cols">
+          <tr mat-header-row *matHeaderRowDef="masterDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: masterDisplayedColumns;"></tr>
+        </ng-container>
+        <ng-template #cols>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </ng-template>
+
+      </table>
+    </div>
+  </mat-card-content>
+
+  <mat-card-content class="m-b-10" >
     <div class="buttons">
-      <button mat-raised-button class="m-r-10">Деталі</button>
+      <a *ngIf="!detailedCard" [routerLink]="[game.master.username, game._id]"><button mat-raised-button class="m-r-10">Деталі</button></a>
+      <a *ngIf="detailedCard && (user && (user?.username === game.master.username))" [routerLink]="['/edit-game', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
       <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game)" (click)="apply(game)">
         {{applyText ? applyText : 'Записатися'}}
       </button>
     </div>
   </mat-card-content>
 
-  <mat-card-footer>
+  <mat-card-footer *ngIf="!detailedCard">
     <mat-card-content>
       <mat-chip-set>
-        <mat-chip *ngFor="let tag of game.tags">{{tag}}</mat-chip>
+        <mat-chip class="tag" *ngFor="let tag of game.tags" (click)="search(tag)">{{tag}}</mat-chip>
       </mat-chip-set>
     </mat-card-content>
   </mat-card-footer>

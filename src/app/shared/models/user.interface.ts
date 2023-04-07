@@ -29,7 +29,7 @@ export interface IUser {
 }
 
 interface IContactData {
-  city: { name: string, code: number },
-  phone: number,
-  telegram: string
+  city: { name: string, code: number } | undefined,
+  phone: string | undefined,
+  telegram: string | undefined
 }

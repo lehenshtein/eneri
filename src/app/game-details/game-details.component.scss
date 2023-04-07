@@ -1,0 +1,11 @@
+.game-details {
+  img {
+    max-width: 80%;
+    max-height: 400px;
+    margin: 0 auto;
+    display: block;
+  }
+  pre { //remove it
+    white-space: pre-wrap;
+  }
+}

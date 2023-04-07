@@ -26,6 +26,7 @@ export class AuthHttpService {
   }
 
   set setUser (user: IUser | undefined) {
+    this.userSubject.next(user);
     this.user = user;
   }
 
@@ -68,7 +69,6 @@ export class AuthHttpService {
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       this.fetchUser().pipe(take(1)).subscribe((res: IUser | undefined) => {
         this.setUser = res;
-        this.userSubject.next(res);
       });
     }
   }
