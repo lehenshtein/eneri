@@ -51,7 +51,6 @@ export class SignInFormComponent extends UnsubscribeAbstract implements OnInit {
       return;
     }
     this.authHttpService.login(this.form.getRawValue()).pipe(takeUntil(this.ngUnsubscribe$),).subscribe(res => {
-      console.log(res);
       if (res) {
         this.authModalService.close();//test
       }
