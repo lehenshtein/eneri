@@ -15,6 +15,12 @@
       <a [routerLink]="'create-game'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
         <mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item>
       </a>
+      <a [routerLink]="'my-created'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
+        <mat-list-item>СТВОРЕНІ ІГРИ</mat-list-item>
+      </a>
+      <a [routerLink]="'my-games'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+        <mat-list-item>МОЇ ЗАПИСИ</mat-list-item>
+      </a>
     </ng-container>
 
     <ng-template #notAuthenticated>
@@ -26,7 +32,7 @@
   <hr class="m-t-0">
 
   <div class="p-l-16 p-r-16 p-t-8">
-    <app-search (searchText)="search($event)" #searchComponent></app-search>
+    <app-search [disabled]="filtersDisabled" (searchText)="search($event)" #searchComponent></app-search>
 
     <form class="form" [formGroup]="form">
       <mat-form-field>
@@ -57,8 +63,8 @@
     </form>
 
     <div class="d-flex justify-space-between align-center">
-      <mat-slide-toggle [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Закриті ігри</mat-slide-toggle>
-      <button mat-raised-button color="primary" (click)="submit()">
+      <mat-slide-toggle [disabled]="filtersDisabled" [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Закриті ігри</mat-slide-toggle>
+      <button mat-raised-button color="primary" (click)="submit()" [disabled]="filtersDisabled">
         Фільтрувати
       </button>
     </div>

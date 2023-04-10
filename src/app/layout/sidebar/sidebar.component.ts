@@ -4,14 +4,15 @@ import { AuthHttpService } from '@shared/services/auth-http.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
 import { SignInFormComponent } from '@shared/components/sign-in-form/sign-in-form.component';
 import { SharedService } from '@shared/services/shared.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ICity } from '@shared/models/city.interface';
 import { IGameSystem } from '@shared/models/game.interface';
 import { cities } from '@app/shared/helpers/cities';
 import { gameSystems } from '@app/shared/helpers/game-systems';
 import { texts } from '@app/shared/helpers/texts';
 import { SearchComponent } from '@shared/components/search/search.component';
-import { MatSelectChange } from '@angular/material/select';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,24 +30,59 @@ export class SidebarComponent implements OnInit {
   texts = texts;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
+  filtersDisabled = false;
+  urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games'];
 
   constructor (
     private authModalService: AuthModalService,
     private authHttpService: AuthHttpService,
     private sharedService: SharedService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
   }
 
   ngOnInit (): void {
+    this.filtersChanging();
+    this.tagsSearch();
     this.initForm();
   }
 
+  private filtersChanging() {
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(e => {
+        this.resetFilters();
+        this.filtersDisabled = !this.urlsForNotDisablingFilter.find(url => url === e.url);
+        this.filtersDisabled ? this.form.disable() : this.form.enable();
+      })
+    ).subscribe();
+  }
+
+  private resetFilters() {
+    this.form.reset();
+    this.formSort.reset(0);
+    this.isShowSuspended = false;
+    this.sharedService.searchSubjectSet('');
+    this.searchComponent.text = '';
+    this.searchText = '';
+  }
+  private tagsSearch() {
+    this.sharedService.tagSearch$.subscribe((text: string | null) => {
+
+      if (text === null) {
+        return;
+      }
+      this.searchComponent.text = text;
+      this.search(text);
+    })
+  };
+
   private initForm () {
     this.form = this.fb.group({
-      gameSystemId: [ null ],
-      cityCode: [ null ],
-      sort: [ 0 ]
+      gameSystemId: [ {value: null, disabled: this.filtersDisabled} ],
+      cityCode: [ {value: null, disabled: this.filtersDisabled} ],
+      sort: [ {value: 0, disabled: this.filtersDisabled} ]
     });
   }
 
@@ -55,6 +91,9 @@ export class SidebarComponent implements OnInit {
   }
   get formCityCode () {
     return this.form.get('cityCode') as FormControl;
+  }
+  get formSort () {
+    return this.form.get('sort') as FormControl;
   }
 
   tryCloseMenu() {
@@ -85,7 +124,9 @@ export class SidebarComponent implements OnInit {
     if (this.hideSidebarOnClick) {
       this.closeMenu.emit();
     }
-    this.form.reset();
+    if (this.form) {
+      this.form.reset();
+    }
     this.sharedService.searchSubjectSet(text);
     this.searchText = text;
     if (!text) {

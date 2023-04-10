@@ -11,6 +11,11 @@ export class SharedService {
   searchSubjectSet(data: string) {
     this.searchSubject.next(data);
   }
+  private tagSearchSubject = new BehaviorSubject<string | null>(null);
+  tagSearch$: Observable<string | null> = this.tagSearchSubject.asObservable();
+  tagSearchSubjectSet(data: string | null) {
+    this.tagSearchSubject.next(data);
+  }
 
   private showSuspendedSubject = new Subject<boolean>();
   showSuspended$: Observable<boolean> = this.showSuspendedSubject.asObservable();
@@ -22,5 +27,20 @@ export class SharedService {
   filters$: Observable<Partial<IGameFilters>> = this.filtersSubject.asObservable();
   filtersSet(data: Partial<IGameFilters>) {
     this.filtersSubject.next(data);
+  }
+
+  private resetFilters = new BehaviorSubject<null>(null);
+  resetFilters$: Observable<null> = this.resetFilters.asObservable();
+  resetFiltersSubjectSet() {
+    this.resetFilters.next(null);
+    this.searchSubject.next('');
+    this.showSuspendedSubject.next(false);
+    this.filtersSubject.next({
+      search: '',
+      isShowSuspended: false,
+      gameSystemId: undefined,
+      cityCode: undefined,
+      sort: 0
+    })
   }
 }

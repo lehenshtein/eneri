@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedService } from '@shared/services/shared.service';
 
 @Component({
@@ -6,7 +6,8 @@ import { SharedService } from '@shared/services/shared.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
+  @Input() disabled = false;
   @Output() closeMenu: EventEmitter<any> = new EventEmitter<any>();
   @Output() searchText: EventEmitter<string> = new EventEmitter<string>();
   text = '';
@@ -14,9 +15,6 @@ export class SearchComponent implements OnInit {
   constructor (public sharedService: SharedService) {
   }
 
-
-  ngOnInit(): void {
-  }
   search (searchInput: HTMLInputElement) {
     this.searchText.emit(searchInput.value);
     this.closeMenu.emit();
@@ -25,5 +23,6 @@ export class SearchComponent implements OnInit {
     this.searchText.emit('');
     searchInput.value = '';
   }
+
 
 }

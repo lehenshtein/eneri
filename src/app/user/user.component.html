@@ -58,7 +58,7 @@
             </mat-form-field>
           </div>
           <div class="d-flex justify-space-between">
-            <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити</button></p>
+            <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити (в розробці)</button></p>
 
             <button mat-raised-button color="primary" [disabled]="form.disabled || form.invalid" (click)="submit()">
               Редагувати

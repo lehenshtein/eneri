@@ -1,13 +1,14 @@
 <div class="form">
   <mat-form-field>
     <mat-label>Пошук</mat-label>
-    <input matInput [placeholder]="'Пошук'" #searchInput (keydown.enter)="search(searchInput)" [(ngModel)]="text" [value]="(sharedService.search$ | async) || ''">
+    <input [disabled]="disabled" matInput [placeholder]="'Пошук'" #searchInput (keydown.enter)="search(searchInput)"
+          [(ngModel)]="text" [value]="(sharedService.search$ | async) || ''">
     <div matSuffix class="input-actions">
       <button mat-icon-button class="input-button close-button" [color]="'warn'" *ngIf="searchInput.value" (click)="resetSearch(searchInput)">
         <mat-icon>close</mat-icon>
       </button>
 
-      <button mat-mini-fab class="input-button" [color]="'accent'" (click)="search(searchInput)">
+      <button mat-mini-fab class="input-button" [disabled]="disabled" [color]="'accent'" (click)="search(searchInput)">
         <mat-icon>search</mat-icon>
       </button>
     </div>

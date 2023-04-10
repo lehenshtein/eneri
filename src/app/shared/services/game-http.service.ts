@@ -11,7 +11,7 @@ import { IGameFilters } from '@shared/models/game-filters.interface';
 export class GameHttpService {
 
   constructor(private http: HttpClient) { }
-  fetchGames(filters: IGameFilters): Observable<IGameResponse[]> {
+  fetchGames(filters: IGameFilters, forWhom?: 'master' | 'player'): Observable<IGameResponse[]> {
     let params = new HttpParams();
     if(filters.search) {
       params = params.append('search', filters.search)
@@ -28,6 +28,11 @@ export class GameHttpService {
     if (filters.sort) {
       params = params.append('sort', filters.sort)
     }
+
+    if (forWhom) {
+      return this.http.get<IGameResponse[]>(`/game/${forWhom}`, {params});
+    }
+
     return this.http.get<IGameResponse[]>(`/game`, {params});
   }
   fetchGameById(gameId: string, master = false): Observable<IGameResponse> {
@@ -45,5 +50,8 @@ export class GameHttpService {
   }
   applyToGame(gameId: IGameResponse['_id']): Observable<IResponseMessage> {
     return this.http.get<IResponseMessage>(`/game/apply/${gameId}`);
+  }
+  removePlayerFromGame(gameId: IGameResponse['_id'], username: string): Observable<IResponseMessage> {
+    return this.http.patch<IResponseMessage>(`/game/${gameId}/${username}`, {});
   }
 }

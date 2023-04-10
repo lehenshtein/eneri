@@ -10,6 +10,7 @@ import { GameHttpService } from '@shared/services/game-http.service';
 import { EMPTY, switchMap, take } from 'rxjs';
 import { IResponseMessage } from '@shared/models/response-message.interface';
 import { SharedService } from '@shared/services/shared.service';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'app-game-card',
@@ -63,6 +64,7 @@ export class GameCardComponent {
     private dialog: MatDialog,
     private gameHttpService: GameHttpService,
     private sharedService: SharedService,
+    private notificationService: NotificationService
     ) {
   }
 
@@ -88,15 +90,16 @@ export class GameCardComponent {
 
     dialogRef.afterClosed().pipe(take(1), switchMap(result => {
       if (result) {
-        // return this.gameHttpService.applyToGame(this.game._id);
-        console.log(data);
-        return EMPTY;
+        return this.gameHttpService.removePlayerFromGame(this.game._id, data.username);
       } else {
         return EMPTY;
       }
     })).pipe(take(1)).subscribe((res: IResponseMessage) => {
-      if (res.message === 'success' && this.user && this.user.username) {
-        // this.game.players.push({username: this.user.username})
+      if (res.message === 'success') {
+        const playersArr = [...this.game.players];
+        playersArr.splice(index, 1);
+        this.game.players = playersArr;
+        this.notificationService.openSnackBar('success', `Виключено гравця ${data.username}. Телеграм: ${data.contactData.telegram}`, '', 10000);
       }
     });
   }
@@ -151,12 +154,14 @@ export class GameCardComponent {
       }
     })).pipe(take(1)).subscribe((res: IResponseMessage) => {
       if (res.message === 'success' && this.user && this.user.username) {
-        this.game.players.push({username: this.user.username})
+        this.game.players.push({username: this.user.username});
+        this.notificationService.openSnackBar('success', 'Ви записані');
       }
     });
   }
 
   search (tag: string) {
-    this.sharedService.searchSubjectSet(tag);
+    // this.sharedService.searchSubjectSet(tag);
+    this.sharedService.tagSearchSubjectSet(tag);
   }
 }

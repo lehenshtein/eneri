@@ -9,9 +9,9 @@ export class NotificationService {
 
   constructor(private snackBar: MatSnackBar) { }
 
-  openSnackBar(type: 'success' | 'error' | 'info', message: string, title?: string) {
+  openSnackBar(type: 'success' | 'error' | 'info', message: string, title?: string, durationMS?: number) {
     this.snackBar.openFromComponent(NotificationServiceComponent, {
-      duration: 3000,
+      duration: durationMS || 3000,
       horizontalPosition: 'right',
       panelClass: ['dark-snackbar', 'dark-snackbar--border'],
       data: {type, message, title}
