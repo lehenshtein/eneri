@@ -13,6 +13,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localeUK from '@angular/common/locales/uk';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { AboutComponent } from './about/about.component';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -20,6 +21,7 @@ registerLocaleData(localeUK);
     AppComponent,
     HeaderComponent,
     SidebarComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

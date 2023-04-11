@@ -72,6 +72,11 @@
 
   <hr class="m-t-20">
 
+  <mat-nav-list>
+    <a [routerLink]="'/about'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+      <mat-list-item>Про ЕНЕРІ</mat-list-item>
+    </a>
+  </mat-nav-list>
   <div class="p-l-16 p-r-16 p-t-8 p-b-10" *ngIf="user$ | async">
     <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100 m-t-10">Вийти</button>
   </div>
