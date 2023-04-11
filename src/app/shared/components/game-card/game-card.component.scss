@@ -38,6 +38,8 @@ mat-card-content.mw-detailed {
   table {
     table-layout: fixed;
     min-width: 500px;
+    width: 100%;
+    margin-bottom: $padding-s;
     tr {
       height: 3rem!important;
     }
