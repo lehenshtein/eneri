@@ -25,7 +25,8 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     cityCode: null,
     sort: 0
   }
-  texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру'];
+  texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру',
+    'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Гарячий ДМ покаже тобі своє підземелля'];
   subtitle = this.texts[0];
   constructor (
     private gameHttpService: GameHttpService,
