@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { cities } from '@app/shared/helpers/cities';
 import { imgPattern } from '@app/shared/helpers/regex-patterns';
 import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { shareReplay, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +27,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   editing = false;
   game?: IGameResponse;
   // route$ = this.route.params.pipe(shareReplay(1), takeUntil(this.ngUnsubscribe$));
+  isShowBooked = false;
 
   constructor (
     private route: ActivatedRoute,
@@ -69,6 +70,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
       byInvite: [ false, [ Validators.required ] ],
       startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
+      booked: this.fb.array([])
     });
   }
   get formTitle () {
@@ -101,6 +103,12 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   get formStartDateTime () {
     return this.form.get('startDateTime') as FormControl;
   }
+  get formBooked (): FormArray {
+    return this.form.get('booked') as FormArray;
+  }
+  formBookedIndex (index: number) {
+    return this.formBooked.controls[index];
+  }
 
 
   submit () {
@@ -128,5 +136,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         this.router.navigate([`/${res.master.username}/${res._id}`]);
       }
     })
+  }
+
+  showSuspended () {
+    this.isShowBooked = !this.isShowBooked;
   }
 }
