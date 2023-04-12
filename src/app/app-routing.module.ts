@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from '@app/about/about.component';
 
 const routes: Routes = [
+  { path: 'about', component: AboutComponent },
   { path: 'create-game', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
   { path: 'edit-game/:master/:id', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
   { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
