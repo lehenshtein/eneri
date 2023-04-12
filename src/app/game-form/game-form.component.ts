@@ -6,7 +6,7 @@ import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, takeUntil } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,6 +41,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
   ngOnInit (): void {
     this.initForm();
+    this.trackFormChanges();
     this.checkRoute();
   }
 
@@ -70,7 +71,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
       byInvite: [ false, [ Validators.required ] ],
       startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
-      booked: this.fb.array([])
+      booked: this.fb.array([this.formBookedGroup()])
     });
   }
   get formTitle () {
@@ -109,10 +110,44 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   formBookedIndex (index: number) {
     return this.formBooked.controls[index];
   }
+  formBookedTelegramIndex(index: number) {
+    return this.formBookedIndex(index)?.get('userTelegram');
+  }
+  formBookedGroup() {
+    return this.fb.group({
+      userTelegram: ['', [ Validators.minLength(3), Validators.maxLength(30) ]],
+    });
+  }
+
+  trackFormChanges() {
+    this.formMaxPlayers.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(100), distinctUntilChanged())
+      .subscribe(res => {
+        if (this.formBooked.value.length < res) {
+          const amount = res - this.formBooked.value.length;
+          for (let i = 0; i < amount; i++) {
+            this.formBooked.push(this.formBookedGroup())
+          }
+        }
+        if (this.formBooked.value.length > res) {
+          const amount = this.formBooked.value.length - res;
+          for (let i = 0; i < amount; i++) {
+            this.formBooked.removeAt(this.formBooked.value.length - 1);
+          }
+        }
+      })
+  }
 
 
   submit () {
     const formValue = this.form.getRawValue();
+    if (!this.isShowBooked) {
+      formValue.booked = []
+    } else {
+      formValue.booked = [];
+      this.form.getRawValue().booked.forEach((el: {userTelegram: string}) => {
+        el.userTelegram ? formValue.booked.push(el.userTelegram) : null
+      })
+    }
     const tags = formValue.tags ? formValue.tags.split(',').map((element: string) => element.trim()) : [];
     const checkedTags: string[] = [];
     tags.forEach((el: string) => {
@@ -121,6 +156,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       }
     });
     formValue.tags = checkedTags;
+
     if (this.editing && this.game) {
       this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
         if (res) {
@@ -138,7 +174,12 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     })
   }
 
-  showSuspended () {
+  changeBooking () {
     this.isShowBooked = !this.isShowBooked;
+    // if (this.isShowBooked) {
+    //   this.trackFormChanges();
+    // } else {
+    //   this.formMaxPlayers.valueChanges.unsubscribe()
+    // }
   }
 }

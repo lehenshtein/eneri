@@ -124,10 +124,32 @@
 
             <div class="form-field-wrapper">
               <mat-slide-toggle [checked]="isShowBooked"
-                                (change)="showSuspended()" class="m-l-15">
+                                (change)="changeBooking()" class="m-l-15">
                 Заброньовані місця
               </mat-slide-toggle>
             </div>
+          </div>
+
+          <div *ngIf="isShowBooked">
+            <hr class="m-b-25">
+            <ng-container formArrayName="booked" *ngFor="let bookedUser of formBooked.controls; let i = index;">
+              <div [formGroupName]="i">
+                <mat-form-field>
+                  <mat-label>За ким заброньовано гру</mat-label>
+                  <input matInput formControlName="userTelegram" appTelegram [placeholder]="'Введіть телеграм авантюриста'">
+                  <mat-icon matSuffix [color]="formBookedTelegramIndex(i)?.valid || !formBookedTelegramIndex(i)?.touched ? 'primary' : 'warn'">telegram</mat-icon>
+                  <mat-error *ngIf="formBookedTelegramIndex(i)?.hasError('minlength')">
+                    {{texts.validations.minLength}}
+                    {{ formBookedTelegramIndex(i)?.getError('minlength')['requiredLength']}}
+                  </mat-error>
+                  <mat-error *ngIf="formBookedTelegramIndex(i)?.hasError('maxlength')">
+                    {{texts.validations.maxLength}}
+                    {{ formBookedTelegramIndex(i)?.getError('maxlength')['requiredLength']}}
+                    {{formBookedTelegramIndex(i) | json}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
           </div>
 
         </form>
@@ -135,7 +157,7 @@
       <mat-card-content>
         <mat-card-footer>
           <div class="buttons">
-            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit()">
+            <button mat-raised-button color="primary" (click)="submit()">
               {{editing ? 'Редагувати' : 'Створити'}}
             </button>
           </div>
