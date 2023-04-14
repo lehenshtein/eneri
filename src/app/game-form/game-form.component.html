@@ -1,139 +1,244 @@
-<div class="wrapper">
-  <div class="w-100">
-    <mat-card class="card-special">
-      <mat-card-header>
-        <mat-card-title>
-          <h2 class="header">{{editing ? 'Редагувати гру' : 'Створити гру'}}</h2>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form class="form" [formGroup]="form">
-          <mat-form-field>
-            <mat-label>Назва гри</mat-label>
-            <input matInput formControlName="title" [placeholder]="'Як буде називатися завдання'">
-            <mat-icon matSuffix [color]="'primary'" *ngIf="formTitle.valid || !formTitle.touched">sentiment_very_satisfied
-            </mat-icon>
-            <mat-icon matSuffix [color]="'warn'" *ngIf="formTitle.invalid && formTitle.touched">
-              sentiment_very_dissatisfied
-            </mat-icon>
-            <mat-error *ngIf="formTitle.getError('required')">{{texts.validations.required}}</mat-error>
-            <mat-error *ngIf="formTitle.hasError('minlength')">
-              {{texts.validations.minLength}}
-              {{ formTitle.getError('minlength')['requiredLength']}}
-            </mat-error>
-            <mat-error *ngIf="formTitle.getError('maxlength')">
-              {{texts.validations.maxLength}}
-              {{ formTitle.getError('maxlength')['requiredLength']}}
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Подробиці</mat-label>
-            <textarea matInput formControlName="description"
-                      [placeholder]="'Деталі завдання - хто, де, коли'"></textarea>
-            <mat-error *ngIf="formDescription.hasError('minlength')">
-              {{texts.validations.minLength}}
-              {{ formDescription.getError('minlength')['requiredLength']}}
-            </mat-error>
-            <mat-error *ngIf="formDescription.getError('maxlength')">
-              {{texts.validations.maxLength}}
-              {{ formDescription.getError('maxlength')['requiredLength']}}
-            </mat-error>
-            <mat-error *ngIf="formDescription.getError('required')">{{texts.validations.required}}</mat-error>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Теги, через кому</mat-label>
-            <input matInput formControlName="tags" [placeholder]="'Щоб авантюристам було легше орієнтуватися'">
-            <mat-icon matSuffix [color]="formTags.valid || !formTags.touched ? 'primary' : 'warn'">#</mat-icon>
-            <mat-error *ngIf="formTags.getError('maxlength')">
-              {{texts.validations.maxLength}}
-              {{ formTags.getError('maxlength')['requiredLength']}}
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Посилання на каринку</mat-label>
-            <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">
-            <mat-icon matSuffix
-                      [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">
-              add_photo_alternate
-            </mat-icon>
-            <mat-error
-              *ngIf="formImgUrl.getError('pattern') || formImgUrl.getError('wrongImageLink')">
-              {{texts.validations.imgPattern}}
-            </mat-error>
-            <mat-error *ngIf="formImgUrl.getError('maxlength')">
-              {{texts.validations.maxLength}}
-              {{ formImgUrl.getError('maxlength')['requiredLength']}}
-            </mat-error>
-          </mat-form-field>
-
-          <div class="fields-container">
+<div>
+  <div class="wrapper">
+    <div class="w-100">
+      <mat-card class="card-special">
+        <mat-card-header>
+          <mat-card-title>
+            <h2 class="header">{{editing ? 'Редагувати гру' : 'Створити гру'}}</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form class="form" [formGroup]="form">
             <mat-form-field>
-              <mat-label>Обери гру</mat-label>
-              <mat-select formControlName="gameSystemId">
-                <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="formGameSystemId.getError('required')">{{texts.validations.required}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput [ngxMatDatetimePicker]="picker" [min]="$any(minDate)" placeholder="Коли чекати"
-                     formControlName="startDateTime">
-              <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-              <ngx-mat-datetime-picker #picker [showSeconds]="false">
-                <ng-template>
-                  <!-- <mat-icon>star</mat-icon> -->
-                  <span>Спланувати</span>
-                </ng-template>
-              </ngx-mat-datetime-picker>
-            </mat-form-field>
-          </div>
-
-          <div class="fields-container">
-            <mat-form-field>
-              <mat-label>Ціна, грн.</mat-label>
-              <input type="number" min="0" step="50" matInput formControlName="price" [placeholder]="'Або твоя винагорода'">
-              <mat-icon matSuffix
-                        [color]="formPrice.valid || !formPrice.touched ? 'primary' : 'warn'">
-                toll
+              <mat-label>Назва гри</mat-label>
+              <input matInput formControlName="title" [placeholder]="'Як буде називатися завдання'">
+              <mat-icon matSuffix [color]="'primary'" *ngIf="formTitle.valid || !formTitle.touched">
+                sentiment_very_satisfied
               </mat-icon>
-              <mat-error *ngIf="formPrice.getError('required')">{{texts.validations.required}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field>
-              <mat-label>Гравці</mat-label>
-              <input type="number" min="{{game?.players?.length || 1}}" matInput formControlName="maxPlayers" [placeholder]="'Максимум пригодників'">
-              <mat-icon matSuffix
-                        [color]="formMaxPlayers.valid || !formMaxPlayers.touched ? 'primary' : 'warn'">
-                elderly
+              <mat-icon matSuffix [color]="'warn'" *ngIf="formTitle.invalid && formTitle.touched">
+                sentiment_very_dissatisfied
               </mat-icon>
-              <mat-error *ngIf="formMaxPlayers.getError('required')">{{texts.validations.required}}</mat-error>
+              <mat-error *ngIf="formTitle.getError('required')">{{texts.validations.required}}</mat-error>
+              <mat-error *ngIf="formTitle.hasError('minlength')">
+                {{texts.validations.minLength}}
+                {{ formTitle.getError('minlength')['requiredLength']}}
+              </mat-error>
+              <mat-error *ngIf="formTitle.getError('maxlength')">
+                {{texts.validations.maxLength}}
+                {{ formTitle.getError('maxlength')['requiredLength']}}
+              </mat-error>
             </mat-form-field>
-          </div>
 
-          <div class="fields-container">
             <mat-form-field>
-              <mat-label>Місто, або онлайн</mat-label>
-              <mat-select formControlName="cityCode">
-                <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="formCityCode.getError('required')">{{texts.validations.required}}</mat-error>
+              <mat-label>Подробиці</mat-label>
+              <textarea matInput formControlName="description"
+                        [placeholder]="'Деталі завдання - хто, де, коли'"></textarea>
+              <mat-error *ngIf="formDescription.hasError('minlength')">
+                {{texts.validations.minLength}}
+                {{ formDescription.getError('minlength')['requiredLength']}}
+              </mat-error>
+              <mat-error *ngIf="formDescription.getError('maxlength')">
+                {{texts.validations.maxLength}}
+                {{ formDescription.getError('maxlength')['requiredLength']}}
+              </mat-error>
+              <mat-error *ngIf="formDescription.getError('required')">{{texts.validations.required}}</mat-error>
             </mat-form-field>
-          </div>
 
-        </form>
-      </mat-card-content>
-      <mat-card-content>
-        <mat-card-footer>
-          <div class="buttons">
-            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit()">
-              {{editing ? 'Редагувати' : 'Створити'}}
-            </button>
-          </div>
-        </mat-card-footer>
-      </mat-card-content>
-    </mat-card>
+            <mat-form-field>
+              <mat-label>Теги, через кому</mat-label>
+              <input matInput formControlName="tags" [placeholder]="'Щоб авантюристам було легше орієнтуватися'">
+              <mat-icon matSuffix [color]="formTags.valid || !formTags.touched ? 'primary' : 'warn'">#</mat-icon>
+              <mat-error *ngIf="formTags.getError('maxlength')">
+                {{texts.validations.maxLength}}
+                {{ formTags.getError('maxlength')['requiredLength']}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Посилання на каринку</mat-label>
+              <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">
+              <mat-icon matSuffix
+                        [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">
+                add_photo_alternate
+              </mat-icon>
+              <mat-error
+                *ngIf="formImgUrl.getError('pattern') || formImgUrl.getError('wrongImageLink')">
+                {{texts.validations.imgPattern}}
+              </mat-error>
+              <mat-error *ngIf="formImgUrl.getError('maxlength')">
+                {{texts.validations.maxLength}}
+                {{ formImgUrl.getError('maxlength')['requiredLength']}}
+              </mat-error>
+            </mat-form-field>
+
+            <div class="fields-container">
+              <mat-form-field>
+                <mat-label>Обери гру</mat-label>
+                <mat-select formControlName="gameSystemId">
+                  <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGameSystemId.getError('required')">{{texts.validations.required}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput [ngxMatDatetimePicker]="picker" [min]="$any(minDate)" placeholder="Коли чекати"
+                       formControlName="startDateTime">
+                <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker [showSeconds]="false">
+                  <ng-template>
+                    <!-- <mat-icon>star</mat-icon> -->
+                    <span>Спланувати</span>
+                  </ng-template>
+                </ngx-mat-datetime-picker>
+              </mat-form-field>
+            </div>
+
+            <div class="fields-container">
+              <mat-form-field>
+                <mat-label>Ціна, грн.</mat-label>
+                <input type="number" min="0" step="50" matInput formControlName="price"
+                       [placeholder]="'Або твоя винагорода'">
+                <mat-icon matSuffix
+                          [color]="formPrice.valid || !formPrice.touched ? 'primary' : 'warn'">
+                  toll
+                </mat-icon>
+                <mat-error *ngIf="formPrice.getError('required')">{{texts.validations.required}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Гравці</mat-label>
+                <input type="number" min="{{game?.players?.length || 1}}" matInput formControlName="maxPlayers"
+                       [placeholder]="'Максимум пригодників'">
+                <mat-icon matSuffix
+                          [color]="formMaxPlayers.valid || !formMaxPlayers.touched ? 'primary' : 'warn'">
+                  elderly
+                </mat-icon>
+                <mat-error *ngIf="formMaxPlayers.getError('required')">{{texts.validations.required}}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="fields-container">
+              <mat-form-field>
+                <mat-label>Місто, або онлайн</mat-label>
+                <mat-select formControlName="cityCode">
+                  <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formCityCode.getError('required')">{{texts.validations.required}}</mat-error>
+              </mat-form-field>
+
+              <div class="form-field-wrapper">
+                <mat-slide-toggle [checked]="isShowBooked" [matTooltipClass]="'tooltip'"
+                                  [matTooltip]="'Просунуті налаштування\nВикористовувати уважно'"
+                                  (change)="changeBooking()" class="m-l-15">
+                  Заброньовані місця
+                </mat-slide-toggle>
+              </div>
+            </div>
+
+            <div *ngIf="isShowBooked">
+              <hr class="m-b-25">
+              <ul>
+                <li>Збільшість кількість гравців, щоб додати слоти для бронювання.</li>
+                <li>Телеграм заброньованого користувача має співпадати з вказаним у профілі.</li>
+                <li>Здається, що пропала бронь? Після того, як гравець запишеться його бронь видалиться.</li>
+                <li>Не додавайте того самого користувача в заброньовані, після того, як він вже записався. Це займе ще один слот. (І немає сенсу)</li>
+                <li>Телеграм використовується для того, щоб мати змогу забронювати місце за ще не зареєстрованим гравцем.</li>
+                <li>Для підтвердження запису, гравець має зареєструватися.</li>
+                <li>Ви можете відредагувати або видалити бронювання. Переконайтеся, що воно не співпадає з записаними гравцями.</li>
+              </ul>
+              <ng-container formArrayName="booked" *ngFor="let bookedUser of formBooked.controls; let i = index;">
+                <div [formGroupName]="i">
+                  <mat-form-field>
+                    <mat-label>За ким заброньовано гру</mat-label>
+                    <input matInput formControlName="userTelegram" appTelegram
+                           [placeholder]="'Введіть телеграм авантюриста'">
+                    <mat-icon matSuffix
+                              [color]="formBookedTelegramIndex(i)?.valid || !formBookedTelegramIndex(i)?.touched ? 'primary' : 'warn'">
+                      telegram
+                    </mat-icon>
+                    <mat-error *ngIf="formBookedTelegramIndex(i)?.hasError('minlength')">
+                      {{texts.validations.minLength}}
+                      {{ formBookedTelegramIndex(i)?.getError('minlength')['requiredLength']}}
+                    </mat-error>
+                    <mat-error *ngIf="formBookedTelegramIndex(i)?.hasError('maxlength')">
+                      {{texts.validations.maxLength}}
+                      {{ formBookedTelegramIndex(i)?.getError('maxlength')['requiredLength']}}
+                      {{formBookedTelegramIndex(i) | json}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+            </div>
+
+          </form>
+        </mat-card-content>
+        <mat-card-content>
+          <mat-card-footer>
+            <div class="buttons">
+              <button mat-raised-button color="primary" (click)="submit()">
+                {{editing ? 'Редагувати' : 'Створити'}}
+              </button>
+            </div>
+          </mat-card-footer>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
+<!--  <div class="wrapper">-->
+<!--    <div style="max-width: 450px">-->
+<!--      <mat-card class="card-special detailed-margin">-->
+<!--        <img mat-card-image src="{{formImgUrl.value || './assets/images/img-placeholder.jpg'}}" alt="Preview">-->
+<!--        <mat-card-header>-->
+<!--          <mat-card-title>-->
+<!--            <h2 class="header">-->
+<!--              <ng-template>{{formTitle.value}}</ng-template>-->
+<!--            </h2>-->
+<!--          </mat-card-title>-->
+
+<!--          <mat-card-subtitle class="m-b-10">-->
+<!--            <p><b>Майстер/Ведучий: </b> <span class="primary-text semibold">Ви</span></p>-->
+<!--            <p><b>Ціна: </b> <span class="primary-text semibold">{{formPrice.value}} грн.</span></p>-->
+<!--          </mat-card-subtitle>-->
+<!--        </mat-card-header>-->
+
+<!--        <mat-card-content>-->
+<!--          <div class="m-b-10">-->
+<!--            <b class="primary-text semibold d-block m-b-5">Опис:</b>-->
+<!--            <pre>{{formDescription.value}}</pre>-->
+<!--          </div>-->
+
+<!--          <div class="d-flex align-center">-->
+<!--            <b class="primary-text semibold">Шо: </b> <span class="m-l-5">{{ formGameSystemId.value || ' Інфо у майстра'}}</span>-->
+<!--            <mat-icon color="primary" class="m-l-5">list_alt</mat-icon>-->
+<!--          </div>-->
+
+<!--          <div class="d-flex align-center">-->
+<!--            <b class="primary-text semibold">Де: </b> <span class="m-l-5">{{ formCityCode.value || ' Інфо у майстра'}}</span>-->
+<!--            <mat-icon color="primary" class="m-l-5">location_city</mat-icon>-->
+<!--          </div>-->
+
+<!--          <div class="d-flex align-center">-->
+<!--            <span><b class="primary-text semibold">Коли: </b>{{ formStartDateTime.value | date:'dd MMMM y'}}</span>-->
+<!--            <span class="m-l-5"><b class="primary-text semibold">Час: </b>{{ formStartDateTime.value | date:'HH:mm'}}</span>-->
+<!--            <mat-icon color="primary" class="m-l-5">access_time</mat-icon>-->
+<!--          </div>-->
+
+<!--          <div class="d-flex align-center">-->
+<!--            <b class="primary-text semibold">Гравці: </b>-->
+<!--            <span class="m-l-5">-->
+<!--            0/{{formMaxPlayers.value}}-->
+<!--          </span>-->
+<!--            <mat-icon color="primary" class="m-l-5">supervised_user_circle</mat-icon>-->
+<!--          </div>-->
+<!--        </mat-card-content>-->
+<!--        <mat-card-footer>-->
+<!--          <mat-card-content>-->
+<!--            <mat-chip-set>-->
+<!--              &lt;!&ndash;            <mat-chip class="tag" *ngFor="let tag of game.tags">{{tag}}</mat-chip>&ndash;&gt;-->
+<!--            </mat-chip-set>-->
+<!--          </mat-card-content>-->
+<!--        </mat-card-footer>-->
+<!--      </mat-card>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>

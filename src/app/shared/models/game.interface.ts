@@ -3,6 +3,7 @@ import { ICity } from '@shared/models/city.interface';
 
 export interface IGamePost {
   gameSystemId: IGameSystem['_id'];
+  booked: string[];
   title: string;
   description: string;
   imgUrl: string;
@@ -31,6 +32,8 @@ export interface IGameResponse {
   isSuspended: boolean;
   createdAt: Date;
   updatedAt: Date;
+  booked: string[];
+  bookedAmount: number;
 }
 
 export interface IGameSystem {

@@ -79,6 +79,12 @@ a {
 .m-b-10 {
   margin-bottom: 10px!important;
 }
+.m-b-15 {
+  margin-bottom: 15px!important;
+}
+.m-b-25 {
+  margin-bottom: 25px!important;
+}
 
 .p-r-10 {
   padding-right: 10px;
@@ -170,6 +176,7 @@ ngx-mat-datetime-content {
 }
 
 .tooltip {
+  white-space: pre-line;
   .mdc-tooltip__surface {
     background-color: map.get($my-primaryClassic, 500);
   }

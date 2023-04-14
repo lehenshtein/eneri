@@ -11,6 +11,33 @@
   }
 }
 
+.form-field-wrapper {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  mat-slide-toggle {
+    margin-top: -10px;
+  }
+}
+pre {
+  white-space: pre-wrap;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+img {
+  margin: -30px 20px 0;
+  border-radius: 24px;
+  box-shadow: 0 17px 35px -20px $primary-shadow-color;
+}
+b {
+  font-weight: 500;
+}
+
+mat-card-footer {
+  background-color: $primary;
+  border-radius: 0 0 24px 24px;
+}
+
 @media screen and (max-width: $breakpoint-XS) {
   .fields-container {
     flex-wrap: wrap;

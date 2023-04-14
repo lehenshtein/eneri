@@ -99,6 +99,9 @@ export class GameCardComponent {
         const playersArr = [...this.game.players];
         playersArr.splice(index, 1);
         this.game.players = playersArr;
+        if (this.game.players.length < this.game.maxPlayers) {
+          this.game.isSuspended = false;
+        }
         this.notificationService.openSnackBar('success', `Виключено гравця ${data.username}. Телеграм: ${data.contactData.telegram}`, '', 10000);
       }
     });
@@ -154,7 +157,7 @@ export class GameCardComponent {
       }
     })).pipe(take(1)).subscribe((res: IResponseMessage) => {
       if (res.message === 'success' && this.user && this.user.username) {
-        this.game.players.push({username: this.user.username});
+        this.game.players = [...this.game.players, {username: this.user.username}];
         this.notificationService.openSnackBar('success', 'Ви записані');
       }
     });
