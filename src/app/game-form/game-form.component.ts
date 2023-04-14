@@ -146,7 +146,6 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
 
   submit () {
-    console.log(this.form.getRawValue());
     const formValue = this.form.getRawValue();
     if (!this.isShowBooked) {
       formValue.booked = []
