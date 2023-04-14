@@ -32,6 +32,8 @@ export interface IGameResponse {
   isSuspended: boolean;
   createdAt: Date;
   updatedAt: Date;
+  booked: string[];
+  bookedAmount: number;
 }
 
 export interface IGameSystem {

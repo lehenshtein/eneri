@@ -6,7 +6,7 @@ import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { debounceTime, distinctUntilChanged, Observable, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,8 +41,8 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
   ngOnInit (): void {
     this.initForm();
-    this.trackFormChanges();
     this.checkRoute();
+    this.trackFormChanges();
   }
 
   private checkRoute() {
@@ -52,7 +52,14 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         if (this.game.master.username === this.route.snapshot.params['master']) {
           this.editing = true;
         }
-        this.initForm(res);
+        this.form.patchValue(res);
+        (res?.tags && res?.tags.length) ? this.formTags.patchValue(res?.tags.toString()) : this.formTags.patchValue('');
+        if (res?.booked && res?.booked.length) {
+          this.isShowBooked = true;
+          res.booked.forEach((el: string, index: number) => {
+            this.formBookedTelegramIndex(index)?.patchValue(el);
+          })
+        }
         this.form.updateValueAndValidity();
       })
       return;
@@ -122,14 +129,14 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   trackFormChanges() {
     this.formMaxPlayers.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(100), distinctUntilChanged())
       .subscribe(res => {
-        if (this.formBooked.value.length < res) {
-          const amount = res - this.formBooked.value.length;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) < res) {
+          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0));
           for (let i = 0; i < amount; i++) {
             this.formBooked.push(this.formBookedGroup())
           }
         }
-        if (this.formBooked.value.length > res) {
-          const amount = this.formBooked.value.length - res;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) > res) {
+          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0)) - res;
           for (let i = 0; i < amount; i++) {
             this.formBooked.removeAt(this.formBooked.value.length - 1);
           }
@@ -139,6 +146,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
 
   submit () {
+    console.log(this.form.getRawValue());
     const formValue = this.form.getRawValue();
     if (!this.isShowBooked) {
       formValue.booked = []
@@ -176,10 +184,5 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
   changeBooking () {
     this.isShowBooked = !this.isShowBooked;
-    // if (this.isShowBooked) {
-    //   this.trackFormChanges();
-    // } else {
-    //   this.formMaxPlayers.valueChanges.unsubscribe()
-    // }
   }
 }

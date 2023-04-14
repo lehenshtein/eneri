@@ -53,7 +53,8 @@ const Material = [
   MatTooltipModule,
   MatBadgeModule,
   MatTableModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule,
 ];
 
 @NgModule({
@@ -72,7 +73,6 @@ const Material = [
     CommonModule,
     ReactiveFormsModule,
     ...Material,
-    MatChipsModule,
     FormsModule,
     RouterModule,
   ],

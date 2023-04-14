@@ -176,6 +176,7 @@ ngx-mat-datetime-content {
 }
 
 .tooltip {
+  white-space: pre-line;
   .mdc-tooltip__surface {
     background-color: map.get($my-primaryClassic, 500);
   }
