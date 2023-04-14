@@ -5,11 +5,12 @@ import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { texts } from '@shared/helpers/texts';
 import { UserHttpService } from '@app/user/user-http.service';
-import { EMPTY, of, switchMap, take } from 'rxjs';
+import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { TextDialogComponent } from '@shared/components/text-dialog/text-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotificationService } from '@shared/services/notification.service';
+import { telegramPattern } from '@shared/helpers/regex-patterns';
 
 @Component({
   selector: 'app-user.content',
@@ -54,7 +55,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   get contactDataGroup (): FormGroup {
     return this.fb.group({
       phone: [ this.user?.contactData?.phone || '', [Validators.minLength(12)]],
-      telegram: [ this.user?.contactData?.telegram || '', [ Validators.minLength(3), Validators.maxLength(30) ] ]
+      telegram: [ this.user?.contactData?.telegram || '', [ Validators.minLength(3), Validators.maxLength(30), Validators.pattern(telegramPattern) ] ]
     });
   }
 

@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { telegramPattern } from '@shared/helpers/regex-patterns';
 
 @Directive({
   selector: '[appTelegram]'
 })
 export class TelegramDirective {
-  regexStr = '^[a-zA-Z0-9_]*$';
+  regexStr = telegramPattern;
   specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', 'Control' ];
 
   constructor(private el: ElementRef, private control: NgControl) { }

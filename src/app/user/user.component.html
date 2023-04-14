@@ -55,6 +55,10 @@
                 {{texts.validations.maxLength}}
                 {{ formTelegram.getError('maxlength')['requiredLength']}}
               </mat-error>
+              <mat-error
+                *ngIf="formTelegram.getError('pattern')">
+                {{texts.validations.telegramPattern}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="d-flex justify-space-between">
