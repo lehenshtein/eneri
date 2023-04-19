@@ -9,7 +9,10 @@
     </mat-card-title>
 
     <mat-card-subtitle class="m-b-10">
-      <p><b>Майстер/Ведучий: </b> <span class="primary-text semibold">{{game.master.username}}</span></p>
+      <p><b>Майстер/Ведучий: </b> <span class="semibold accent-text">
+          <a [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
+        </span>
+      </p>
       <p><b>Ціна: </b> <span class="primary-text semibold">{{game.price}} грн.</span></p>
     </mat-card-subtitle>
   </mat-card-header>

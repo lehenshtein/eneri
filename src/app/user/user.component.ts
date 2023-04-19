@@ -46,6 +46,8 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
     }
     this.form = this.fb.group({
       name: [this.user.name, [Validators.maxLength(30)]],
+      about: [this.user.about, [Validators.maxLength(600)]],
+      showContacts: [this.user.showContacts || false],
       contactData: this.contactDataGroup
     });
 
@@ -61,6 +63,10 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
 
   get formName(): FormControl {
     return this.form.get('name') as FormControl;
+  }
+
+  get formAbout(): FormControl {
+    return this.form.get('about') as FormControl;
   }
 
   get formContactDataGroup(): FormGroup {
@@ -89,6 +95,10 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
       phone = this.form.getRawValue()['contactData']['phone'].slice(0, -1);
     }
     dataToSend.contactData.phone = phone;
+
+    if (this.user?.gameRole === 'player') {
+      dataToSend.showContacts = false;
+    }
     this.userHttpService.updateUser(dataToSend).pipe(take(1)).subscribe(res => {
       if (res.message === 'success') {
         this.authHttpService.setUser = {...this.authHttpService.getUser, ...dataToSend};

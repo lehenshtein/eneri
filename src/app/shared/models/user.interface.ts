@@ -11,6 +11,7 @@ export interface IUser {
   _id: number,
   name: string,
   username: string,
+  about: string,
   email: string,
   confirmedEmail: boolean,
   password: string,
@@ -23,6 +24,7 @@ export interface IUser {
   status: 'default' | 'muted' | 'banned',
   statusTillDate: Date | null,
   contactData: IContactData,
+  showContacts: boolean,
   avatar: string,
   updatedAt: Date,
   createdAt: Date,
@@ -32,4 +34,15 @@ interface IContactData {
   city: { name: string, code: number } | undefined,
   phone: string | undefined,
   telegram: string | undefined
+}
+
+export interface IUserAsMaster {
+  name: string,
+  username: string,
+  about: string,
+  gamesLeaded: number,
+  gamesPlayed: number,
+  telegram: string | undefined,
+  avatar: string,
+  createdAt: Date,
 }

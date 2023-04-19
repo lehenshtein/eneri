@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <div class="w-100">
+    <mat-card class="card-special" *ngIf="masterName">
+      <mat-card-header class="justify-space-between">
+        <mat-card-title>
+          <h2 class="header">Майстер: {{masterName}}</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngIf="master">
+
+        <div class="d-flex align-center m-b-10" *ngIf="master.telegram">
+          <b class="primary-text semibold">Телеграм:&nbsp;</b>  <span class="link">
+            <a [href]='"https://t.me/" + master.telegram' target="_blank">{{master.telegram}}</a>
+          </span>
+        </div>
+
+        <div class="d-flex align-center m-b-10" *ngIf="master.name">
+          <b class="primary-text semibold">Ім'я: </b> <span class="m-l-5">{{master.name}}</span>
+        </div>
+
+        <div class="m-b-10" *ngIf="master.about">
+          <b class="primary-text semibold d-block m-b-5">Про майстра:</b>
+          <pre>{{master.about}}</pre>
+        </div>
+
+        <div class="d-flex align-center m-b-10">
+          <b class="primary-text semibold">На ЕНЕРІ з: </b> <span class="m-l-5">{{master.createdAt | date: 'dd.MM.yyyy'}}</span>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

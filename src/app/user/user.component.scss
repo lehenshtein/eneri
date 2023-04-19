@@ -12,6 +12,7 @@ $padding-for-phone-prefix: 55px;
     left: 0;
     & ::ng-deep.mdc-text-field {
       border-top-right-radius: 0!important;
+      padding: 0 12px;
     }
     input {
       transform: translateY(8px);

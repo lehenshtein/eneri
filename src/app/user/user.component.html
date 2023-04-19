@@ -24,11 +24,19 @@
               {{ formName.getError('maxlength')['requiredLength']}}
             </mat-error>
           </mat-form-field>
+          <mat-form-field *ngIf="user.gameRole === 'both'">
+            <mat-label>Про себе</mat-label>
+            <textarea matInput formControlName="about"
+                      [placeholder]="'За бажання, розкажи трохи про себе, як майстра. Стиль гри, системи, досід, тощо.'"></textarea>
+            <mat-error *ngIf="formAbout.getError('maxlength')">
+              {{texts.validations.maxLength}}
+              {{ formAbout.getError('maxlength')['requiredLength']}}
+            </mat-error>
+          </mat-form-field>
 
           <div formGroupName="contactData">
             <div class="phone__form-wrapper">
               <mat-form-field class="phone__code">
-<!--                <mat-label>+38</mat-label>-->
                 <input matInput disabled value="+38">
               </mat-form-field>
               <mat-form-field class="phone__field" [ngClass]="{filled: formPhone.value}">
@@ -60,6 +68,13 @@
                 {{texts.validations.telegramPattern}}
               </mat-error>
             </mat-form-field>
+          </div>
+          <div class="form-field-wrapper" *ngIf="user.gameRole === 'both'">
+            <mat-slide-toggle formControlName="showContacts" [matTooltipClass]="'tooltip'"
+                              [matTooltip]="'Якщо вибрано, будь-який користувач зможе побачити ваш телеграм, якщо ви майстер'"
+                              class="m-t-10 m-b-10">
+              Показувати телеграм у профілі
+            </mat-slide-toggle>
           </div>
           <div class="d-flex justify-space-between">
             <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити (в розробці)</button></p>
