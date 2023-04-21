@@ -31,7 +31,7 @@
 
             <mat-form-field>
               <mat-label>Подробиці</mat-label>
-              <textarea matInput formControlName="description"
+              <textarea matInput formControlName="description" rows="5"
                         [placeholder]="'Деталі завдання - хто, де, коли'"></textarea>
               <mat-error *ngIf="formDescription.hasError('minlength')">
                 {{texts.validations.minLength}}

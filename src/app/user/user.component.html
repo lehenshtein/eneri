@@ -26,7 +26,7 @@
           </mat-form-field>
           <mat-form-field *ngIf="user.gameRole === 'both'">
             <mat-label>Про себе</mat-label>
-            <textarea matInput formControlName="about"
+            <textarea matInput formControlName="about" rows="3"
                       [placeholder]="'За бажання, розкажи трохи про себе, як майстра. Стиль гри, системи, досід, тощо.'"></textarea>
             <mat-error *ngIf="formAbout.getError('maxlength')">
               {{texts.validations.maxLength}}

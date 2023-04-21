@@ -11,4 +11,6 @@ export const gameSystems: IGameSystem[] = [
   {_id: 8, name: 'Shadowrun'},
   {_id: 9, name: 'Cyberpunk'},
   {_id: 10, name: 'GURPS'},
+
+  {_id: 999, name: 'Інша гра'},
 ];
