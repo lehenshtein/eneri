@@ -1,6 +1,6 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameHttpService } from '@shared/services/game-http.service';
-import { Observable, shareReplay, switchMap, takeUntil, tap } from 'rxjs';
+import { Observable, switchMap, takeUntil } from 'rxjs';
 import { IGameResponse } from '@shared/models/game.interface';
 import { IUser } from '@shared/models/user.interface';
 import { AuthHttpService } from '@shared/services/auth-http.service';
@@ -8,6 +8,8 @@ import { SharedService } from '@shared/services/shared.service';
 import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { IGameFilters } from '@shared/models/game-filters.interface';
 import { ActivatedRoute } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-games-wrapper',
@@ -18,6 +20,9 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
   games: IGameResponse[] = [];
   user: IUser | undefined;
   gamesFor: 'player' | 'master' | undefined;
+  page = 0;
+  limit = 20;
+  total = 20;
   filters: IGameFilters = {
     search: '',
     isShowSuspended: false,
@@ -64,9 +69,9 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
         cityCode: null,
         sort: 0
       }
-      return this.gameHttpService.fetchGames(filter, this.gamesFor);
-    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((games: IGameResponse[]) => {
-      this.games = games;
+      return this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor);
+    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {
+      this.gamesResponseAction(res);
     })
   }
   filterChanges() {
@@ -75,18 +80,37 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
       this.filters.cityCode = filter.cityCode;
       this.filters.search = filter.search || '';
       this.filters.sort = filter.sort || 0;
-      return this.gameHttpService.fetchGames(this.filters, this.gamesFor);
-    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((games: IGameResponse[]) => {
-      this.games = games;
+      return this.fetchGames();
+    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {
+      this.gamesResponseAction(res);
     })
   }
   suspendedChanges() {
     this.sharedService.showSuspended$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((isShowSuspended: boolean) => {
       this.filters.isShowSuspended = isShowSuspended;
-      return this.gameHttpService.fetchGames(this.filters, this.gamesFor);
-    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((games: IGameResponse[]) => {
-      this.games = games;
+      return this.fetchGames();
+    })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {
+      this.gamesResponseAction(res);
     })
+  }
+  handlePageEvent ($event: PageEvent) {
+    this.page = $event.pageIndex;
+    this.fetchGames().pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {
+      this.gamesResponseAction(res);
+    })
+  }
+
+  fetchGames(): Observable<HttpResponse<IGameResponse[]>> {
+    return this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor);
+  }
+  gamesResponseAction(res: HttpResponse<IGameResponse[]>) {
+    this.games = res.body || [];
+    if (res.headers.get('x-page')) {
+      this.page = +res.headers.get('x-page')!;
+    }
+    if (res.headers.get('x-total')) {
+      this.total = +res.headers.get('x-total')!;
+    }
   }
 
   getRandomNumb(num: number) {
