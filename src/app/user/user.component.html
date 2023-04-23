@@ -69,23 +69,24 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="form-field-wrapper" *ngIf="user.gameRole === 'both'">
+          <div class="form-field-wrapper m-t-20" *ngIf="user.gameRole === 'both'">
             <mat-slide-toggle formControlName="showContacts" [matTooltipClass]="'tooltip'"
                               [matTooltip]="'Якщо вибрано, будь-який користувач зможе побачити ваш телеграм, якщо ви майстер'"
                               class="m-t-10 m-b-10">
               Показувати телеграм у профілі
             </mat-slide-toggle>
           </div>
-          <div class="d-flex justify-space-between">
-            <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити (в розробці)</button></p>
-
+          <div class="d-flex justify-end">
             <button mat-raised-button color="primary" [disabled]="form.disabled || form.invalid" (click)="submit()">
               Редагувати
             </button>
           </div>
-          <button mat-raised-button color="primary" (click)="becomeMaster()">
-            Стати майстром
-          </button>
+          <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити (в розробці)</button></p>
+          <div class="d-flex justify-end">
+            <button mat-raised-button color="accent" (click)="becomeMaster()">
+              Стати майстром
+            </button>
+          </div>
         </form>
       </mat-card-content>
     </mat-card>
