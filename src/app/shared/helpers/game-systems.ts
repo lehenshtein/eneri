@@ -11,6 +11,11 @@ export const gameSystems: IGameSystem[] = [
   {_id: 8, name: 'Shadowrun'},
   {_id: 9, name: 'Cyberpunk'},
   {_id: 10, name: 'GURPS'},
+  {_id: 11, name: 'Call of Cthulhu'},
+  {_id: 12, name: 'Warhammer Age of Sigmar'},
+  {_id: 13, name: 'Warhammer 40k'},
+  {_id: 14, name: 'Warhammer Fantasy Roleplay'},
 
+  {_id: 998, name: 'Narrative Adventure'},
   {_id: 999, name: 'Інша гра'},
-];
+].sort((a, b) => (a.name < b.name) ? -1 : 1);

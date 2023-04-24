@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
@@ -11,8 +11,8 @@ import { cities } from '@app/shared/helpers/cities';
 import { gameSystems } from '@app/shared/helpers/game-systems';
 import { texts } from '@app/shared/helpers/texts';
 import { SearchComponent } from '@shared/components/search/search.component';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { filter, map, take } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -38,7 +38,8 @@ export class SidebarComponent implements OnInit {
     private authHttpService: AuthHttpService,
     private sharedService: SharedService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 
@@ -46,14 +47,34 @@ export class SidebarComponent implements OnInit {
     this.filtersChanging();
     this.tagsSearch();
     this.initForm();
+    this.checkQuery();
+  }
+
+  private checkQuery() {
+    this.sharedService.queryFilters$.pipe(take(1)).subscribe(res => {
+      if (this.form) {
+        res['gameSystemId'] && this.formGameSystemId.patchValue(+res['gameSystemId']);
+        res['cityCode'] && this.formCityCode.patchValue(+res['cityCode']);
+        res['sort'] && this.formSort.patchValue(+res['sort']);
+        if (res['search']) {
+          this.searchText = res['search'];
+          this.searchComponent.text = res['search'];
+        }
+        this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent?.text});
+      }
+    })
   }
 
   private filtersChanging() {
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
       map(e => {
+        const urlForNotDisablingFilter = !this.urlsForNotDisablingFilter.find(url => url === e.url.split('?')[0]);
+        if (!urlForNotDisablingFilter && e.url.includes('?')) {
+          return
+        }
+        this.filtersDisabled = urlForNotDisablingFilter;
         this.resetFilters();
-        this.filtersDisabled = !this.urlsForNotDisablingFilter.find(url => url === e.url);
         this.filtersDisabled ? this.form.disable() : this.form.enable();
       })
     ).subscribe();
@@ -132,12 +153,29 @@ export class SidebarComponent implements OnInit {
     if (!text) {
       this.searchComponent.text = '';
     }
+    this.addQuery();
   }
 
   submit () {
     if (this.hideSidebarOnClick) {
       this.closeMenu.emit();
     }
-    this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent.text});
+    this.addQuery();
+    this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent?.text});
+  }
+
+  addQuery() {
+    const queryParams: Params = {
+      search: this.searchText || null,
+      ...this.form.getRawValue()
+    };
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: queryParams,
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+        preserveFragment: true,
+      });
   }
 }
