@@ -48,7 +48,7 @@
       <mat-form-field>
         <mat-label>Обери гру</mat-label>
         <mat-select formControlName="gameSystemId">
-          <mat-option  [value]="null">Будь-яка</mat-option>
+          <mat-option [value]="null">Будь-яка</mat-option>
           <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
         </mat-select>
       </mat-form-field>

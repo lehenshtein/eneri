@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameHttpService } from '@shared/services/game-http.service';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, switchMap, take, takeUntil } from 'rxjs';
 import { IGameResponse } from '@shared/models/game.interface';
 import { IUser } from '@shared/models/user.interface';
 import { AuthHttpService } from '@shared/services/auth-http.service';
@@ -31,7 +31,7 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     sort: 0
   }
   texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру',
-    'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Гарячий ДМ покаже тобі своє підземелля'];
+    'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Гарячий ДМ покаже тобі своє підземелля', 'Привіт, хочеш розповімо тобі про АоСік?'];
   subtitle = this.texts[0];
   constructor (
     private gameHttpService: GameHttpService,
@@ -48,6 +48,7 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
       this.route.snapshot.routeConfig?.path === 'my-created' ? this.gamesFor = 'master' :
         this.gamesFor = undefined;
     this.setSubtitle();
+    this.checkQuery();
     this.searchChanges();
     this.filterChanges();
     this.suspendedChanges();
@@ -59,15 +60,20 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     });
   }
 
+  private checkQuery() {
+    this.sharedService.queryFiltersSet(this.route.snapshot.queryParams);
+  }
+
   searchChanges() {
     this.sharedService.search$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((search: string) => {
+      const queryParams = this.route.snapshot.queryParams;
       this.filters.search = search;
       const filter: IGameFilters = {
-        search: search,
+        search: search || queryParams['search'],
         isShowSuspended: this.filters.isShowSuspended,
-        gameSystemId: null,
-        cityCode: null,
-        sort: 0
+        gameSystemId: queryParams['gameSystemId'] || null,
+        cityCode: queryParams['cityCode'] || null,
+        sort: queryParams['sort'] || 0
       }
       return this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor);
     })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {

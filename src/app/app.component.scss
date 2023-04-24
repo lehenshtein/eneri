@@ -1,4 +1,10 @@
 @import './src/assets/scss/variables';
+.back {
+  position: fixed;
+  top: $padding-m;
+  left: $padding-m;
+  z-index: 10;
+}
 .menu {
   position: fixed;
   top: $padding-m;

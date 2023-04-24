@@ -1,5 +1,7 @@
 <mat-card class="card-special detailed-margin">
-  <img mat-card-image [ngClass]="{'detailed-image': detailedCard}" src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
+  <div class="image-wrapper" [ngClass]="{'detailed-image': detailedCard}">
+    <img mat-card-image  src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
+  </div>
   <mat-card-header [ngClass]="{'mw-detailed': detailedCard}">
     <mat-card-title>
       <h2 class="header">
