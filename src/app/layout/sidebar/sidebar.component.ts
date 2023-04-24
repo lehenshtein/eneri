@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
@@ -13,6 +13,8 @@ import { texts } from '@app/shared/helpers/texts';
 import { SearchComponent } from '@shared/components/search/search.component';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { PartnersDialogComponent } from '@shared/components/partners-dialog/partners-dialog.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,6 +42,7 @@ export class SidebarComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private dialogRef: MatDialog
   ) {
   }
 
@@ -130,6 +133,15 @@ export class SidebarComponent implements OnInit {
       return;
     }
     this.authModalService.openDialog(SignInFormComponent)
+  }
+
+  partnersDialog() {
+    if (this.hideSidebarOnClick) {
+      this.closeMenu.emit();
+    }
+    this.dialogRef.open(PartnersDialogComponent, {minWidth: '50%', width: '700px', maxWidth: '90vw', autoFocus: false,
+      panelClass: 'bordered-dialog'})
+
   }
 
   logout () {
