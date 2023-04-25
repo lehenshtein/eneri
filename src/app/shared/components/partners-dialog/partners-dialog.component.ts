@@ -28,7 +28,7 @@ export class PartnersDialogComponent {
     {
       img: 'roleplayUa.jpg',
       title: 'Roleplay Солов\'їною',
-      text: 'НРІ Українською мовою.',
+      text: 'Місце для рольових ігор онлайн.',
       link: 'https://discord.gg/yAAGnZes6j'
     },
     {
