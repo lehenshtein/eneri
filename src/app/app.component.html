@@ -1,4 +1,4 @@
-<button class="back" mat-icon-button (click)="back()">
+<button class="back" mat-icon-button (click)="back()" *ngIf="!hideSidebarOnClick || (!drawer.opened)">
   <mat-icon>chevron_left</mat-icon>
 </button>
 

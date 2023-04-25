@@ -31,7 +31,7 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     sort: 0
   }
   texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру',
-    'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Гарячий ДМ покаже тобі своє підземелля', 'Привіт, хочеш розповімо тобі про АоСік?'];
+    'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Вільні гравці в твоєму районі хочуть пограти з тобою', 'Привіт, хочеш розповімо тобі про АоСік?'];
   subtitle = this.texts[0];
   constructor (
     private gameHttpService: GameHttpService,
