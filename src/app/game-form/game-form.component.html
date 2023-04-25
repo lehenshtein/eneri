@@ -11,7 +11,7 @@
           <form class="form" [formGroup]="form">
             <mat-form-field>
               <mat-label>Назва гри</mat-label>
-              <input matInput formControlName="title" [placeholder]="'Як буде називатися завдання'">
+              <input matInput formControlName="title" [placeholder]="'Як буде називатися пригода'">
               <mat-icon matSuffix [color]="'primary'" *ngIf="formTitle.valid || !formTitle.touched">
                 sentiment_very_satisfied
               </mat-icon>
@@ -32,7 +32,7 @@
             <mat-form-field>
               <mat-label>Подробиці</mat-label>
               <textarea matInput formControlName="description" rows="5"
-                        [placeholder]="'Деталі завдання - хто, де, коли'"></textarea>
+                        [placeholder]="'Деталі пригоди - хто, де, коли'"></textarea>
               <mat-error *ngIf="formDescription.hasError('minlength')">
                 {{texts.validations.minLength}}
                 {{ formDescription.getError('minlength')['requiredLength']}}
@@ -55,7 +55,7 @@
             </mat-form-field>
 
             <mat-form-field>
-              <mat-label>Посилання на каринку</mat-label>
+              <mat-label>Посилання на зображення</mat-label>
               <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">
               <mat-icon matSuffix
                         [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">

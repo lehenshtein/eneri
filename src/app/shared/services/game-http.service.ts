@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IGamePost, IGameResponse } from '@shared/models/game.interface';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { IResponseMessage } from '@shared/models/response-message.interface';
 import { IGameFilters } from '@shared/models/game-filters.interface';
 
@@ -11,8 +11,10 @@ import { IGameFilters } from '@shared/models/game-filters.interface';
 export class GameHttpService {
 
   constructor(private http: HttpClient) { }
-  fetchGames(filters: IGameFilters, forWhom?: 'master' | 'player'): Observable<IGameResponse[]> {
-    let params = new HttpParams();
+  fetchGames(filters: IGameFilters, page: number, limit: number, forWhom?: 'master' | 'player'): Observable<HttpResponse<IGameResponse[]>> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('limit', limit);
     if(filters.search) {
       params = params.append('search', filters.search)
     }
@@ -30,10 +32,10 @@ export class GameHttpService {
     }
 
     if (forWhom) {
-      return this.http.get<IGameResponse[]>(`/game/${forWhom}`, {params});
+      return this.http.get<IGameResponse[]>(`/game/${forWhom}`, { params, observe: 'response' });
     }
 
-    return this.http.get<IGameResponse[]>(`/game`, {params});
+    return this.http.get<IGameResponse[]>(`/game`, { params, observe: 'response' });
   }
   fetchGameById(gameId: string, master = false): Observable<IGameResponse> {
     let params = new HttpParams();

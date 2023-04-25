@@ -1,3 +1,7 @@
+<button class="back" mat-icon-button (click)="back()" *ngIf="!hideSidebarOnClick || (!drawer.opened)">
+  <mat-icon>chevron_left</mat-icon>
+</button>
+
 <button class="menu" mat-icon-button (click)="drawer.toggle()">
   <mat-icon>more_vert</mat-icon>
   <div [matBadge]="(sharedService.search$ | async) ? 'search' : null" matBadgeColor="warn" matBadgePosition="before"></div>

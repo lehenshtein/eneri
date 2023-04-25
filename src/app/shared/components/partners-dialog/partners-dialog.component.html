@@ -1,0 +1,15 @@
+<mat-card>
+  <h1 mat-dialog-title>Партнери проекту</h1>
+  <div mat-dialog-content>
+    <ng-container *ngFor="let item of data">
+      <a href="{{item.link}}" target="_blank" class="partner">
+        <div class="logo-wrapper"><img class="partner-logo" src="../../../../assets/images/patners/{{item.img}}" alt="logo"></div>
+        <div class="partner-content">
+          <b>{{item.title}}</b>
+          <span>{{item.text}}</span>
+        </div>
+      </a>
+      <hr>
+    </ng-container>
+  </div>
+</mat-card>

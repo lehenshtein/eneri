@@ -8,6 +8,10 @@
     </div>
   </div>
 </header>
+<div class="d-flex justify-center">
+  <mat-paginator (page)="handlePageEvent($event)" [length]="total" hidePageSize="true"
+                 [pageSize]="limit" [pageIndex]="page"></mat-paginator>
+</div>
 <div class="content">
   <div class="wrapper">
     <div class="container">
@@ -16,4 +20,8 @@
       </div>
     </div>
   </div>
+</div>
+<div class="d-flex justify-center">
+  <mat-paginator (page)="handlePageEvent($event)" [length]="total" hidePageSize="true"
+    [pageSize]="limit" [pageIndex]="page"></mat-paginator>
 </div>

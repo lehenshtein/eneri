@@ -33,6 +33,9 @@ import { TelegramDirective } from '@shared/directives/telegram.directive';
 import { NotificationServiceComponent } from '@shared/components/notification-service/notification-service.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SafePipe } from '@shared/pipes/safe-pipe.pipe';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { PaginatorInternationalization } from '@shared/helpers/paginator-internationalization';
+import { PartnersDialogComponent } from './components/partners-dialog/partners-dialog.component';
 
 const Material = [
   MatSlideToggleModule,
@@ -55,6 +58,7 @@ const Material = [
   MatTableModule,
   MatSnackBarModule,
   MatChipsModule,
+  MatPaginatorModule
 ];
 
 @NgModule({
@@ -67,7 +71,8 @@ const Material = [
     TextDialogComponent,
     SearchComponent,
     NotificationServiceComponent,
-    SafePipe
+    SafePipe,
+    PartnersDialogComponent
   ],
   imports: [
     CommonModule,
@@ -85,6 +90,9 @@ const Material = [
     PhoneDirective,
     TelegramDirective,
     SafePipe
+  ],
+  providers: [
+    {provide: MatPaginatorIntl, useClass: PaginatorInternationalization}
   ]
 })
 export class SharedModule { }

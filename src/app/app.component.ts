@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { SharedService } from '@shared/services/shared.service';
+import { isPlatformBrowser, Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,10 @@ export class AppComponent implements OnInit {
   constructor (
     private authHttpService: AuthHttpService,
     private breakpointObserver: BreakpointObserver,
-    public sharedService: SharedService) {
+    private location: Location,
+    public sharedService: SharedService,
+    @Inject(PLATFORM_ID) private platformId: Object) {
+    sharedService.setBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit (): void {
@@ -52,7 +56,10 @@ export class AppComponent implements OnInit {
   }
 
   closeMenu ($event: any) {
-    console.log($event);
     this.showSidebar = false;
+  }
+
+  back () {
+    this.location.back();
   }
 }

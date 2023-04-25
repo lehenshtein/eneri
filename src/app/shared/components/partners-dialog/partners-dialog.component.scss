@@ -1,0 +1,53 @@
+@import './src/assets/scss/variables';
+.text-dialog {
+  background-color: red;
+  ::ng-deep {
+    app-text-dialog {
+      color: red!important;
+
+      ::ng-deep.mdc-dialog__surface {
+        border-radius: $border-radius-xl !important;
+        padding: 5px 5px;
+        background: $primary !important;
+      }
+    }
+  }
+  ::ng-deep {
+    .mdc-dialog__surface {
+      border-radius: $border-radius-xl!important;
+      padding: 5px 5px;
+      background: $primary!important;
+    }
+  }
+}
+
+mat-card {
+  padding: 10px 15px;
+  border-radius: $border-radius-xl!important;
+}
+
+.partner {
+  display: flex;
+  align-items: center;
+  transition: all .2s;
+  opacity: .8;
+  margin-bottom: $padding-s;
+  b {
+    display: block;
+    margin-bottom: $padding-xs;
+    color: $primary;
+  }
+  &:hover {
+    opacity: 1;
+  }
+}
+.logo-wrapper {
+  width: 50px;
+  height: 50px;
+  margin-right: $padding-s;
+  img {
+    align-self: flex-start;
+    width: 50px;
+    height: 50px;
+  }
+}

@@ -6,11 +6,20 @@ import { IGameFilters } from '@shared/models/game-filters.interface';
   providedIn: 'root'
 })
 export class SharedService {
+  private isBrowserVar = false;
+  get isBrowser(): boolean {
+    return this.isBrowserVar;
+  }
+  set setBrowser(isBrowser: boolean) {
+    this.isBrowserVar = isBrowser;
+  }
+
   private searchSubject = new BehaviorSubject<string>('');
   search$: Observable<string> = this.searchSubject.asObservable();
   searchSubjectSet(data: string) {
     this.searchSubject.next(data);
   }
+
   private tagSearchSubject = new BehaviorSubject<string | null>(null);
   tagSearch$: Observable<string | null> = this.tagSearchSubject.asObservable();
   tagSearchSubjectSet(data: string | null) {
@@ -42,5 +51,11 @@ export class SharedService {
       cityCode: undefined,
       sort: 0
     })
+  }
+
+  private queryFiltersSubject = new Subject<Partial<IGameFilters>>();
+  queryFilters$: Observable<Partial<IGameFilters>> = this.queryFiltersSubject.asObservable();
+  queryFiltersSet(data: Partial<IGameFilters>) {
+    this.queryFiltersSubject.next(data);
   }
 }
