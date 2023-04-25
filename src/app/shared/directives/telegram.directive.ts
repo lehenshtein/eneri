@@ -25,6 +25,6 @@ export class TelegramDirective {
     event.preventDefault();
     let paste = event.clipboardData?.getData('text');
     let trimmed = paste?.replace(/[^a-zA-Z0-9_]/g, '');
-    this.control.control?.setValue(trimmed);
+    this.control.control?.setValue(this.control.value + trimmed);
   }
 }
