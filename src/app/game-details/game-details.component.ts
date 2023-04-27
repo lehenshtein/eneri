@@ -31,28 +31,28 @@ export class GameDetailsComponent extends UnsubscribeAbstract implements OnInit{
       return this.user$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((user: IUser | undefined) => { //take user
         if (params['master'] === user?.username) { //check master from query for master or default request
           return this.gameHttpService.fetchGameById(params['id'], true).pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
-        this.updateMeta(res);
+        // this.updateMeta(res);
       }));//:TODO change this 2 requests as 1 with ternar, remove unsubscribe
         }
         return this.gameHttpService.fetchGameById(params['id']).pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
-        this.updateMeta(res);
+        // this.updateMeta(res);
       }));
       }))
     })
   );
 
   ngOnInit (): void {
-    // this.userData();
+    this.updateMeta();
   }
-  private updateMeta (item: IGameResponse) {
+  // private updateMeta (item: IGameResponse) {
+  private updateMeta () {
     this.metaHelper.updateMeta({
-      title: item.title,
-      tags: item.tags,
-      text: item.description,
+      title: 'EНЕРІ',
+      tags: ['EНЕРІ'],
+      text: 'EНЕРІ',
       type: 'article',
-      url: `${environment.url}/${item._id}`,
-      imgUrl: item.imgUrl || 'https://eneri.com.ua/assets/images/eneri-social.jpg',
-      author: item.master.username
+      url: `${environment.url}/`,
+      imgUrl: 'https://eneri.com.ua/assets/images/eneri-social.jpg',
     });
   }
 
