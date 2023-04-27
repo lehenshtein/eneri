@@ -3,10 +3,47 @@ import 'zone.js/node';
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import 'node-window-polyfill/register';
+import 'localstorage-polyfill';
 
 import { AppServerModule } from './src/main.server';
+import { enableProdMode } from '@angular/core';
+
+enableProdMode();
+const DIST_FOLDER = join(process.cwd(), 'dist/eneri/browser');
+const template = readFileSync(join(DIST_FOLDER, 'index.html')).toString();
+const domino = require('domino');
+const win = domino.createWindow(template);
+global['localStorage'] = win.localStorage;
+global['window'] = win;
+global['document'] = win.document;
+global['Document'] = win.document;
+global['DOMTokenList'] = win.DOMTokenList;
+global['Node'] = win.Node;
+global['Text'] = win.Text;
+global['HTMLElement'] = win.HTMLElement;
+global['navigator'] = win.navigator;
+global['KeyboardEvent'] = win.KeyboardEvent;
+global['MouseEvent'] = win.MouseEvent;
+global['FocusEvent'] = win.FocusEvent;
+(global as any).object = win.object;
+global['sessionStorage'] = win.sessionStorage;
+global['screen'] = win.screen;
+global['MutationObserver'] = getMockMutationObserver();
+
+function getMockMutationObserver() {
+  return class {
+    observe() {}
+
+    disconnect() {}
+
+    takeRecords() {
+      return [];
+    }
+  };
+}
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -26,7 +63,7 @@ export function app(): express.Express {
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
+    maxAge: '1d'
   }));
 
   // All regular routes use the Universal engine
