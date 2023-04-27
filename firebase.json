@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/eneri",
+    "public": "dist/eneri/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
