@@ -33,6 +33,6 @@ export class SymbolBlockDirective {
     event.preventDefault();
     let paste = event.clipboardData?.getData('text');
     let trimmed = paste?.replace(replacePattern, '');
-    this.control.control?.setValue(trimmed);
+    this.control.control?.setValue(this.control.value + trimmed);
   }
 }
