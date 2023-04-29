@@ -50,7 +50,7 @@ export class GameDetailsComponent extends UnsubscribeAbstract implements OnInit{
       tags: item.tags,
       text: item.description,
       type: 'article',
-      url: `${environment.url}/${item._id}`,
+      url: `${environment.url}/${item.master.username}/${item._id}`,
       imgUrl: item.imgUrl || 'https://eneri.com.ua/assets/images/eneri-social.jpg',
       author: item.master.username
     });

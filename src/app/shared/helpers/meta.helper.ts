@@ -101,7 +101,7 @@ export class MetaHelper {
 
     this.meta.updateTag({property: 'og:type', content: options.type});
 
-    this.meta.updateTag({property: 'og:url', content: options.url});
+    this.meta.updateTag({property: 'og:url', content: options.url.replace(/ /ig, '%20')});
 
     if (img) {
       this.meta.updateTag({property: 'og:image:url', content: img});

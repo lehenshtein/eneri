@@ -53,7 +53,7 @@
 
             <mat-form-field>
               <mat-label>Нік в телеграм</mat-label>
-              <input matInput formControlName="telegram" appTelegram [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
+              <input matInput formControlName="telegram" [appSymbolBlock]="'telegram'" [placeholder]="user.gameRole === 'player' ? 'Лише майстер побачить' : 'Всі зможуть побачити'">
               <mat-icon matSuffix [color]="formTelegram.valid || !formTelegram.touched ? 'primary' : 'warn'">telegram</mat-icon>
               <mat-error *ngIf="formTelegram.hasError('minlength')">
                 {{texts.validations.minLength}}
