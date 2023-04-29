@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run eneri:serve-ssr",
-    "serve:ssr": "node dist/eneri/server/main.js",
+    "serve:ssr": "node functions/dist/server/main.js",
     "build:ssr": "ng build && ng run eneri:server",
     "prerender": "ng run eneri:prerender"
   },
@@ -30,6 +30,7 @@
     "@nguniversal/express-engine": "^15.2.1",
     "domino": "^2.1.6",
     "express": "^4.15.2",
+    "firebase-functions": "^4.3.1",
     "localstorage-polyfill": "^1.0.1",
     "node-window-polyfill": "^1.0.2",
     "rxjs": "~7.5.0",

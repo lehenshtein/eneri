@@ -10,9 +10,14 @@ import 'localstorage-polyfill';
 
 import { AppServerModule } from './src/main.server';
 import { enableProdMode } from '@angular/core';
+import { environment } from '@environment/environment';
 
 enableProdMode();
-const DIST_FOLDER = join(process.cwd(), 'dist/eneri/browser');
+const websiteLocation = 'dist/browser';
+
+// const websiteLocation = environment.production ? 'browser' : 'functions/dist/browser';
+const DIST_FOLDER = join(process.cwd(), websiteLocation);
+console.log(DIST_FOLDER);
 const template = readFileSync(join(DIST_FOLDER, 'index.html')).toString();
 const domino = require('domino');
 const win = domino.createWindow(template);
@@ -48,7 +53,7 @@ function getMockMutationObserver() {
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/eneri/browser');
+  const distFolder = join(process.cwd(), websiteLocation);
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
