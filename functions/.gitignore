@@ -36,6 +36,8 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+firebase-debug.log
+ui-debug.log
 
 # System files
 .DS_Store

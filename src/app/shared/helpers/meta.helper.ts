@@ -52,7 +52,7 @@ export class MetaHelper {
   }
 
   updateMeta (options: MetaInterface) {
-    const title = ('ЕНЕРІ | ' + options.title).slice(0, 70);
+    const title = (`ЕНЕРІ | Майстер: ${options.author} | Гра: ${options.title} `).slice(0, 70);
     this.meta.updateTag({property: 'og:title', content: title});
     this.meta.updateTag({name: 'twitter:title', content: title});
     this.updateTitle(title);
