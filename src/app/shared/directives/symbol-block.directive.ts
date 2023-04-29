@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { telegramPattern } from '@shared/helpers/regex-patterns';
+import { telegramPattern, usernamePattern } from '@shared/helpers/regex-patterns';
 
 @Directive({
   selector: '[appSymbolBlock]'
@@ -10,10 +10,13 @@ export class SymbolBlockDirective {
   specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home', 'Control' ];
 
   constructor(private el: ElementRef, private control: NgControl) { }
-  @Input() appSymbolBlock: 'telegram' = 'telegram';
+  @Input() appSymbolBlock: 'telegram' | 'username' = 'telegram';
   @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
     if (this.appSymbolBlock === 'telegram') {
       this.regexStr = telegramPattern;
+    }
+    if (this.appSymbolBlock === 'username') {
+      this.regexStr = usernamePattern;
     }
     if (this.specialKeys.indexOf(event.key) !== -1) {
       return;
@@ -29,6 +32,9 @@ export class SymbolBlockDirective {
     let replacePattern = /[^a-zA-Z0-9_]/g;
     if (this.appSymbolBlock === 'telegram') {
       replacePattern = /[^a-zA-Z0-9_]/g;
+    }
+    if (this.appSymbolBlock === 'username') {
+      replacePattern = /[^-_ a-zA-Z0-9]/g;
     }
     event.preventDefault();
     let paste = event.clipboardData?.getData('text');
