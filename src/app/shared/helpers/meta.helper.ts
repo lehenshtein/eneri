@@ -34,7 +34,7 @@ export class MetaHelper {
     this.meta.updateTag({name: 'author', content: 'LehenShtein'});
     this.meta.updateTag({name: 'twitter:creator', content: '@LehenShtein'});
 
-    this.meta.updateTag({name: 'keywords', content: 'НРІ, настільні рольові ігри, настільні ігри, підземелля та дракони, днд, DnD, D&D, dungeons and dragons, розваги'});
+    this.meta.updateTag({name: 'keywords', content: 'НРІ, настільні рольові ігри, настільні ігри, підземелля та дракони, днд, DnD, D&D, dungeons and dragons, розваги, Київ, Одеса, Харків, Дніпро, Львів, Вінниця, Херсон, Україна'});
 
     const description = 'Перший централізований портал для пошуку та запису на настільні рольові ігри в Україні';
     this.meta.updateTag({name: 'description', content: description});
