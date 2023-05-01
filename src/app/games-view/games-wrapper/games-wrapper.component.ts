@@ -10,6 +10,7 @@ import { IGameFilters } from '@shared/models/game-filters.interface';
 import { ActivatedRoute } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpResponse } from '@angular/common/http';
+import { MetaHelper } from '@shared/helpers/meta.helper';
 
 @Component({
   selector: 'app-games-wrapper',
@@ -38,11 +39,13 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     private authHttpService: AuthHttpService,
     private sharedService: SharedService,
     private route: ActivatedRoute,
+    private metaHelper: MetaHelper,
     ) {
     super();
   }
 
   ngOnInit(): void {
+    this.metaHelper.resetMeta();
     this.setUser();
     this.route.snapshot.routeConfig?.path === 'my-games' ? this.gamesFor = 'player' :
       this.route.snapshot.routeConfig?.path === 'my-created' ? this.gamesFor = 'master' :

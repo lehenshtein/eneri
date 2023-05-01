@@ -29,13 +29,13 @@ import { SearchComponent } from '@shared/components/search/search.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
-import { TelegramDirective } from '@shared/directives/telegram.directive';
 import { NotificationServiceComponent } from '@shared/components/notification-service/notification-service.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SafePipe } from '@shared/pipes/safe-pipe.pipe';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { PaginatorInternationalization } from '@shared/helpers/paginator-internationalization';
 import { PartnersDialogComponent } from './components/partners-dialog/partners-dialog.component';
+import { SymbolBlockDirective } from '@shared/directives/symbol-block.directive';
 
 const Material = [
   MatSlideToggleModule,
@@ -67,7 +67,7 @@ const Material = [
     SignUpFormComponent,
     GameCardComponent,
     PhoneDirective,
-    TelegramDirective,
+    SymbolBlockDirective,
     TextDialogComponent,
     SearchComponent,
     NotificationServiceComponent,
@@ -88,7 +88,7 @@ const Material = [
     SearchComponent,
     NotificationServiceComponent,
     PhoneDirective,
-    TelegramDirective,
+    SymbolBlockDirective,
     SafePipe
   ],
   providers: [

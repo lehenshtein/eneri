@@ -150,7 +150,7 @@
                 <div [formGroupName]="i">
                   <mat-form-field>
                     <mat-label>За ким заброньовано гру</mat-label>
-                    <input matInput formControlName="userTelegram" appTelegram
+                    <input matInput formControlName="userTelegram" [appSymbolBlock]="'telegram'"
                            [placeholder]="'Введіть телеграм авантюриста'">
                     <mat-icon matSuffix
                               [color]="formBookedTelegramIndex(i)?.valid || !formBookedTelegramIndex(i)?.touched ? 'primary' : 'warn'">

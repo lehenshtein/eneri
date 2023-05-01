@@ -62,6 +62,16 @@
     & h1 {
       display: block;
       margin: 0;
+      position: relative;
+      &::after {
+        content: 'БЕТА';
+        position: absolute;
+        font-size: .9rem;
+        padding: $padding-xs $padding-m;
+        background: $primary;
+        border-radius: $border-radius-xl;
+        opacity: .8;
+      }
     }
     & .subtitle {
       letter-spacing: 1px;
@@ -98,6 +108,12 @@
     height: 250px;
     & .title {
       font-size: 3rem;
+      h1 {
+        &::after {
+          font-size: .5rem;
+          transform: translateX(-8px);
+        }
+      }
       & .subtitle {
         font-size: 1.5rem;
       }
