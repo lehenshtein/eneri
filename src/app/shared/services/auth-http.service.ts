@@ -3,6 +3,7 @@ import { IUser, IUserLogin, IUserRegister } from '@shared/models/user.interface'
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { SharedService } from '@shared/services/shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,21 @@ export class AuthHttpService {
   private userSubject = new BehaviorSubject<IUser | undefined>(undefined);
   user$: Observable<IUser | undefined> = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private sharedService: SharedService, private http: HttpClient) { }
 
   setToken (token: string | undefined) {
+    if (!this.sharedService.isBrowser) {
+      return;
+    }
     if (token) {
       localStorage.setItem('auth-token', token);
     }
   }
 
   get token (): string | null {
+    if (!this.sharedService.isBrowser) {
+      return null;
+    }
     return localStorage.getItem('auth-token');
   }
 
@@ -35,7 +42,7 @@ export class AuthHttpService {
   }
 
   isTokenExpired(): boolean {
-    return  this.jwtHelper.isTokenExpired(this.token);
+    return this.jwtHelper.isTokenExpired(this.token);
   }
 
 
@@ -74,6 +81,9 @@ export class AuthHttpService {
   }
 
   logout () {
+    if (!this.sharedService.isBrowser) {
+      return;
+    }
     localStorage.removeItem('auth-token');
     window.location.href = '/';
   }

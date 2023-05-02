@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/eneri",
+    "public": "eneri",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +9,8 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "ssr",
+        "region": "europe-west1"
       }
     ]
   }

@@ -2,7 +2,7 @@
   <mat-card>
     <mat-form-field>
       <mat-label>Логін</mat-label>
-      <input matInput formControlName="login" [placeholder]="'Логін'">
+      <input matInput formControlName="login" [placeholder]="'Логін'" [appSymbolBlock]="'username'">
       <mat-icon matSuffix [color]="'primary'" *ngIf="formLogin.valid || !formLogin.touched">sentiment_very_satisfied
       </mat-icon>
       <mat-icon matSuffix [color]="'warn'" *ngIf="formLogin.invalid && formLogin.touched">sentiment_very_dissatisfied
@@ -15,6 +15,10 @@
       <mat-error *ngIf="formLogin.getError('maxlength')">
         {{texts.validations.maxLength}}
         {{ formLogin.getError('maxlength')['requiredLength']}}
+      </mat-error>
+      <mat-error
+        *ngIf="formLogin.getError('pattern')">
+        {{texts.validations.usernamePattern}}
       </mat-error>
     </mat-form-field>
 

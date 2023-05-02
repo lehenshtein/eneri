@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { compareValidator } from '@shared/validators/compare.validator';
 import { IUserRegister } from '@shared/models/user.interface';
-import { passPattern } from '@app/shared/helpers/regex-patterns';
+import { passPattern, usernamePattern } from '@app/shared/helpers/regex-patterns';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { takeUntil } from 'rxjs';
@@ -38,7 +38,7 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
 
   private initForm() {
     this.form = this.fb.group({
-      login: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
+      login: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(usernamePattern)]],
       email: ['', [Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.pattern(this.passPattern), Validators.minLength(8), Validators.maxLength(40)]],
       repeatPassword: ['', [Validators.required]]

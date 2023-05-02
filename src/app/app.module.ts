@@ -14,6 +14,7 @@ import { registerLocaleData } from '@angular/common';
 import localeUK from '@angular/common/locales/uk';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { AboutComponent } from './about/about.component';
+import { GoogleAnalyticsComponent } from '@app/google-analytics/google-analytics.component';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -22,9 +23,10 @@ registerLocaleData(localeUK);
     HeaderComponent,
     SidebarComponent,
     AboutComponent,
+    GoogleAnalyticsComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
