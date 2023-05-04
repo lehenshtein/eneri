@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IGameFilters } from '@shared/models/game-filters.interface';
+import { NavigatorInterface } from '@shared/models/navigator.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,17 @@ export class SharedService {
   }
   set setBrowser(isBrowser: boolean) {
     this.isBrowserVar = isBrowser;
+  }
+
+  private navigatorVar?: NavigatorInterface;
+  private navigatorSubject = new BehaviorSubject<NavigatorInterface | undefined>(undefined);
+  navigator$: Observable<NavigatorInterface | undefined> = this.navigatorSubject.asObservable();
+  get getNavigator(): NavigatorInterface | undefined {
+    return this.navigatorVar;
+  }
+  set setNavigator(data: NavigatorInterface) {
+    this.navigatorSubject.next(data);
+    this.navigatorVar = data;
   }
 
   private searchSubject = new BehaviorSubject<string>('');

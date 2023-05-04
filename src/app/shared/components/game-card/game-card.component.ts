@@ -1,4 +1,4 @@
-import { Component, Input, SecurityContext } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { IGameResponse, IGameSystem } from '@shared/models/game.interface';
 import { cities } from '@shared/helpers/cities';
 import { ICity } from '@shared/models/city.interface';
@@ -11,6 +11,9 @@ import { EMPTY, switchMap, take } from 'rxjs';
 import { IResponseMessage } from '@shared/models/response-message.interface';
 import { SharedService } from '@shared/services/shared.service';
 import { NotificationService } from '@shared/services/notification.service';
+import { environment } from '@environment/environment';
+import { DOCUMENT } from '@angular/common';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-game-card',
@@ -21,9 +24,13 @@ export class GameCardComponent {
   @Input() game!: IGameResponse;
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
+  private window!: Window;
+  websiteUrl = environment.url;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
   applyText = '';
+  isDeviceMobile = typeof navigator.share === 'function' && this.sharedService.getNavigator && this.sharedService.getNavigator.mobile;
+
   columns = [
     {
       columnDef: 'username',
@@ -61,11 +68,16 @@ export class GameCardComponent {
   displayedColumns = [this.columns[0]].map(c => c.columnDef);
 
   constructor (
+    @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private gameHttpService: GameHttpService,
     private sharedService: SharedService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private clipboard: Clipboard
     ) {
+    if (this.document.defaultView) {
+      this.window = this.document.defaultView;
+    }
   }
 
   getCity(cityCode: number): ICity | undefined {
@@ -166,5 +178,38 @@ export class GameCardComponent {
   search (tag: string) {
     // this.sharedService.searchSubjectSet(tag);
     this.sharedService.tagSearchSubjectSet(tag);
+  }
+
+  openShare () {
+    if (!this.sharedService.isBrowser) {
+      return;
+    }
+    if (this.isDeviceMobile) {
+      const master = this.game.master.username.replace(/ /ig, '%2520');
+      navigator.share({
+        url: `${this.websiteUrl}/${master}/${this.game._id}`,
+        title: this.game.title,
+        text: this.game.description
+      })
+        .then().catch(err => console.log(err));
+    }
+  }
+
+  share (social: 'telegram' | 'facebook' | 'copy') {
+    const master = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
+    if (social === 'telegram') {
+      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${master}/${this.game._id}&amp;text=${this.game.title}`);
+    }
+    if (social === 'facebook') {
+      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${master}/${this.game._id}`);
+    }
+    if (social === 'copy') {
+      this.clipboard.copy(`${this.websiteUrl}/${master}/${this.game._id}`);
+      this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
+    }
+  }
+
+  createCharacter () {
+    this.window.open(`https://dndme.club/`);
   }
 }

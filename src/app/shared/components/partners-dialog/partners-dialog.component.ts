@@ -43,12 +43,23 @@ export class PartnersDialogComponent {
       text: 'Канал про вархаммер та настільні рольові ігри.',
       link: 'https://t.me/grighammer'
     },
-
     {
       img: 'geekMemes.jpg',
       title: 'Geek Memes',
       text: 'Меми про ігри, серіали та кіно.',
       link: 'https://t.me/zloygik'
+    },
+    {
+      img: 'dndmeIcon.jpg',
+      title: 'dndme',
+      text: 'Створи персонажа для ДнД за кілька простих кроків.',
+      link: 'https://dndme.club/'
+    },
+    {
+      img: 'inriumIcon.jpg',
+      title: 'Інріум',
+      text: 'Найбільша НРІ спільнота України.',
+      link: 'https://t.me/dnd_ua'
     },
   ]
 }

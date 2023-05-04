@@ -83,12 +83,41 @@
   </mat-card-content>
 
   <mat-card-content class="m-b-10" >
-    <div class="buttons">
-      <a *ngIf="!detailedCard" [routerLink]="['/', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Деталі</button></a>
-      <a *ngIf="detailedCard && (user && (user?.username === game.master.username))" [routerLink]="['/edit-game', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
-      <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game)" (click)="apply(game)">
-        {{applyText || 'Записатися'}}
-      </button>
+    <div class="d-flex justify-space-between m-t-10">
+      <div class="d-flex">
+        <div class="social">
+          <button mat-mini-fab [color]="'accent'" [matMenuTriggerFor]="isDeviceMobile ? null : menu"
+                  matTooltipClass="tooltip" matTooltip="Поділитися" (click)="openShare()">
+            <mat-icon>share</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button class="telegram" mat-icon-button (click)="share('telegram')">
+              <mat-icon>telegram</mat-icon>
+            </button>
+            <button class="facebook" mat-icon-button (click)="share('facebook')">
+              <mat-icon>facebook</mat-icon>
+            </button>
+            <button class="copy" [color]="'primary'" mat-icon-button (click)="share('copy')"
+                    [matTooltipClass]="'tooltip'" matTooltip="Скопіювати посилання">
+              <mat-icon>link</mat-icon>
+            </button>
+          </mat-menu>
+        </div>
+
+        <button mat-icon-button class="dndme" [color]="'accent'" *ngIf="game.gameSystemId === 1"
+                [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme" (click)="createCharacter()">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
+      </div>
+
+      <div class="buttons">
+        <a *ngIf="!detailedCard" [routerLink]="['/', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Деталі</button></a>
+        <a *ngIf="detailedCard && (user && (user?.username === game.master.username))" [routerLink]="['/edit-game', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
+        <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game)" (click)="apply(game)">
+          {{applyText || 'Записатися'}}
+        </button>
+      </div>
     </div>
   </mat-card-content>
 

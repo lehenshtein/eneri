@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs';
 import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { texts } from '@app/shared/helpers/texts';
 import { NotificationService } from '@shared/services/notification.service';
+import { SharedService } from '@shared/services/shared.service';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -25,7 +26,8 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
     private fb: FormBuilder,
     private authModalService: AuthModalService,
     private authHttpService: AuthHttpService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private sharedService: SharedService
   ) { super(); }
 
   ngOnInit(): void {
@@ -70,12 +72,15 @@ export class SignUpFormComponent extends UnsubscribeAbstract implements OnInit {
       email: form.email,
       password: form.password
     }
-    // this.authModalService.setModalData = this.form.getRawValue();
 
     this.authHttpService.register(authData).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
       if (res) {
         this.notificationService.openSnackBar('success', 'Успіх');
         this.authModalService.close();//test
+        if (!this.sharedService.isBrowser) {
+          return;
+        }
+        window.location.href = '/user?registration=done';
       }
     })
   }

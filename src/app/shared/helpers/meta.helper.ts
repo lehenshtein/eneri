@@ -1,5 +1,6 @@
 import { Meta, Title } from '@angular/platform-browser';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 export interface MetaInterface {
   title: string,
@@ -16,7 +17,7 @@ export interface MetaInterface {
 })
 export class MetaHelper {
 
-  constructor (private meta: Meta, private title: Title) {
+  constructor (private meta: Meta, private title: Title, @Inject(DOCUMENT) private document: Document) {
   }
   resetTitle(){
     this.title.setTitle('ЕНЕРІ');
@@ -24,6 +25,17 @@ export class MetaHelper {
 
   updateTitle(title: string){
     this.title.setTitle(title);
+  }
+
+  updateCanonicalUrl(url: string){
+    const head = this.document.getElementsByTagName('head')[0];
+    let element: HTMLLinkElement | null = this.document.querySelector(`link[rel='canonical']`) || null
+    if (element === null) {
+      element = this.document.createElement('link') as HTMLLinkElement;
+      head.appendChild(element);
+    }
+    element.setAttribute('rel','canonical')
+    element.setAttribute('href', url)
   }
 
   resetMeta () {
@@ -43,7 +55,8 @@ export class MetaHelper {
 
     this.meta.updateTag({property: 'og:type', content: 'website'});
 
-    this.meta.updateTag({property: 'og:url', content: 'https://eneri.com.ua/'});
+    this.meta.updateTag({property: 'og:url', content: 'https://eneri.com.ua'});
+    this.updateCanonicalUrl('https://eneri.com.ua');
 
     const defaultImg = 'https://eneri.com.ua/assets/images/eneri-social.jpg';
     this.meta.updateTag({property: 'og:image', content: defaultImg});
@@ -101,7 +114,9 @@ export class MetaHelper {
 
     this.meta.updateTag({property: 'og:type', content: options.type});
 
-    this.meta.updateTag({property: 'og:url', content: options.url.replace(/ /ig, '%20')});
+    const url = options.url.replace(/ /ig, '%20');
+    this.meta.updateTag({property: 'og:url', content: url});
+    this.updateCanonicalUrl(url);
 
     if (img) {
       this.meta.updateTag({property: 'og:image:url', content: img});

@@ -20,6 +20,11 @@ $white: #ffffff;
 $whiteSecondary: #e3e3e3;
 $backdrop: rgba(19, 18, 27, 0.6);
 
+$telegram: #2ba6e1;
+$facebook: #4867aa;
+$discord: #5562ea;
+$instagram: #fe4164;
+
 $primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
 $primary-shadow-color: rgba(0,0,0,0.8);
 $primary-shadow: 0 5px 5px 0 $primary-shadow-color;
