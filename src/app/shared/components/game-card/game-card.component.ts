@@ -189,7 +189,6 @@ export class GameCardComponent {
       navigator.share({
         url: `${this.websiteUrl}/${master}/${this.game._id}`,
         title: this.game.title,
-        text: this.game.description
       })
         .then().catch(err => console.log(err));
     }
@@ -198,7 +197,7 @@ export class GameCardComponent {
   share (social: 'telegram' | 'facebook' | 'copy') {
     const master = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
     if (social === 'telegram') {
-      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${master}/${this.game._id}&amp;text=${this.game.title}`);
+      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${master}/${this.game._id}`);
     }
     if (social === 'facebook') {
       this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${master}/${this.game._id}`);
