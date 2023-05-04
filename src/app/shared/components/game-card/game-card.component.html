@@ -5,7 +5,7 @@
   <mat-card-header [ngClass]="{'mw-detailed': detailedCard}">
     <mat-card-title>
       <h2 class="header">
-        <a *ngIf="!detailedCard else title" [routerLink]="[game.master.username, game._id]">{{game.title}}</a>
+        <a *ngIf="!detailedCard else title" [routerLink]="['/', game.master.username, game._id]">{{game.title}}</a>
         <ng-template #title>{{game.title}}</ng-template>
       </h2>
     </mat-card-title>
