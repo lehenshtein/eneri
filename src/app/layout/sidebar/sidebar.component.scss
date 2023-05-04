@@ -31,3 +31,17 @@
   border-bottom: 1px solid $warning;
   color: $warning;
 }
+h4 {
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin-left: $padding-l;
+}
+.columns {
+  div {
+    width: 50%;
+  }
+}
+
+.telegram {
+  color: #2ba6e1;
+}

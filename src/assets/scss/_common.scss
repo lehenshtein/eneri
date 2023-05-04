@@ -180,6 +180,7 @@ ngx-mat-datetime-content {
 
 .tooltip {
   white-space: pre-line;
+  box-shadow: 0 3px 5px 0 $primary-shadow-color;
   .mdc-tooltip__surface {
     background-color: map.get($my-primaryClassic, 500);
   }

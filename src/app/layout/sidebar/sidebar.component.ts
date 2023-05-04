@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
@@ -15,6 +15,7 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PartnersDialogComponent } from '@shared/components/partners-dialog/partners-dialog.component';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,6 +23,7 @@ import { PartnersDialogComponent } from '@shared/components/partners-dialog/part
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  private window!: Window;
   @ViewChild('searchComponent') searchComponent!: SearchComponent;
   @Input() hideSidebarOnClick: boolean = false;
   @Output() closeMenu: EventEmitter<any> = new EventEmitter<any>();
@@ -36,6 +38,7 @@ export class SidebarComponent implements OnInit {
   urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games'];
 
   constructor (
+    @Inject(DOCUMENT) private document: Document,
     private authModalService: AuthModalService,
     private authHttpService: AuthHttpService,
     private sharedService: SharedService,
@@ -44,6 +47,9 @@ export class SidebarComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialogRef: MatDialog
   ) {
+    if (this.document.defaultView) {
+      this.window = this.document.defaultView;
+    }
   }
 
   ngOnInit (): void {
@@ -189,5 +195,9 @@ export class SidebarComponent implements OnInit {
         queryParamsHandling: 'merge', // remove to replace all query params by provided
         preserveFragment: true,
       });
+  }
+
+  openTg () {
+      this.window.open(`https://telegram.me/EneriNews`, '_blank');
   }
 }

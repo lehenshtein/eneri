@@ -81,6 +81,25 @@ mat-card-content.mw-detailed {
   }
 }
 
+.telegram {
+  color: $telegram;
+}
+.facebook {
+  color: $facebook;
+}
+.copy {
+  color: $primary;
+}
+.dndme {
+  margin-left: $padding-m;
+}
+
+.social, ::ng-deep .mat-menu-content {
+  display: flex;
+  align-items: center;
+  //padding-left: calc($padding-default + $padding-s);
+}
+
 @media screen and (max-width: 1530px) {
   .detailed-margin {
     margin-right: 30px;

@@ -72,12 +72,25 @@
 
   <hr class="m-t-20">
 
-  <mat-nav-list>
-    <a [routerLink]="'/about'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-      <mat-list-item>Про ЕНЕРІ</mat-list-item>
-    </a>
-    <mat-list-item (click)="partnersDialog()">Партнери</mat-list-item>
-  </mat-nav-list>
+  <div class="d-flex columns">
+    <div>
+      <mat-nav-list>
+        <a [routerLink]="'/about'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+          <mat-list-item>Про ЕНЕРІ</mat-list-item>
+        </a>
+        <mat-list-item (click)="partnersDialog()">Партнери</mat-list-item>
+      </mat-nav-list>
+    </div>
+
+    <div>
+      <h4>Соц. мережі:</h4>
+      <button class="telegram" mat-icon-button
+              (click)="openTg()" matTooltipClass="tooltip" matTooltip="Новини Енері">
+        <mat-icon>telegram</mat-icon>
+      </button>
+    </div>
+  </div>
+
   <div class="p-l-16 p-r-16 p-t-8 p-b-10" *ngIf="user$ | async">
     <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100 m-t-10">Вийти</button>
   </div>

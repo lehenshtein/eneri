@@ -36,6 +36,7 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
 import { PaginatorInternationalization } from '@shared/helpers/paginator-internationalization';
 import { PartnersDialogComponent } from './components/partners-dialog/partners-dialog.component';
 import { SymbolBlockDirective } from '@shared/directives/symbol-block.directive';
+import { MatMenuModule } from '@angular/material/menu';
 
 const Material = [
   MatSlideToggleModule,
@@ -80,6 +81,7 @@ const Material = [
     ...Material,
     FormsModule,
     RouterModule,
+    MatMenuModule,
   ],
   exports: [
     ...Material,

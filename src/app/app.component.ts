@@ -4,6 +4,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { SharedService } from '@shared/services/shared.service';
 import { isPlatformBrowser, Location } from '@angular/common';
+import { navigatorHelper } from '@shared/helpers/navigator.helper';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,11 @@ export class AppComponent implements OnInit {
     public sharedService: SharedService,
     @Inject(PLATFORM_ID) private platformId: Object) {
     sharedService.setBrowser = isPlatformBrowser(this.platformId);
+    if (this.sharedService.isBrowser) {
+      (async () => {
+        this.sharedService.setNavigator = await navigatorHelper();
+      })();
+    }
   }
 
   ngOnInit (): void {
