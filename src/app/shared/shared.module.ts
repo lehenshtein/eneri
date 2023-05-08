@@ -37,6 +37,7 @@ import { PaginatorInternationalization } from '@shared/helpers/paginator-interna
 import { PartnersDialogComponent } from './components/partners-dialog/partners-dialog.component';
 import { SymbolBlockDirective } from '@shared/directives/symbol-block.directive';
 import { MatMenuModule } from '@angular/material/menu';
+import { LazyImgDirective } from '@shared/directives/lazy-image.directive';
 
 const Material = [
   MatSlideToggleModule,
@@ -69,6 +70,7 @@ const Material = [
     GameCardComponent,
     PhoneDirective,
     SymbolBlockDirective,
+    LazyImgDirective,
     TextDialogComponent,
     SearchComponent,
     NotificationServiceComponent,
@@ -91,6 +93,7 @@ const Material = [
     NotificationServiceComponent,
     PhoneDirective,
     SymbolBlockDirective,
+    LazyImgDirective,
     SafePipe
   ],
   providers: [

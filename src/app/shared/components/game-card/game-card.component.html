@@ -1,6 +1,6 @@
 <mat-card class="card-special detailed-margin">
   <div class="image-wrapper" [ngClass]="{'detailed-image': detailedCard}">
-    <img mat-card-image  src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
+    <img mat-card-image appImg src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
   </div>
   <mat-card-header [ngClass]="{'mw-detailed': detailedCard}">
     <mat-card-title>
