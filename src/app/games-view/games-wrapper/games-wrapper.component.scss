@@ -106,6 +106,9 @@
 
   .primary-banner {
     height: 250px;
+    &__image {
+      background-image: url("../../../assets/images/top-bg-s.jpg");
+    }
     & .title {
       font-size: 3rem;
       h1 {
