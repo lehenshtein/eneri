@@ -1,7 +1,9 @@
 <div class="wrapper">
-  <div *ngIf="game$ | async as game" class="game-details w-100">
+  <div *ngIf="game$ | async as game else loader" class="game-details w-100">
     <app-game-card [user]="user$ | async" [game]="game" [detailedCard]="true"></app-game-card>
-
   </div>
+  <ng-template #loader>
+    <app-loader></app-loader>
+  </ng-template>
 </div>
 

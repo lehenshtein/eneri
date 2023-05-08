@@ -1,0 +1,38 @@
+@import './src/assets/scss/variables';
+:host {
+  flex: 1 1 auto;
+  display: flex;
+}
+.loader {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: progress;
+}
+.loader-text {
+  color: $primary;
+  font-weight: 500;
+}
+.spin {
+  width: 41px;
+  height: 48px;
+  margin-bottom: $padding-l;
+  -webkit-animation:spin 4s linear infinite;
+  -moz-animation:spin 4s linear infinite;
+  animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin {
+  100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform:rotate(360deg);
+  }
+}

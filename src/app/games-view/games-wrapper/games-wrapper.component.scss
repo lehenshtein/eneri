@@ -1,5 +1,9 @@
 @import './src/assets/scss/variables';
-
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .container {
   //display: flex;
   //flex-wrap: wrap;
