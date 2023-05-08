@@ -12,7 +12,7 @@ import { navigatorHelper } from '@shared/helpers/navigator.helper';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  showSidebar = true;
+  showSidebar = false;
   modeSidebar: MatDrawerMode = 'side';
   backdropSidebar = false;
   hideSidebarOnClick = false;

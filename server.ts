@@ -13,9 +13,9 @@ import { enableProdMode } from '@angular/core';
 import { environment } from '@environment/environment';
 
 enableProdMode();
-const websiteLocation = 'dist/browser';
+// const websiteLocation = 'dist/browser';
 
-// const websiteLocation = environment.production ? 'browser' : 'functions/dist/browser';
+const websiteLocation = environment.production ? 'dist/browser' : 'functions/dist/browser';
 const DIST_FOLDER = join(process.cwd(), websiteLocation);
 console.log(DIST_FOLDER);
 const template = readFileSync(join(DIST_FOLDER, 'index.html')).toString();
