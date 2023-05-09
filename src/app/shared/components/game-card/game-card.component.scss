@@ -1,9 +1,11 @@
 @import './src/assets/scss/variables';
 .image-wrapper {
   padding: 0 20px;
+  text-align: center;
   img {
     align-self: flex-start;
     max-width: 100%;
+    max-height: 450px;
     margin: -30px 0 0;
     border-radius: 24px;
     box-shadow: 0 17px 35px -20px $primary-shadow-color;
