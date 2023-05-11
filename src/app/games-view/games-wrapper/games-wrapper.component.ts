@@ -27,7 +27,7 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
   total = 20;
   filters: IGameFilters = {
     search: '',
-    isShowSuspended: false,
+    isShowSuspended: true,
     gameSystemId: null,
     cityCode: null,
     sort: 0

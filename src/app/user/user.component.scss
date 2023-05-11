@@ -1,5 +1,7 @@
 $padding-for-phone-prefix: 55px;
-
+.edit-btn {
+  transform: translateY(-3px);
+}
 .phone {
   &__form-wrapper {
     position: relative;
