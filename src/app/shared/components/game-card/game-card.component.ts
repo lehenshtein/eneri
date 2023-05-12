@@ -25,6 +25,7 @@ export class GameCardComponent {
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
   private window!: Window;
+  maxDescriptionLetters = 800;
   websiteUrl = environment.url;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;

@@ -1,4 +1,4 @@
-<mat-card class="card-special detailed-margin">
+<mat-card class="card-special" [ngClass]="{'detailed-margin': detailedCard}">
   <div class="image-wrapper" [ngClass]="{'detailed-image': detailedCard}">
     <img mat-card-image appImg src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
   </div>
@@ -12,7 +12,7 @@
 
     <mat-card-subtitle class="m-b-10">
       <p><b>Майстер/Ведучий: </b> <span class="semibold accent-text">
-          <a [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
+          <a class="link" [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
         </span>
       </p>
       <p><b>Ціна: </b> <span class="primary-text semibold">{{game.price}} грн.</span></p>
@@ -22,7 +22,13 @@
   <mat-card-content [ngClass]="{'mw-detailed': detailedCard}">
     <div class="m-b-10">
       <b class="primary-text semibold d-block m-b-5">Опис:</b>
-      <pre>{{game.description}}</pre>
+      <ng-container *ngIf="!detailedCard && game.description.length > maxDescriptionLetters else detailedDescription">
+        <pre>{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span><a [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a></span>
+        </pre>
+      </ng-container>
+      <ng-template #detailedDescription>
+        <pre>{{game.description}}</pre>
+      </ng-template>
     </div>
 
     <div class="d-flex align-center">

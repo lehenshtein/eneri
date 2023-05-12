@@ -11,6 +11,8 @@ import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../shared/services/notification.service';
+import { environment } from '@environment/environment';
+import { MetaHelper } from '@shared/helpers/meta.helper';
 
 @Component({
   selector: 'app-game-form.content',
@@ -26,7 +28,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   gameSystems: IGameSystem[] = gameSystems;
   editing = false;
   game?: IGameResponse;
-  // route$ = this.route.params.pipe(shareReplay(1), takeUntil(this.ngUnsubscribe$));
+  postingText = '';
   isShowBooked = false;
 
   constructor (
@@ -35,6 +37,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     private gameHttpService: GameHttpService,
     private notificationService: NotificationService,
     private router: Router,
+    private metaHelper: MetaHelper
     ) {
     super();
   }
@@ -52,6 +55,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         if (this.game.master.username === this.route.snapshot.params['master']) {
           this.editing = true;
         }
+        this.updateMeta()
         this.form.patchValue(res);
         (res?.tags && res?.tags.length) ? this.formTags.patchValue(res?.tags.toString()) : this.formTags.patchValue('');
         if (res?.booked && res?.booked.length) {
@@ -64,6 +68,15 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       })
       return;
     }
+  }
+  private updateMeta () {
+    this.metaHelper.updateMeta({
+      title: this.editing ? 'Редагувати гру' : 'Створити гру',
+      tags: [this.editing ? 'Редагування гри' : 'Створення гри'],
+      text: this.editing ? 'Онови або зміни свою гру на ЕНЕРІ' : 'Створи нову гру та знайти гравців на ЕНЕРІ',
+      type: 'article',
+      url: this.editing ? `${environment.url}/edit-game/${this.game?.master.username}/${this.game?._id}` : `${environment.url}/create-game`
+    });
   }
 
   private initForm (game: IGameResponse | undefined = undefined) {
@@ -146,6 +159,10 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
 
   submit () {
+    if (this.form.invalid) {
+      return
+    }
+    this.postingText = 'Зачекайте...';
     const formValue = this.form.getRawValue();
     if (!this.isShowBooked) {
       formValue.booked = []
@@ -165,19 +182,23 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     formValue.tags = checkedTags;
 
     if (this.editing && this.game) {
-      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
-        if (res) {
-          this.notificationService.openSnackBar('success', 'Вдало редаговано');
-          this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
-        }
+      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe(res => {
+          this.postingText = 'Редаговано'
+          if (res) {
+            this.notificationService.openSnackBar('success', 'Вдало редаговано');
+            this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
+          }
       })
       return;
     }
-    this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$)).subscribe(res => {
-      if (res) {
-        this.notificationService.openSnackBar('success', 'Вдало створено');
-        this.router.navigate([`/${res.master.username}/${res._id}`]);
-      }
+    this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(res => {
+        this.postingText = 'Створено'
+        if (res) {
+          this.notificationService.openSnackBar('success', 'Вдало створено');
+          this.router.navigate([`/${res.master.username}/${res._id}`]);
+        }
     })
   }
 

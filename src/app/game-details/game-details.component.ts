@@ -14,7 +14,7 @@ import { environment } from '@environment/environment';
   templateUrl: './game-details.component.html',
   styleUrls: ['./game-details.component.scss']
 })
-export class GameDetailsComponent extends UnsubscribeAbstract implements OnInit{
+export class GameDetailsComponent extends UnsubscribeAbstract {
   constructor (private route: ActivatedRoute,
               private gameHttpService: GameHttpService,
               private authHttpService: AuthHttpService,
@@ -41,9 +41,6 @@ export class GameDetailsComponent extends UnsubscribeAbstract implements OnInit{
     })
   );
 
-  ngOnInit (): void {
-    // this.userData();
-  }
   private updateMeta (item: IGameResponse) {
     this.metaHelper.updateMeta({
       title: item.title,

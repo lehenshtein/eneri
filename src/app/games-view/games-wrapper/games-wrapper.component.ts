@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { HttpResponse } from '@angular/common/http';
 import { MetaHelper } from '@shared/helpers/meta.helper';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-games-wrapper',
@@ -19,6 +20,7 @@ import { MetaHelper } from '@shared/helpers/meta.helper';
 })
 export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit {
   loading = false;
+  tabletView = false;
   games: IGameResponse[] = [];
   user: IUser | undefined;
   gamesFor: 'player' | 'master' | undefined;
@@ -41,11 +43,13 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     private sharedService: SharedService,
     private route: ActivatedRoute,
     private metaHelper: MetaHelper,
+    private breakpointObserver: BreakpointObserver,
     ) {
     super();
   }
 
   ngOnInit(): void {
+    this.resize();
     this.metaHelper.resetMeta();
     this.setUser();
     this.route.snapshot.routeConfig?.path === 'my-games' ? this.gamesFor = 'player' :
@@ -56,6 +60,13 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     this.searchChanges();
     this.filterChanges();
     this.suspendedChanges();
+  }
+  private resize () {
+    this.breakpointObserver.observe([
+      '(max-width: 748px)'
+    ]).subscribe((result: BreakpointState) => {
+      this.tabletView = result.breakpoints['(max-width: 748px)'];
+    });
   }
 
   setUser() {

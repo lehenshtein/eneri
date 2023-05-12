@@ -16,11 +16,28 @@
                    [pageSize]="limit" [pageIndex]="page"></mat-paginator>
   </div>
   <div class="content">
-    <div class="wrapper">
+    <div class="wrapper" *ngIf="tabletView">
       <div class="container">
-        <div *ngFor="let game of games">
+        <div *ngFor="let game of games; let i = index" class="item">
           <app-game-card [user]="user" [game]="game"></app-game-card>
         </div>
+      </div>
+    </div>
+
+    <div class="wrapper justify-space-between" *ngIf="!tabletView">
+      <div class="container">
+        <ng-container *ngFor="let game of games; let i = index">
+          <div *ngIf="i%2 === 0" class="item">
+            <app-game-card [user]="user" [game]="game"></app-game-card>
+          </div>
+        </ng-container>
+      </div>
+      <div class="container">
+        <ng-container *ngFor="let game of games; let i = index">
+          <div *ngIf="i%2 === 1" class="item">
+            <app-game-card [user]="user" [game]="game"></app-game-card>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>
