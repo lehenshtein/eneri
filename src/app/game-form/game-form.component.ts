@@ -50,7 +50,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
 
   private checkRoute() {
     if (this.route.snapshot.params['master'] && this.route.snapshot.params['id']) {
-      this.gameHttpService.fetchGameById(this.route.snapshot.params['id']).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
+      this.gameHttpService.fetchGameById(this.route.snapshot.params['id'], true).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
         this.game = res;
         if (this.game.master.username === this.route.snapshot.params['master']) {
           this.editing = true;
