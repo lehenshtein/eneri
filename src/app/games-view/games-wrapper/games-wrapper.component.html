@@ -18,7 +18,7 @@
   <div class="content">
     <div class="wrapper" *ngIf="tabletView">
       <div class="container">
-        <div *ngFor="let game of games; let i = index" class="item">
+        <div *ngFor="let game of games; let i = index" class="item" [ngClass]="{'suspended': game.isSuspended}">
           <app-game-card [user]="user" [game]="game"></app-game-card>
         </div>
       </div>
@@ -27,14 +27,14 @@
     <div class="wrapper justify-space-between" *ngIf="!tabletView">
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
-          <div *ngIf="i%2 === 0" class="item">
+          <div *ngIf="i%2 === 0" class="item" [ngClass]="{'suspended': game.isSuspended}">
             <app-game-card [user]="user" [game]="game"></app-game-card>
           </div>
         </ng-container>
       </div>
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
-          <div *ngIf="i%2 === 1" class="item">
+          <div *ngIf="i%2 === 1" class="item" [ngClass]="{'suspended': game.isSuspended}">
             <app-game-card [user]="user" [game]="game"></app-game-card>
           </div>
         </ng-container>

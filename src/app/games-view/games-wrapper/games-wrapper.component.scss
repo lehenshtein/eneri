@@ -25,6 +25,9 @@
   //width: 45%;
   margin-bottom: $padding-xl;
 }
+.suspended {
+  filter: grayscale(.6) brightness(0.7);
+}
 
 .primary-banner {
   height: 400px;
