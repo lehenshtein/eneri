@@ -55,7 +55,6 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         if (this.game.master.username === this.route.snapshot.params['master']) {
           this.editing = true;
         }
-        this.updateMeta()
         this.form.patchValue(res);
         (res?.tags && res?.tags.length) ? this.formTags.patchValue(res?.tags.toString()) : this.formTags.patchValue('');
         if (res?.booked && res?.booked.length) {
@@ -66,6 +65,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         }
         this.form.updateValueAndValidity();
       })
+      this.updateMeta()
       return;
     }
   }
