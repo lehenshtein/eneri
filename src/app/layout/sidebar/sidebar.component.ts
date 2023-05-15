@@ -30,7 +30,7 @@ export class SidebarComponent implements OnInit {
   form!: FormGroup;
   user$ = this.authHttpService.user$;
   searchText = '';
-  isShowSuspended = false;
+  isShowSuspended = true;
   texts = texts;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
@@ -92,7 +92,7 @@ export class SidebarComponent implements OnInit {
   private resetFilters() {
     this.form.reset();
     this.formSort.reset(0);
-    this.isShowSuspended = false;
+    this.isShowSuspended = true;
     this.sharedService.searchSubjectSet('');
     this.searchComponent.text = '';
     this.searchText = '';

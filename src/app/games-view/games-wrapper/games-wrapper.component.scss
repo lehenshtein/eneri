@@ -8,12 +8,12 @@
   //display: flex;
   //flex-wrap: wrap;
   //justify-content: space-between;
-  orphans: 1;
-  widows: 1;
-  column-count: 2;
-  column-gap: 10%;
-  width: 100%;
-  &>div {
+  //orphans: 1;
+  //widows: 1;
+  //column-count: 2;
+  //column-gap: 10%;
+  width: 46%;
+  & .item {
     margin-bottom: $cards-margin;
     display: inline-block;
     width: 100%;
@@ -24,6 +24,9 @@
 .with-border {
   //width: 45%;
   margin-bottom: $padding-xl;
+}
+.suspended {
+  filter: grayscale(.6) brightness(0.7);
 }
 
 .primary-banner {
@@ -87,7 +90,7 @@
 
 @media screen and (max-width: $breakpoint-M) {
   .container {
-    gap: 3%;
+    width: 49%;
   }
   .primary-banner {
     height: 350px;
@@ -98,9 +101,10 @@
 }
 @media screen and (max-width: $breakpoint-S) {
   .container {
-    column-count: 1;
-    column-gap: 0;
-    &>div {
+    //column-count: 1;
+    //column-gap: 0;
+    width: 100%;
+    & .item {
       min-width: 320px;
       max-width: 440px;
       margin: 0 auto 60px;

@@ -45,7 +45,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
       return;
     }
     this.form = this.fb.group({
-      name: [this.user.name, [Validators.maxLength(30)]],
+      name: [this.user.name || '', [Validators.maxLength(30)]],
       about: [this.user.about, [Validators.maxLength(600)]],
       showContacts: [this.user.showContacts || false],
       contactData: this.contactDataGroup
@@ -108,7 +108,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   becomeMaster () {
-    if (!this.user?.contactData.telegram) {
+    if (!this.user?.contactData?.telegram) {
       this.openApplyDialog('Щоб стати майстром у вас в профілі має бути вказаний телеграм');
       return;
     }

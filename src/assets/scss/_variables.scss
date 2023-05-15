@@ -10,6 +10,7 @@ $darkModern: #1b087b;
 
 $primary: $primaryClassic;
 $accent: $accentClassic;
+$accent-hover: map.get($my-palette-accent, 300);
 $warning: map.get($my-warningClassic, 500);
 $green: #4CAF50;
 $analogue1: #24c5a5;
