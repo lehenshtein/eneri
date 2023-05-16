@@ -23,6 +23,8 @@ export const gameSystems: IGameSystem[] = [
   {_id: 20, name: 'Fate'},
   {_id: 21, name: 'Starfinder'},
   {_id: 22, name: 'Star Wars RPG (FFG)'},
+  {_id: 23, name: 'The last Orison'},
+  {_id: 24, name: 'Space cowboy: bounty hunter'},
 
   {_id: 998, name: 'Narrative Adventure'},
   {_id: 999, name: 'Інша гра'},

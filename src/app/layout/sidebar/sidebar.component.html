@@ -6,6 +6,9 @@
 
   <mat-nav-list>
     <ng-container *ngIf="user$ | async as user else notAuthenticated">
+      <button *ngIf="user && user.role === 'superAdmin'" class="admin-btn" mat-icon-button [routerLink]="['/', 'admin']">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </button>
       <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
