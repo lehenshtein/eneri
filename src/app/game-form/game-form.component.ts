@@ -69,11 +69,10 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     }
     this.form.patchValue(this.game);
     (this.game.tags && this.game.tags.length) ? this.formTags.patchValue(this.game.tags.toString()) : this.formTags.patchValue('');
-    // this.fillFormBooked();
     this.form.updateValueAndValidity();
   }
 
-  fillFormBooked() {
+  private fillFormBooked() {
     if (!this.game) {
       return;
     }
