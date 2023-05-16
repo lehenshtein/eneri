@@ -30,6 +30,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   game?: IGameResponse;
   postingText = '';
   isShowBooked = false;
+  isFirstBookedValueFilling = true;
 
   constructor (
     private route: ActivatedRoute,
@@ -55,20 +56,35 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         if (this.game.master.username === this.route.snapshot.params['master']) {
           this.editing = true;
         }
-        this.form.patchValue(res);
-        (res?.tags && res?.tags.length) ? this.formTags.patchValue(res?.tags.toString()) : this.formTags.patchValue('');
-        if (res?.booked && res?.booked.length) {
-          this.isShowBooked = true;
-          res.booked.forEach((el: string, index: number) => {
-            this.formBookedTelegramIndex(index)?.patchValue(el);
-          })
-        }
-        this.form.updateValueAndValidity();
+        this.fillFormFields();
       })
       this.updateMeta()
       return;
     }
   }
+
+  private fillFormFields() {
+    if (!this.game) {
+      return;
+    }
+    this.form.patchValue(this.game);
+    (this.game.tags && this.game.tags.length) ? this.formTags.patchValue(this.game.tags.toString()) : this.formTags.patchValue('');
+    // this.fillFormBooked();
+    this.form.updateValueAndValidity();
+  }
+
+  fillFormBooked() {
+    if (!this.game) {
+      return;
+    }
+    if (this.game.booked && this.game.booked.length) {
+      this.isShowBooked = true;
+      this.game.booked.forEach((el: string, index: number) => {
+        this.formBookedTelegramIndex(index)?.patchValue(el);
+      })
+    }
+  }
+
   private updateMeta () {
     this.metaHelper.updateMeta({
       title: this.editing ? 'Редагувати гру' : 'Створити гру',
@@ -146,6 +162,11 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
           const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0));
           for (let i = 0; i < amount; i++) {
             this.formBooked.push(this.formBookedGroup())
+          }
+          if (this.isFirstBookedValueFilling) {
+            this.fillFormBooked();
+            this.form.updateValueAndValidity();
+            this.isFirstBookedValueFilling = false;
           }
         }
         if ((this.formBooked.value.length + (this.game?.players?.length || 0)) > res) {
