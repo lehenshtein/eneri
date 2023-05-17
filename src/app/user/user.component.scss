@@ -1,3 +1,4 @@
+@import '/src/assets/scss/variables';
 $padding-for-phone-prefix: 55px;
 .edit-btn {
   transform: translateY(-3px);
@@ -32,5 +33,10 @@ $padding-for-phone-prefix: 55px;
       width: calc(100% - $padding-for-phone-prefix);
     }
   }
-
+}
+.email-verification {
+  mat-icon {
+    margin-right: $padding-xs;
+    transform: translateY($padding-xs);
+  }
 }

@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="w-100">
-    <mat-card class="card-special" *ngIf="user">
+    <mat-card class="card-special" *ngIf="user else notUser">
       <mat-card-header class="justify-space-between">
         <mat-card-title>
           <h2 class="header">Дані: {{user.username}}</h2>
@@ -81,8 +81,25 @@
               Зберегти зміни
             </button>
           </div>
-          <p *ngIf="!user.confirmedEmail">Електронну скриньку не підтверджено <button mat-button color="primary">Підтвердити (в розробці)</button></p>
-          <div class="d-flex justify-end">
+          <div *ngIf="!user.verified" class="email-verification m-t-5">
+            <mat-icon [color]="'warn'">
+              warning
+            </mat-icon>
+            <span>Електронну скриньку не підтверджено</span>
+            <span
+                (mouseenter)="updateDate()"
+                [matTooltipClass]="'tooltip'"
+                matTooltip="{{nextEmailDate > date ?
+                'Ти можеш надіслати листа повторно через '+timeToResendMail().minutes+ 'хв. '+timeToResendMail().seconds +'сек.' : null}}"
+              >
+              <button mat-button color="primary"
+                [disabled]="nextEmailDate > date"
+                (click)="resendEmail()">
+                Підтвердити
+              </button>
+            </span>
+          </div>
+          <div class="d-flex justify-end m-t-5" *ngIf="user.gameRole !== 'both'">
             <button mat-raised-button color="accent" (click)="becomeMaster()">
               Стати майстром
             </button>
@@ -90,5 +107,9 @@
         </form>
       </mat-card-content>
     </mat-card>
+
+    <ng-template #notUser>
+      <h1>Ви не залогінені</h1>
+    </ng-template>
   </div>
 </div>

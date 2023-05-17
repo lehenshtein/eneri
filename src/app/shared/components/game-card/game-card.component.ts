@@ -35,6 +35,7 @@ export class GameCardComponent {
   columns = [
     {
       columnDef: 'username',
+      verified: (element: any) => element.verified,
       header: 'Нік',
       cell: (element: any) => `${element.username}`,
       width: '22%'

@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <div class="w-100">
+
+    <mat-card class="card-special">
+      <mat-card-header>
+        <mat-card-title>
+          <h2 class="header">Верифікація пошти</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="form" [formGroup]="form">
+          <mat-form-field>
+            <mat-label>Код підтвердження</mat-label>
+            <input matInput type="text" formControlName="verificationCode"
+                  [placeholder]="'Якщо тут немає коду підтвердження, вставте його з листа'">
+            <mat-icon matSuffix
+                      [color]="formVerificationCode.valid || !formVerificationCode.touched ? 'accent' : 'warn'">
+              verified_user
+            </mat-icon>
+            <mat-error *ngIf="formVerificationCode.getError('required')">{{texts.validations.required}}</mat-error>
+            <mat-error *ngIf="formVerificationCode.hasError('minlength')">
+              {{texts.validations.minLength}}
+              {{formVerificationCode.getError('minlength')['requiredLength']}}
+            </mat-error>
+            <mat-error *ngIf="formVerificationCode.getError('maxlength')">
+              {{texts.validations.maxLength}}
+              {{formVerificationCode.getError('maxlength')['requiredLength']}}
+            </mat-error>
+          </mat-form-field>
+        </form>
+
+        <div class="buttons">
+          <button mat-raised-button [disabled]="form.invalid" color="accent" (click)="verify()">
+            Підтвердити
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

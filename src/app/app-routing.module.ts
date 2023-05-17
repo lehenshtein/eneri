@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from '@app/about/about.component';
 import { AdminPanelComponent } from '@app/admin-panel/admin-panel.component';
 import { RoleGuard } from '@shared/guards/role.guard';
+import { VerificationComponent } from '@app/verification/verification.component';
 
 const routes: Routes = [
-  { path: 'about', component: AboutComponent },
+  { path: 'about', title: 'ЕНЕРІ | Про нас', component: AboutComponent },
   { path: 'admin', component: AdminPanelComponent, canActivate: [RoleGuard] },
+  { path: 'verification', title: 'ЕНЕРІ | Верифікація', component: VerificationComponent },
+  { path: 'verification/:code', title: 'ЕНЕРІ | Верифікація', component: VerificationComponent },
   { path: 'create-game', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
   { path: 'edit-game/:master/:id', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
   { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },

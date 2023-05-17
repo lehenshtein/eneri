@@ -16,6 +16,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { AboutComponent } from './about/about.component';
 import { GoogleAnalyticsComponent } from '@app/google-analytics/google-analytics.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { VerificationComponent } from './verification/verification.component';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -25,7 +26,8 @@ registerLocaleData(localeUK);
     SidebarComponent,
     AboutComponent,
     GoogleAnalyticsComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    VerificationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

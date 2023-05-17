@@ -14,17 +14,11 @@ export class RoleGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(this.authService.getUser);
-    this.authService.user$.subscribe(res => {
-      console.log(res);
-    })
     if (!this.authService.getUser || this.authService.getUser.role !== 'superAdmin') {
       this.notificationService.openSnackBar('error', 'Використані невірні руни');
       this.router.navigateByUrl('/');
       return false;
     }
     return true;
-
   }
-
 }

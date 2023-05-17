@@ -16,6 +16,10 @@
         </span>
       </p>
       <p><b>Ціна: </b> <span class="primary-text semibold">{{game.price}} грн.</span></p>
+      <p *ngIf="game.organizedPlay" class="d-flex align-center" [matTooltipClass]="'tooltip'"
+        [matTooltip]="'Гра буде проходити за правилами Adventures League, Pathfinder Society або їх аналогів в інших системах'">
+        <b>Це організований ігровий кампейн</b><mat-icon [color]="'accent'" class="m-l-5">event_seat</mat-icon>
+      </p>
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -64,15 +68,20 @@
               [ngStyle]="{width: game.master.username === user?.username ? column.width : '100%'}">
             {{column.header}}
           </th>
-          <td mat-cell *matCellDef="let row; let i = index;" [matTooltip]="column.header !== 'Дії' ? column.cell(row) : null"
+          <td mat-cell *matCellDef="let row; let i = index;" [matTooltipClass]="'tooltip'" [matTooltip]="column.header !== 'Дії' ? column.cell(row) : null"
               [ngStyle]="{width : game.master.username === user?.username ? column.width : '100%'}">
-          <span *ngIf="column.header === 'Телеграм'" class="link">
-            <a [href]='"https://t.me/" + column.cell(row)' target="_blank">{{column.cell(row)}}</a>
-          </span>
+            <span *ngIf="column.header === 'Телеграм'" class="link">
+              <a [href]='"https://t.me/" + column.cell(row)' target="_blank">{{column.cell(row)}}</a>
+            </span>
             <span *ngIf="column.header === 'Дії'" class="link">
-            <mat-icon color="warn" (click)="confirmDeletingPlayer(row, i)">delete</mat-icon>
-          </span>
-            <span *ngIf="column.header !== 'Дії' && column.header !== 'Телеграм'">{{column.cell(row)}}</span>
+              <mat-icon color="warn" (click)="confirmDeletingPlayer(row, i)">delete</mat-icon>
+            </span>
+            <span *ngIf="column.header === 'Нік'" class="with-notifier">
+              <mat-icon *ngIf="!column?.verified(row)" class="notifier" [color]="'warn'" [matTooltipClass]="'tooltip'"
+                        [matTooltip]="'Пошту не підтверджено'">warning</mat-icon>
+              {{column.cell(row)}}
+            </span>
+            <span *ngIf="column.header !== 'Дії' && column.header !== 'Телеграм' && column.header !== 'Нік'">{{column.cell(row)}}</span>
           </td>
         </ng-container>
         <ng-container *ngIf="game.master.username === user?.username else cols">

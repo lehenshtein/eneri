@@ -21,6 +21,8 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   form!: FormGroup;
   user: IUser | undefined;
   texts = texts;
+  date = new Date;
+  nextEmailDate = new Date();
 
   constructor (
     private authHttpService: AuthHttpService,
@@ -36,6 +38,9 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   ngOnInit () {
     this.authHttpService.user$.subscribe((user: IUser | undefined) => {
       this.user = user;
+      if (this.user && !this.user.verified) {
+        this.updateNextEmailDate(this.user.verificationDate);
+      }
       this.initForm();
     })
   }
@@ -124,5 +129,28 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
       autoFocus: false,
       panelClass: 'bordered-dialog'
     });
+  }
+
+  timeToResendMail (): { minutes: number, seconds: number } {
+    const timeDiff = Math.abs(this.nextEmailDate.getTime() - this.date.getTime()) / 1000;
+    return {
+      minutes: Math.round(timeDiff / 60),
+      seconds: Math.round(timeDiff % 60)
+    };
+  }
+
+  updateDate () {
+    this.date = new Date();
+  }
+
+  resendEmail () {
+    this.authHttpService.resendEmail().pipe(take(1)).subscribe(user => {
+      this.notificationService.openSnackBar('success', 'Листа надіслано.');
+      this.updateNextEmailDate(user.verificationDate);
+    })
+  }
+  private updateNextEmailDate(nextDate: Date) {
+    const date = new Date(nextDate);
+    this.nextEmailDate = new Date(date.setHours(date.getHours() + 1));
   }
 }

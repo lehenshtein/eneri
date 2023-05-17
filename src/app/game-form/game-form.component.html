@@ -44,6 +44,13 @@
               <mat-error *ngIf="formDescription.getError('required')">{{texts.validations.required}}</mat-error>
             </mat-form-field>
 
+            <mat-slide-toggle [matTooltipClass]="'tooltip'"
+                              [matTooltip]="'Оберіть це, якщо плануєте грати в Adventures League, Pathfinder Society або аналоги в інших системах'"
+                              formControlName="organizedPlay"
+                              class="m-l-15 m-b-15">
+              Організована ігрова кампанія
+            </mat-slide-toggle>
+
             <mat-form-field>
               <mat-label>Теги, через кому</mat-label>
               <input matInput formControlName="tags" [placeholder]="'Щоб авантюристам було легше орієнтуватися'">
