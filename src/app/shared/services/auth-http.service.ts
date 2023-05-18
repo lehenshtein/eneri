@@ -91,7 +91,7 @@ export class AuthHttpService {
   verify (code: string): Observable<null> {
     return this.http.get<null>(`/auth/verification/${code}`);
   }
-  resendEmail (): Observable<IUser> {
-    return this.http.get<IUser>(`/auth/verification/resend`);
+  resendEmail (): Observable<IUser['verificationDate']> {
+    return this.http.get<IUser['verificationDate']>(`/auth/verification/resend`);
   }
 }

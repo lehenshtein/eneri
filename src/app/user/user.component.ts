@@ -144,9 +144,9 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   resendEmail () {
-    this.authHttpService.resendEmail().pipe(take(1)).subscribe(user => {
+    this.authHttpService.resendEmail().pipe(take(1)).subscribe(verificationDate => {
       this.notificationService.openSnackBar('success', 'Листа надіслано.');
-      this.updateNextEmailDate(user.verificationDate);
+      this.updateNextEmailDate(verificationDate);
     })
   }
   private updateNextEmailDate(nextDate: Date) {
