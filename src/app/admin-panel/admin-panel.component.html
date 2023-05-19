@@ -25,9 +25,15 @@
         <p>updatedAt: {{user.updatedAt | date:'dd.MM.YYYY hh:mm'}}</p>
         <p>verificationDate: {{user.verificationDate | date:'dd.MM.YYYY hh:mm'}}</p>
         <p>gameRole: <b class="primary-text">{{user.gameRole}}</b></p>
-        <button mat-raised-button [color]="user.gameRole === 'player' ? 'primary' : 'accent'" (click)="changeGameRole(user.username)">
-          {{user.gameRole === 'player' ? 'Зробити майстром':'Зробити гравцем'}}
-        </button>
+        <div class="d-flex">
+          <button class="m-r-10" mat-raised-button [color]="user.gameRole === 'player' ? 'primary' : 'accent'" (click)="changeGameRole(user.username)">
+            {{user.gameRole === 'player' ? 'Зробити майстром':'Зробити гравцем'}}
+          </button>
+
+          <button mat-raised-button [color]="user.verified ? 'primary' : 'accent'" (click)="changeEmailVerification(user.username)">
+            {{user.verified ? 'Зняти верифікацію':'Верифікувати'}}
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

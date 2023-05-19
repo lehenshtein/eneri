@@ -16,4 +16,7 @@ export class AdminService {
   changeGameRole(username: string): Observable<IUser['gameRole']> {
     return this.http.get<IUser['gameRole']>(`/user/admin/changeGameRole/${username}`);
   }
+  changeEmailVerification(username: string): Observable<{ verified: boolean, verificationDate: Date }> {
+    return this.http.get<{ verified: boolean, verificationDate: Date }>(`/user/admin/changeEmailVerification/${username}`);
+  }
 }

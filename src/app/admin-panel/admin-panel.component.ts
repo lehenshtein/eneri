@@ -44,4 +44,12 @@ export class AdminPanelComponent {
       }
     })
   }
+  changeEmailVerification (username: string) {
+    this.adminService.changeEmailVerification(username).pipe(take(1)).subscribe((res: { verified: boolean, verificationDate: Date }) => {
+      if (this.user) {
+        this.user.verified = res.verified;
+        this.user.verificationDate = res.verificationDate;
+      }
+    })
+  }
 }
