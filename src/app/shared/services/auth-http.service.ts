@@ -87,4 +87,11 @@ export class AuthHttpService {
     localStorage.removeItem('auth-token');
     window.location.href = '/';
   }
+
+  verify (code: string): Observable<null> {
+    return this.http.get<null>(`/auth/verification/${code}`);
+  }
+  resendEmail (): Observable<IUser['verificationDate']> {
+    return this.http.get<IUser['verificationDate']>(`/auth/verification/resend`);
+  }
 }

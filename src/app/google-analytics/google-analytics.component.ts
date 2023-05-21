@@ -34,6 +34,8 @@ export class GoogleAnalyticsComponent {
           dataLayer.push(arguments);
         }
         gtag('js', new Date());
+
+        gtag('config', '${this.trackingCode}');
       `);
       this.renderer.appendChild(script2, scriptBody);
       this.renderer.appendChild(this.el.nativeElement, script2);

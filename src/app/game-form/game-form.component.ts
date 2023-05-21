@@ -6,7 +6,7 @@ import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGamePost, IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, finalize, takeUntil, throwError } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -97,6 +97,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   private initForm (game: IGameResponse | undefined = undefined) {
     this.form = this.fb.group({
       title: [ game?.title || '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
+      organizedPlay: [ game?.organizedPlay || false ],
       description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
       tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
       imgUrl: [ game?.imgUrl || null, [ Validators.pattern(this.imgPattern), Validators.maxLength(240) ] ],
@@ -202,7 +203,11 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     formValue.tags = checkedTags;
 
     if (this.editing && this.game) {
-      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$))
+      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$),
+        catchError(() => {
+          this.postingText = '';
+          return throwError(() => 'Error');
+        }))
         .subscribe(res => {
           this.postingText = 'Редаговано'
           if (res) {
@@ -212,7 +217,11 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       })
       return;
     }
-    this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$))
+    this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$),
+      catchError(() => {
+        this.postingText = '';
+        return throwError(() => 'Error');
+      }))
       .subscribe(res => {
         this.postingText = 'Створено'
         if (res) {

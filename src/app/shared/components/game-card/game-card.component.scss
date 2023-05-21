@@ -84,6 +84,18 @@ mat-card-content.mw-detailed {
         opacity: 1;
       }
     }
+    .with-notifier {
+      position: relative;
+      padding-left: $padding-xs;
+      .notifier {
+        position: absolute;
+        top: -8px;
+        left: -14px;
+        font-size: 17px;
+        opacity: 1;
+        cursor: default!important;
+      }
+    }
   }
 }
 
