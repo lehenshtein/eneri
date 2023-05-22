@@ -44,10 +44,10 @@ export class GameHttpService {
     }
     return this.http.get<IGameResponse>(`/game/${gameId}`, {params});
   }
-  createGame(game: IGamePost): Observable<IGameResponse> {
+  createGame(game: FormData): Observable<IGameResponse> {
     return this.http.post<IGameResponse>(`/game`, game);
   }
-  updateGame(game: IGamePost, id: string): Observable<IGamePost> {
+  updateGame(game: FormData, id: string): Observable<IGamePost> {
     return this.http.put<IGamePost>(`/game/${id}`, game);
   }
   applyToGame(gameId: IGameResponse['_id']): Observable<IResponseMessage> {

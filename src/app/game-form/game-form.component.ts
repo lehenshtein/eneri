@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../shared/services/notification.service';
 import { environment } from '@environment/environment';
 import { MetaHelper } from '@shared/helpers/meta.helper';
+import { MaxSizeValidator } from '@angular-material-components/file-input';
 
 @Component({
   selector: 'app-game-form.content',
@@ -31,6 +32,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   postingText = '';
   isShowBooked = false;
   isFirstBookedValueFilling = true;
+  maxImageSize = 1024 * 1024 * 3; // 3 MB
 
   constructor (
     private route: ActivatedRoute,
@@ -101,6 +103,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
       tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
       imgUrl: [ game?.imgUrl || null, [ Validators.pattern(this.imgPattern), Validators.maxLength(240) ] ],
+      file: [ null, [MaxSizeValidator(this.maxImageSize)] ],
       gameSystemId: [ (game?.gameSystemId || game?.gameSystemId === 0) ? game?.gameSystemId : null, [ Validators.required ] ],
       cityCode: [ (game?.cityCode || game?.cityCode === 0) ? game?.cityCode : null, [ Validators.required ] ],
       price: [ game?.price || 0, [ Validators.required ] ],
@@ -118,6 +121,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   }
   get formTags () {
     return this.form.get('tags') as FormControl;
+  }
+  get formFile () {
+    return this.form.get('file') as FormControl;
   }
   get formImgUrl () {
     return this.form.get('imgUrl') as FormControl;
@@ -185,13 +191,15 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     }
     this.postingText = 'Зачекайте...';
     const formValue = this.form.getRawValue();
+    const formData = new FormData();
     if (!this.isShowBooked) {
-      formValue.booked = []
+      formValue.booked = '[]'
     } else {
       formValue.booked = [];
       this.form.getRawValue().booked.forEach((el: {userTelegram: string}) => {
         el.userTelegram ? formValue.booked.push(el.userTelegram) : null
       })
+      formValue.booked = JSON.stringify(formValue.booked);
     }
     const tags = formValue.tags ? formValue.tags.split(',').map((element: string) => element.trim()) : [];
     const checkedTags: string[] = [];
@@ -200,10 +208,24 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         checkedTags.push(el);
       }
     });
-    formValue.tags = checkedTags;
+    formValue.tags = JSON.stringify(checkedTags);
+
+    for (const [key, value] of Object.entries(formValue)) {
+      if (key !== 'file') {
+        formData.append(key, value as string);
+      } else if (key === 'file') {
+        console.log('file', value);
+        formData.append('images', <File>value, (<File>value).name);
+      }
+    }
+    console.log(formData.get('images'));
+    // formData.forEach(el => console.log(el))
+    this.postingText = '';
+    // return;
+
 
     if (this.editing && this.game) {
-      this.gameHttpService.updateGame(formValue as IGamePost, this.game._id).pipe(takeUntil(this.ngUnsubscribe$),
+      this.gameHttpService.updateGame(formData, this.game._id).pipe(takeUntil(this.ngUnsubscribe$),
         catchError(() => {
           this.postingText = '';
           return throwError(() => 'Error');
@@ -217,7 +239,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       })
       return;
     }
-    this.gameHttpService.createGame(formValue as IGamePost).pipe(takeUntil(this.ngUnsubscribe$),
+    this.gameHttpService.createGame(formData).pipe(takeUntil(this.ngUnsubscribe$),
       catchError(() => {
         this.postingText = '';
         return throwError(() => 'Error');

@@ -199,6 +199,15 @@ ngx-mat-datetime-content {
     line-height: 24px;
   }
 }
+.ngx-mat-file-input {
+  input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    cursor: default;
+  }
+}
 
 
 /* custom scrollbar */

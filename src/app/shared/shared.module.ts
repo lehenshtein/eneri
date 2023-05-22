@@ -39,6 +39,7 @@ import { SymbolBlockDirective } from '@shared/directives/symbol-block.directive'
 import { MatMenuModule } from '@angular/material/menu';
 import { LazyImgDirective } from '@shared/directives/lazy-image.directive';
 import { LoaderComponent } from './components/loader/loader.component';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 const Material = [
   MatSlideToggleModule,
@@ -61,7 +62,8 @@ const Material = [
   MatTableModule,
   MatSnackBarModule,
   MatChipsModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  NgxMatFileInputModule
 ];
 
 @NgModule({
