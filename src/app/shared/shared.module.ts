@@ -40,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LazyImgDirective } from '@shared/directives/lazy-image.directive';
 import { LoaderComponent } from './components/loader/loader.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { FileToImgPipe } from '@shared/pipes/file-to-img.pipe';
 
 const Material = [
   MatSlideToggleModule,
@@ -78,6 +79,7 @@ const Material = [
     SearchComponent,
     NotificationServiceComponent,
     SafePipe,
+    FileToImgPipe,
     PartnersDialogComponent,
     LoaderComponent
   ],
@@ -99,6 +101,7 @@ const Material = [
     SymbolBlockDirective,
     LazyImgDirective,
     SafePipe,
+    FileToImgPipe,
     LoaderComponent
   ],
   providers: [

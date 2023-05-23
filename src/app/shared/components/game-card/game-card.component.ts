@@ -24,6 +24,7 @@ export class GameCardComponent {
   @Input() game!: IGameResponse;
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
+  @Input() isPreview = false;
   private window!: Window;
   maxDescriptionLetters = 800;
   websiteUrl = environment.url;

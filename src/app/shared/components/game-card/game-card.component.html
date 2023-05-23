@@ -5,14 +5,15 @@
   <mat-card-header [ngClass]="{'mw-detailed': detailedCard}">
     <mat-card-title>
       <h2 class="header">
-        <a *ngIf="!detailedCard else title" [routerLink]="['/', game.master.username, game._id]">{{game.title}}</a>
+        <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', game.master.username, game._id]">{{game.title}}</a>
         <ng-template #title>{{game.title}}</ng-template>
       </h2>
     </mat-card-title>
 
     <mat-card-subtitle class="m-b-10">
       <p><b>Майстер/Ведучий: </b> <span class="semibold accent-text">
-          <a class="link" [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
+          <a *ngIf="!isPreview else masterLink" class="link" [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
+          <ng-template #masterLink>{{game.master.username}}</ng-template>
         </span>
       </p>
       <p><b>Ціна: </b> <span class="primary-text semibold">{{game.price}} грн.</span></p>
@@ -27,7 +28,7 @@
     <div class="m-b-10">
       <b class="primary-text semibold d-block m-b-5">Опис:</b>
       <ng-container *ngIf="!detailedCard && game.description.length > maxDescriptionLetters else detailedDescription">
-        <pre>{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span><a [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a></span>
+        <pre>{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span class="accent-text"><a *ngIf="!isPreview else plainText" [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a><ng-template #plainText>Читати далі</ng-template></span>
         </pre>
       </ng-container>
       <ng-template #detailedDescription>
@@ -101,7 +102,7 @@
     <div class="d-flex justify-space-between align-center m-t-10">
       <div class="d-flex">
         <div class="social">
-          <button mat-mini-fab [color]="'accent'" [matMenuTriggerFor]="isDeviceMobile ? null : menu"
+          <button [disabled]="isPreview" mat-mini-fab [color]="'accent'" [matMenuTriggerFor]="isDeviceMobile ? null : menu"
                   matTooltipClass="tooltip" matTooltip="Поділитися" (click)="openShare()">
             <mat-icon>share</mat-icon>
           </button>
@@ -120,16 +121,16 @@
           </mat-menu>
         </div>
 
-        <button mat-icon-button class="dndme" [color]="'accent'" *ngIf="game.gameSystemId === 1"
+        <button mat-icon-button class="dndme" [color]="'accent'" *ngIf="game.gameSystemId === 1 && !isPreview"
                 [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme" (click)="createCharacter()">
           <mat-icon>playlist_add</mat-icon>
         </button>
       </div>
 
       <div class="buttons">
-        <a *ngIf="!detailedCard" [routerLink]="['/', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Деталі</button></a>
-        <a *ngIf="detailedCard && (user && (user?.username === game.master.username))" [routerLink]="['/edit-game', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
-        <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game)" (click)="apply(game)">
+        <a *ngIf="!detailedCard && !isPreview" [routerLink]="['/', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Деталі</button></a>
+        <a *ngIf="(detailedCard && (user && (user?.username === game.master.username)) && !isPreview)" [routerLink]="['/edit-game', game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
+        <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game) || isPreview" (click)="apply(game)">
           {{applyText || 'Записатися'}}
         </button>
       </div>

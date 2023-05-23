@@ -173,7 +173,9 @@ mat-card {
 
 mat-datepicker-toggle {
   button {
-    color: $accent!important;
+    background: $accent!important;
+    color: #1c1b24!important;
+    transform: translateX(-5px);
   }
 }
 ngx-mat-datetime-content {
@@ -200,6 +202,11 @@ ngx-mat-datetime-content {
   }
 }
 .ngx-mat-file-input {
+  button {
+    transform: translate(10px, -5px);
+    background: $accent;
+  }
+
   input {
     border: none;
     background: transparent;

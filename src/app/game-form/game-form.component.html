@@ -1,6 +1,6 @@
 <div>
   <div class="wrapper">
-    <div class="w-100">
+    <div>
       <mat-card class="card-special">
         <mat-card-header>
           <mat-card-title>
@@ -64,33 +64,32 @@
             <div class="form-image">
 
               <mat-form-field>
-                <mat-label>Додайте зображення з пристрою</mat-label>
-                <ngx-mat-file-input placeholder="" formControlName="file"
+                <mat-label>Додайте зображення</mat-label>
+                <ngx-mat-file-input placeholder="" formControlName="file" [color]="'accent'"
                                     accept=".png, .jpg, .jpeg, .gif, .webp, .jfif">
                 </ngx-mat-file-input>
                 <mat-error *ngIf="formFile?.getError('maxSize')">
-                  {{texts.validations.maxImgSize}}
-                  {{maxImageSize + 'Mb'}}
+                  {{texts.validations.maxImgSize}} 3Mb
                 </mat-error>
               </mat-form-field>
             </div>
 
-            <mat-form-field>
-              <mat-label>Посилання на зображення</mat-label>
-              <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">
-              <mat-icon matSuffix
-                        [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">
-                add_photo_alternate
-              </mat-icon>
-              <mat-error
-                *ngIf="formImgUrl.getError('pattern') || formImgUrl.getError('wrongImageLink')">
-                {{texts.validations.imgPattern}}
-              </mat-error>
-              <mat-error *ngIf="formImgUrl.getError('maxlength')">
-                {{texts.validations.maxLength}}
-                {{ formImgUrl.getError('maxlength')['requiredLength']}}
-              </mat-error>
-            </mat-form-field>
+<!--            <mat-form-field>-->
+<!--              <mat-label>Посилання на зображення</mat-label>-->
+<!--              <input matInput formControlName="imgUrl" [placeholder]="'Так, так, поки що лише посилання'">-->
+<!--              <mat-icon matSuffix-->
+<!--                        [color]="formImgUrl.valid || !formImgUrl.touched ? 'primary' : 'warn'">-->
+<!--                add_photo_alternate-->
+<!--              </mat-icon>-->
+<!--              <mat-error-->
+<!--                *ngIf="formImgUrl.getError('pattern') || formImgUrl.getError('wrongImageLink')">-->
+<!--                {{texts.validations.imgPattern}}-->
+<!--              </mat-error>-->
+<!--              <mat-error *ngIf="formImgUrl.getError('maxlength')">-->
+<!--                {{texts.validations.maxLength}}-->
+<!--                {{ formImgUrl.getError('maxlength')['requiredLength']}}-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
 
             <div class="fields-container">
               <mat-form-field>
@@ -205,61 +204,8 @@
       </mat-card>
     </div>
   </div>
-<!--  <div class="wrapper">-->
-<!--    <div style="max-width: 450px">-->
-<!--      <mat-card class="card-special detailed-margin">-->
-<!--        <img mat-card-image src="{{formImgUrl.value || './assets/images/img-placeholder.jpg'}}" alt="Preview">-->
-<!--        <mat-card-header>-->
-<!--          <mat-card-title>-->
-<!--            <h2 class="header">-->
-<!--              <ng-template>{{formTitle.value}}</ng-template>-->
-<!--            </h2>-->
-<!--          </mat-card-title>-->
 
-<!--          <mat-card-subtitle class="m-b-10">-->
-<!--            <p><b>Майстер/Ведучий: </b> <span class="primary-text semibold">Ви</span></p>-->
-<!--            <p><b>Ціна: </b> <span class="primary-text semibold">{{formPrice.value}} грн.</span></p>-->
-<!--          </mat-card-subtitle>-->
-<!--        </mat-card-header>-->
-
-<!--        <mat-card-content>-->
-<!--          <div class="m-b-10">-->
-<!--            <b class="primary-text semibold d-block m-b-5">Опис:</b>-->
-<!--            <pre>{{formDescription.value}}</pre>-->
-<!--          </div>-->
-
-<!--          <div class="d-flex align-center">-->
-<!--            <b class="primary-text semibold">Шо: </b> <span class="m-l-5">{{ formGameSystemId.value || ' Інфо у майстра'}}</span>-->
-<!--            <mat-icon color="primary" class="m-l-5">list_alt</mat-icon>-->
-<!--          </div>-->
-
-<!--          <div class="d-flex align-center">-->
-<!--            <b class="primary-text semibold">Де: </b> <span class="m-l-5">{{ formCityCode.value || ' Інфо у майстра'}}</span>-->
-<!--            <mat-icon color="primary" class="m-l-5">location_city</mat-icon>-->
-<!--          </div>-->
-
-<!--          <div class="d-flex align-center">-->
-<!--            <span><b class="primary-text semibold">Коли: </b>{{ formStartDateTime.value | date:'dd MMMM y'}}</span>-->
-<!--            <span class="m-l-5"><b class="primary-text semibold">Час: </b>{{ formStartDateTime.value | date:'HH:mm'}}</span>-->
-<!--            <mat-icon color="primary" class="m-l-5">access_time</mat-icon>-->
-<!--          </div>-->
-
-<!--          <div class="d-flex align-center">-->
-<!--            <b class="primary-text semibold">Гравці: </b>-->
-<!--            <span class="m-l-5">-->
-<!--            0/{{formMaxPlayers.value}}-->
-<!--          </span>-->
-<!--            <mat-icon color="primary" class="m-l-5">supervised_user_circle</mat-icon>-->
-<!--          </div>-->
-<!--        </mat-card-content>-->
-<!--        <mat-card-footer>-->
-<!--          <mat-card-content>-->
-<!--            <mat-chip-set>-->
-<!--              &lt;!&ndash;            <mat-chip class="tag" *ngFor="let tag of game.tags">{{tag}}</mat-chip>&ndash;&gt;-->
-<!--            </mat-chip-set>-->
-<!--          </mat-card-content>-->
-<!--        </mat-card-footer>-->
-<!--      </mat-card>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="preview-wrapper">
+    <app-game-card [isPreview]="true" [game]="gameForPreview!" [user]="{username: 'username'}"></app-game-card>
+  </div>
 </div>
