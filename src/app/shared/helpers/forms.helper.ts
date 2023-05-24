@@ -5,14 +5,16 @@ export const tagsForSendDto = (tags: string): string[] => {
   return tags.split(',').map((element: string) => element.trim());
 }
 
-export const createFormDataWithFile = (data: { [key: string]: any }): FormData => {
+export const createFormDataWithFile = (data: { [key: string]: any }, fieldToClearIfFile?: string): FormData => {
   const formData = new FormData();
   for (const [key, value] of Object.entries(data)) {
     if (key !== 'file') {
       formData.append(key, value as string);
     } else if (key === 'file' && value) {
       formData.append('images', <File>value, (<File>value).name);
-      formData.set('imgUrl', 'null');
+      if (fieldToClearIfFile) {
+        formData.set(fieldToClearIfFile, 'null');
+      }
     }
   }
   return formData;

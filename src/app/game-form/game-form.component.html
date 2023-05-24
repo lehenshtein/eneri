@@ -61,18 +61,15 @@
               </mat-error>
             </mat-form-field>
 
-            <div class="form-image">
-
-              <mat-form-field>
-                <mat-label>Додайте зображення</mat-label>
-                <ngx-mat-file-input placeholder="" formControlName="file" [color]="'accent'"
-                                    accept=".png, .jpg, .jpeg, .gif, .webp, .jfif">
-                </ngx-mat-file-input>
-                <mat-error *ngIf="formFile?.getError('maxSize')">
-                  {{texts.validations.maxImgSize}} 3Mb
-                </mat-error>
-              </mat-form-field>
-            </div>
+            <mat-form-field>
+              <mat-label>Додайте зображення</mat-label>
+              <ngx-mat-file-input placeholder="" formControlName="file" [color]="'accent'"
+                                  accept=".png, .jpg, .jpeg, .gif, .webp, .jfif">
+              </ngx-mat-file-input>
+              <mat-error *ngIf="formFile?.getError('maxSize')">
+                {{texts.validations.maxImgSize}} 3Mb
+              </mat-error>
+            </mat-form-field>
 
 <!--            <mat-form-field>-->
 <!--              <mat-label>Посилання на зображення</mat-label>-->

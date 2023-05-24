@@ -8,6 +8,15 @@
   &:hover {
     .logo {
       transform: rotateZ(180deg);
+      //&-wrapper {
+      //  transform: rotateZ(180deg);
+      //}
+      //&--left {
+      //  transform: scale(1) translateX(7px);
+      //}
+      //&--right {
+      //  transform: scale(1) translateX(-7px);
+      //}
     }
   }
   & .glow {
@@ -17,6 +26,23 @@
     height: calc(100% - 16px);
     margin-right: $padding-xl;
     transition: all .3s;
+    //&-wrapper {
+    //  height: calc(100% - 6px);
+    //  margin-top: 2px;
+    //  margin-right: $padding-xl;
+    //  transition: all .3s;
+    //}
+    //
+    //&--left {
+    //  margin-right: 4px;
+    //  transform: scale(.9);
+    //}
+    //&--center {
+    //  margin-right: 4px;
+    //}
+    //&--right {
+    //  transform: scale(.9);
+    //}
   }
 }
 

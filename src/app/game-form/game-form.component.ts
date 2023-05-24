@@ -243,7 +243,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     const checkedTags: string[] = tags.filter((tag: string) => tag !== '');
     formValue.tags = JSON.stringify(checkedTags);
 
-    const formData = createFormDataWithFile(formValue);
+    const formData = createFormDataWithFile(formValue, 'imgUrl');
 
     if (this.editing && this.game) {
       this.gameHttpService.updateGame(formData, this.game._id).pipe(takeUntil(this.ngUnsubscribe$),

@@ -11,7 +11,7 @@ export class UserHttpService {
 
   constructor(private http: HttpClient) { }
 
-  updateUser(data: {name: IUser['name'], contactData: IUser['contactData']}) {
+  updateUser(data: FormData) {
     return this.http.patch<IResponseMessage>(`/user`, data);
   }
 
