@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { SharedModule } from '@shared/shared.module';
-import { UserAsMasterComponent } from './user-as-master/user-as-master.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
   declarations: [
     UserComponent,
-    UserAsMasterComponent
+    UserProfileComponent
   ],
   imports: [
     CommonModule,

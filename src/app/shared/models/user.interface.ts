@@ -1,3 +1,4 @@
+import { gameRoles } from '@shared/models/gameRoles.type';
 
 export interface IUserLogin {
   email: string,
@@ -16,7 +17,7 @@ export interface IUser {
   password: string,
   birthDate: Date,
   role: 'superAdmin' | 'admin' | 'moderator' | 'user',
-  gameRole: 'player' | 'both',
+  gameRole: gameRoles,
   gamesLeaded: number,
   gamesPlayed: number,
   rate: number,
@@ -41,9 +42,20 @@ export interface IUserAsMaster {
   name: string,
   username: string,
   about: string,
+  gameRole: gameRoles,
   gamesLeaded: number,
   gamesPlayed: number,
   telegram: string | undefined,
+  avatar: string,
+  createdAt: Date,
+}
+
+export interface IUserAsPlayer {
+  name: string,
+  username: string,
+  gameRole: gameRoles,
+  about: string,
+  gamesPlayed: number,
   avatar: string,
   createdAt: Date,
 }

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { texts } from '@app/shared/helpers/texts';
 import { AdminService } from '@app/admin-panel/admin.service';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { IUser } from '@shared/models/user.interface';
+import { IStats } from '@app/admin-panel/stats.model';
 
 @Component({
   selector: 'app-admin-panel.content',
@@ -16,6 +17,7 @@ export class AdminPanelComponent {
   form!: FormGroup;
   texts = texts;
   user?: IUser;
+  stats$: Observable<IStats> = this.adminService.fetchStats();
 
   ngOnInit(): void {
     this.initForm();

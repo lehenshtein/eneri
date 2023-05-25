@@ -17,7 +17,7 @@ export interface IGamePost {
 
 export interface IGameResponse {
   _id: string;
-  master: { username: IUser['username'], rate: IUser['rate'] };
+  master: { username: IUser['username'], rate: IUser['rate'], avatar: string };
   organizedPlay: boolean,
   gameSystemId: IGameSystem['_id'];
   title: string;

@@ -54,7 +54,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       cityCode: 0,
       tags: [],
       price: 0,
-      master: {username: this.authService.getUser?.username || 'Ваш нікнейм', rate: 0},
+      master: {username: this.authService.getUser?.username || 'Ваш нікнейм', rate: 0, avatar: this.authService.getUser?.avatar || ''},
       maxPlayers: 1,
       players: [],
       imgUrl: 'https://eneri.com.ua/assets/images/img-placeholder.jpg',

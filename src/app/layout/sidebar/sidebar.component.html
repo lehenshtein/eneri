@@ -14,11 +14,11 @@
       <button *ngIf="user && user.role === 'superAdmin'" class="admin-btn" mat-icon-button [routerLink]="['/', 'admin']">
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
-      <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-        <mat-list-item>Привіт: <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
+      <a [routerLink]="['user', user.username]" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+        <mat-list-item>{{user.gameRole === 'both' ? 'Майстер:' : 'Гравець:'}} <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
       <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-        <mat-list-item>ПРОФІЛЬ</mat-list-item>
+        <mat-list-item>РЕДАГУВАТИ ПРОФІЛЬ</mat-list-item>
       </a>
       <a [routerLink]="'create-game'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
         <mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item>

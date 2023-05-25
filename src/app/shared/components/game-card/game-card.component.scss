@@ -48,10 +48,15 @@ pre {
     cursor: pointer;
   }
 }
+.card-content {
+  margin-top: -10px;
+}
 .mw-detailed {
   max-width: calc(100% - 400px);
 }
-
+.header-texts {
+  flex: 1 1 0;
+}
 mat-card-content.mw-detailed {
   min-height: 275px;
 }
@@ -129,6 +134,9 @@ mat-card-content.mw-detailed {
   align-items: center;
   //padding-left: calc($padding-default + $padding-s);
 }
+.avatar-image.detailed {
+  margin-right: $padding-s;
+}
 
 @media screen and (max-width: 1530px) {
   .detailed-margin {
@@ -148,10 +156,16 @@ mat-card-content.mw-detailed {
   .mw-detailed {
     max-width: 100%;
   }
+  .avatar-image.detailed {
+    margin-right: 0;
+  }
 }
 @media screen and (max-width: 410px) {
   .detailed-image {
     max-height: 350px;
     max-width: 95%;
+  }
+  .avatar-image.detailed {
+    margin-top: $padding-s;
   }
 }
