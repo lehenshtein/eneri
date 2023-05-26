@@ -1,0 +1,17 @@
+@import './src/assets/scss/variables';
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 8px;
+  font-weight: 500;
+  &--primary {
+    color: $primary;
+  }
+  &__title {
+    font-size: 13px;
+  }
+  &__value {
+    font-size: 28px;
+  }
+}

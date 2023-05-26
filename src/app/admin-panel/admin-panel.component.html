@@ -1,6 +1,20 @@
 <div class="wrapper">
   <div class="w-100">
     <mat-card class="card-special">
+      <mat-card-content *ngIf="stats$ | async as stats" class="d-flex">
+        <div class="stat-block stat-block--primary">
+          <span class="stat-block__title">Користувачів</span>
+          <span class="stat-block__value">{{stats.totalUsers}}</span>
+        </div>
+        <div class="stat-block stat-block--primary">
+          <span class="stat-block__title">Майстрів</span>
+          <span class="stat-block__value">{{stats.totalMasters}}</span>
+        </div>
+        <div class="stat-block stat-block--primary">
+          <span class="stat-block__title">Гравців</span>
+          <span class="stat-block__value">{{stats.totalUsers - stats.totalMasters}}</span>
+        </div>
+      </mat-card-content>
       <mat-card-content>
         <form class="form" [formGroup]="form">
           <mat-form-field>

@@ -17,9 +17,11 @@ $analogue1: #24c5a5;
 $analogue2: #2445c5;
 $dark: $darkClassic;
 $black: #060606;
+$dark-medium: map.get($my-darkpalette, 500);
 $white: #ffffff;
 $whiteSecondary: #e3e3e3;
 $backdrop: rgba(19, 18, 27, 0.6);
+$input-icons: #1c1b24;
 
 $telegram: #2ba6e1;
 $facebook: #4867aa;

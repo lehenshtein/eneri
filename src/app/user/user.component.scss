@@ -40,3 +40,40 @@ $padding-for-phone-prefix: 55px;
     transform: translateY($padding-xs);
   }
 }
+.fields-with-avatar {
+  display: flex;
+  align-items: center;
+}
+.under-avatar-fields {
+  flex: 1 1 0;
+  padding-right: $padding-xl;
+}
+.avatar-image {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto $padding-l;
+  cursor: pointer;
+  transition: all .3s;
+  &.disabled {
+    cursor: default;
+  }
+  &:hover:not(.disabled ){
+    //transform: translateY(3px);
+    box-shadow:
+      //0 2px 5px $primary-shadow-color;
+      0 5px 10px rgba(36, 28, 27, .7),
+      0 -2px 3px rgba(255, 255, 255, .9),
+      0 -5px 8px rgba(255, 33, 12, .9),
+      0 -8px 25px rgba(255, 62, 42, .5),
+  }
+}
+
+@media screen and (max-width: $breakpoint-XS) {
+  .fields-with-avatar {
+    flex-wrap: wrap;
+  }
+  .under-avatar-fields {
+    flex: 1 1 auto;
+    padding-right: 0;
+  }
+}

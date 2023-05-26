@@ -37,6 +37,12 @@ mat-card-footer {
   background-color: $primary;
   border-radius: 0 0 24px 24px;
 }
+.preview-wrapper {
+  justify-content: center;
+  margin: 60px auto 20px;
+  max-width: 460px;
+  min-width: 320px;
+}
 
 @media screen and (max-width: $breakpoint-XS) {
   .fields-container {

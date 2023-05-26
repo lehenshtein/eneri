@@ -5,12 +5,14 @@ import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { texts } from '@shared/helpers/texts';
 import { UserHttpService } from '@app/user/user-http.service';
-import { take } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { TextDialogComponent } from '@shared/components/text-dialog/text-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotificationService } from '@shared/services/notification.service';
 import { telegramPattern } from '@shared/helpers/regex-patterns';
+import { createFormDataWithFile } from '@shared/helpers/forms.helper';
+import { MaxSizeValidator } from '@angular-material-components/file-input';
 
 @Component({
   selector: 'app-user.content',
@@ -23,6 +25,8 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   texts = texts;
   date = new Date;
   nextEmailDate = new Date();
+  maxImageSize = 1024 * 1024 * 3; // 3 MB
+  loading = false;
 
   constructor (
     private authHttpService: AuthHttpService,
@@ -53,6 +57,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
       name: [this.user.name || '', [Validators.maxLength(30)]],
       about: [this.user.about, [Validators.maxLength(600)]],
       showContacts: [this.user.showContacts || false],
+      file: [ null, [MaxSizeValidator(this.maxImageSize)] ],
       contactData: this.contactDataGroup
     });
 
@@ -72,6 +77,10 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
 
   get formAbout(): FormControl {
     return this.form.get('about') as FormControl;
+  }
+
+  get formFile () {
+    return this.form.get('file') as FormControl;
   }
 
   get formContactDataGroup(): FormGroup {
@@ -94,6 +103,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   submit () {
+    this.loading = true;
     let dataToSend = {...this.form.getRawValue()};
     let phone = this.form.getRawValue()['contactData']['phone'];
     if (phone.length > 12) {
@@ -104,8 +114,13 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
     if (this.user?.gameRole === 'player') {
       dataToSend.showContacts = false;
     }
-    this.userHttpService.updateUser(dataToSend).pipe(take(1)).subscribe(res => {
+    const dataWithContactsStringified = {...dataToSend, contactData: JSON.stringify(dataToSend.contactData)};
+    const formData = createFormDataWithFile(dataWithContactsStringified, 'avatar');
+    this.userHttpService.updateUser(formData).pipe(take(1), finalize(() => this.loading = false)).subscribe(res => {
       if (res.message === 'success') {
+        if (dataToSend.file) {
+          dataToSend.avatar = URL.createObjectURL(dataToSend.file as File)
+        }
         this.authHttpService.setUser = {...this.authHttpService.getUser, ...dataToSend};
         this.notificationService.openSnackBar('success', 'Успіх');
       }

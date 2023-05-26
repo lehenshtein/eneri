@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="700pt" height="700pt" version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <path id="t-bottom-left" d="m138.71 407.62 189.45 107.18-131.66-140.67z"></path>
+    <path id="t-middle-left" d="m134.46 176.06v224.28l57.848-33.488z"></path>
+    <path id="t-closest-left" d="m341.66 100.13-206.08 50.625 62.891 207.37z"></path>
+    <path id="t-top-left" d="m345.74 35.055-185.08 100.91 185.08-45.473z"></path>
+    <path id="t-middle-center" d="M 495.49 364.62 349.945 102.432 204.455 364.622 495.49 364.62 Z"></path>
+    <path id="t-bottom-center" d="M 492.97 373.02 206.98 373.02 349.95 525.84 492.97 373.02 Z"></path>
+    <path id="t-bottom-right" d="M 503.44 374.14 371.78 514.81 561.28 407.63 L 503.44 374.14 Z"></path>
+    <path id="t-middle-right" d="m565.54 400.34v-224.28l-57.902 190.79z"></path>
+    <path id="t-closest-right" d="M 358.29 100.13 501.48 358.12 564.48 150.75 358.29 100.13 Z"></path>
+    <path id="t-top-right" d="m354.14 35.055v55.441l185.19 45.473z"></path>
+  </g>
+</svg>

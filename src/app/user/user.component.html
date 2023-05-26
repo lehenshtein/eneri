@@ -11,23 +11,47 @@
       </mat-card-header>
       <mat-card-content>
         <form class="form" [formGroup]="form">
-          <mat-form-field>
-            <mat-label>Ім'я</mat-label>
-            <input matInput formControlName="name" [placeholder]="'Твоє звичайне ім\'я'">
-            <mat-icon matSuffix [color]="'primary'" *ngIf="formName.valid || !formName.touched">sentiment_very_satisfied
-            </mat-icon>
-            <mat-icon matSuffix [color]="'warn'" *ngIf="formName.invalid && formName.touched">
-              sentiment_very_dissatisfied
-            </mat-icon>
-            <mat-error *ngIf="formName.getError('maxlength')">
-              {{texts.validations.maxLength}}
-              {{ formName.getError('maxlength')['requiredLength']}}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field *ngIf="user.gameRole === 'both'">
+          <div class="fields-with-avatar">
+            <div class="under-avatar-fields">
+              <mat-form-field>
+                <mat-label>Ім'я</mat-label>
+                <input matInput formControlName="name" [placeholder]="'Твоє звичайне ім\'я'">
+                <mat-icon matSuffix [color]="'primary'" *ngIf="formName.valid || !formName.touched">sentiment_very_satisfied
+                </mat-icon>
+                <mat-icon matSuffix [color]="'warn'" *ngIf="formName.invalid && formName.touched">
+                  sentiment_very_dissatisfied
+                </mat-icon>
+                <mat-error *ngIf="formName.getError('maxlength')">
+                  {{texts.validations.maxLength}}
+                  {{ formName.getError('maxlength')['requiredLength']}}
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Додайте аватар</mat-label>
+                <ngx-mat-file-input #fileInput placeholder="" formControlName="file" [color]="'accent'"
+                                    accept=".png, .jpg, .jpeg, .gif, .webp, .jfif">
+                </ngx-mat-file-input>
+                <mat-error *ngIf="formFile?.getError('maxSize')">
+                  {{texts.validations.maxImgSize}} 3Mb
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="avatar-image"
+              [matTooltipClass]="'tooltip'"
+              [matTooltip]="form.disabled ? '' : 'Обрати аватар'"
+              [ngClass]="{'disabled': form.disabled}" (click)="!form.disabled ? fileInput.openFilePicker() : null"
+            >
+              <img [src]="formFile.value ? ((formFile.value | fileToImg) | safePipe: 'url' ) :
+                user.avatar ? user.avatar : '../../assets/images/avatar-placeholder.jpg'" alt="avatar">
+            </div>
+          </div>
+
+          <mat-form-field class="text-area-handler">
             <mat-label>Про себе</mat-label>
             <textarea matInput formControlName="about" rows="3"
-                      [placeholder]="'За бажання, розкажи трохи про себе, як майстра. Стиль гри, системи, досід, тощо.'"></textarea>
+                      [placeholder]="'За бажання, розкажи трохи про себе. Стиль гри, системи, досід, тощо.'"></textarea>
             <mat-error *ngIf="formAbout.getError('maxlength')">
               {{texts.validations.maxLength}}
               {{ formAbout.getError('maxlength')['requiredLength']}}
@@ -77,8 +101,8 @@
             </mat-slide-toggle>
           </div>
           <div class="d-flex justify-end">
-            <button mat-raised-button color="primary" [disabled]="form.disabled || form.invalid" (click)="submit()">
-              Зберегти зміни
+            <button mat-raised-button color="primary" [disabled]="form.disabled || form.invalid || loading" (click)="submit()">
+              {{loading ? 'Зачекайте...' : 'Зберегти зміни'}}
             </button>
           </div>
           <div *ngIf="!user.verified" class="email-verification m-t-5">
