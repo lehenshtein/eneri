@@ -17,6 +17,7 @@ import { AboutComponent } from './about/about.component';
 import { GoogleAnalyticsComponent } from '@app/google-analytics/google-analytics.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { VerificationComponent } from './verification/verification.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -34,7 +35,8 @@ registerLocaleData(localeUK);
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    SharedModule
+    AngularSvgIconModule.forRoot(),
+    SharedModule,
 
   ],
   exports: [

@@ -41,6 +41,7 @@ import { LazyImgDirective } from '@shared/directives/lazy-image.directive';
 import { LoaderComponent } from './components/loader/loader.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { FileToImgPipe } from '@shared/pipes/file-to-img.pipe';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 const Material = [
   MatSlideToggleModule,
@@ -64,7 +65,7 @@ const Material = [
   MatSnackBarModule,
   MatChipsModule,
   MatPaginatorModule,
-  NgxMatFileInputModule
+  NgxMatFileInputModule,
 ];
 
 @NgModule({
@@ -90,6 +91,7 @@ const Material = [
     FormsModule,
     RouterModule,
     MatMenuModule,
+    AngularSvgIconModule,
   ],
   exports: [
     ...Material,
