@@ -1,6 +1,10 @@
 @use 'sass:map';
 //@import '../../app/app.component.scss-theme';
 @import './src/assets/scss/palettes';
+:root {
+  --footer-height: 136px;
+}
+$footer-height: var(--footer-height);
 $primaryClassic: map.get($my-palette-primary, 500); //A400 ???
 $primaryModern: #250b8e;
 $accentClassic: map.get($my-palette-accent, 500);
@@ -10,6 +14,7 @@ $darkModern: #1b087b;
 
 $primary: $primaryClassic;
 $accent: $accentClassic;
+$accentText: #00E0FF;
 $accent-hover: map.get($my-palette-accent, 300);
 $warning: map.get($my-warningClassic, 500);
 $green: #4CAF50;
@@ -18,6 +23,7 @@ $analogue2: #2445c5;
 $dark: $darkClassic;
 $black: #060606;
 $dark-medium: map.get($my-darkpalette, 500);
+$dark-deep: map.get($my-darkpalette, 800);
 $white: #ffffff;
 $whiteSecondary: #e3e3e3;
 $backdrop: rgba(19, 18, 27, 0.6);
@@ -29,7 +35,7 @@ $discord: #5562ea;
 $instagram: #fe4164;
 
 $primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
-$primary-shadow-color: rgba(0,0,0,0.8);
+$primary-shadow-color: rgba(0,0,0,0.5);
 $primary-shadow: 0 5px 5px 0 $primary-shadow-color;
 
 $border-radius-xl: 24px;
@@ -51,5 +57,11 @@ $breakpoint-XS: 600px;
 $breakpoint-S: 748px;
 $breakpoint-M: 1350px;
 
-$page-height: calc(100vh - $page-top-padding);
+$page-height: calc(100vh - $page-top-padding - $footer-height);
 $main-height: calc(100vh - 10px);
+
+@media screen and (max-width: $breakpoint-XS) {
+  :root {
+    --footer-height: auto;
+  }
+}

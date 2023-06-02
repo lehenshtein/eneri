@@ -99,4 +99,7 @@ export class GameHttpService {
   removePlayerFromGame(gameId: IGameResponse['_id'], username: string): Observable<IResponseMessage> {
     return this.http.patch<IResponseMessage>(`/game/${gameId}/${username}`, {});
   }
+  removePlayerFromGameRequest(gameId: IGameResponse['_id'], username: string): Observable<IResponseMessage> {
+    return this.http.patch<IResponseMessage>(`/game-request/${gameId}/${username}`, {});
+  }
 }

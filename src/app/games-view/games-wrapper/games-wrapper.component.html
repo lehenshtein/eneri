@@ -19,7 +19,7 @@
     <div class="wrapper" *ngIf="tabletView">
       <div class="container">
         <div *ngFor="let game of games; let i = index" class="item" [ngClass]="{'suspended': game.isSuspended}">
-          <app-game-card [user]="user" [game]="game" [gameRequest]="gameRequest" [isBrowser]="isBrowser"></app-game-card>
+          <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
         </div>
       </div>
     </div>
@@ -28,14 +28,14 @@
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
           <div *ngIf="i%2 === 0" class="item" [ngClass]="{'suspended': game.isSuspended}">
-            <app-game-card [user]="user" [game]="game" [gameRequest]="gameRequest" [isBrowser]="isBrowser"></app-game-card>
+            <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
           </div>
         </ng-container>
       </div>
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
           <div *ngIf="i%2 === 1" class="item" [ngClass]="{'suspended': game.isSuspended}">
-            <app-game-card [user]="user" [game]="game" [gameRequest]="gameRequest" [isBrowser]="isBrowser"></app-game-card>
+            <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
           </div>
         </ng-container>
       </div>

@@ -25,7 +25,7 @@ export class GameCardComponent {
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
   @Input() isPreview = false;
-  @Input() gameRequest = false;
+  @Input() cardType: 'default' | 'gameRequest' = 'default';
   @Input() isBrowser = false;
   private window!: Window;
   maxDescriptionLetters = 300;
@@ -107,7 +107,9 @@ export class GameCardComponent {
 
     dialogRef.afterClosed().pipe(take(1), switchMap(result => {
       if (result) {
-        return this.gameHttpService.removePlayerFromGame(this.game._id, data.username);
+        return this.cardType === 'gameRequest' ?
+          this.gameHttpService.removePlayerFromGameRequest(this.game._id, data.username) :
+          this.gameHttpService.removePlayerFromGame(this.game._id, data.username);
       } else {
         return EMPTY;
       }
@@ -172,7 +174,7 @@ export class GameCardComponent {
 
     dialogRef.afterClosed().pipe(take(1), switchMap(result => {
       if (result) {
-        return this.gameRequest ? this.gameHttpService.applyToGameRequest(this.game._id) : this.gameHttpService.applyToGame(this.game._id);
+        return this.cardType === 'gameRequest' ? this.gameHttpService.applyToGameRequest(this.game._id) : this.gameHttpService.applyToGame(this.game._id);
       } else {
         return EMPTY;
       }

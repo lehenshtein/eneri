@@ -38,11 +38,12 @@ export class SidebarComponent implements OnInit {
   urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games'];
   links = [
     {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null},
-    {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both'},
-    {link: 'my-created', text: 'СТВОРЕНІ ІГРИ', permissions: 'both'},
+    {link: '', text: 'ІГРИ', permissions: null},
     {link: 'game-requests', text: 'ЗАПИТИ НА ІГРИ', permissions: null},
+    {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both'},
     {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ НА ГРУ', permissions: null},
-    {link: 'my-games', text: 'МОЇ ЗАПИСИ', permissions: null},
+    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both'},
+    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null},
   ]
 
   constructor (
