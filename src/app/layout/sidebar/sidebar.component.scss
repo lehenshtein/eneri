@@ -45,7 +45,12 @@
     //}
   }
 }
-
+a.active {
+  mat-list-item {
+    //background-color: rgba(165, 156, 237, 0.2);
+    background-color: rgba(173, 50, 37, 0.1);
+  }
+}
 .sidebar-wrapper {
   min-width: 310px;
   position: sticky;

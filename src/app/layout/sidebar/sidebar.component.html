@@ -14,26 +14,26 @@
       <button *ngIf="user && user.role === 'superAdmin'" class="admin-btn" mat-icon-button [routerLink]="['/', 'admin']">
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
-      <a [routerLink]="['user', user.username]" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+      <a [routerLink]="['user', user.username]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>{{user.gameRole === 'both' ? 'Майстер:' : 'Гравець:'}} <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
-      <a [routerLink]="'user'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-        <mat-list-item>РЕДАГУВАТИ ПРОФІЛЬ</mat-list-item>
-      </a>
-      <a [routerLink]="'create-game'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
-        <mat-list-item>СТВОРИТИ ПРИГОДУ</mat-list-item>
-      </a>
-      <a [routerLink]="'my-created'" (click)="hideSidebarOnClick ? closeMenu.emit() : null" *ngIf="user.gameRole === 'both'">
-        <mat-list-item>СТВОРЕНІ ІГРИ</mat-list-item>
-      </a>
-      <a [routerLink]="'my-games'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-        <mat-list-item>МОЇ ЗАПИСИ</mat-list-item>
-      </a>
+      <ng-container *ngFor="let item of links">
+        <a *ngIf="!item.permissions || item.permissions === user.gameRole" [routerLink]="item.link"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+          <mat-list-item>{{item.text}}</mat-list-item>
+        </a>
+      </ng-container>
     </ng-container>
 
     <ng-template #notAuthenticated>
       <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
+      <a [routerLink]="'game-requests'"
+        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+        <mat-list-item>ЗАПИТИ НА ІГРИ</mat-list-item>
+      </a>
     </ng-template>
   </mat-nav-list>
 

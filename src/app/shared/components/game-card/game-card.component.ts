@@ -25,8 +25,10 @@ export class GameCardComponent {
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
   @Input() isPreview = false;
+  @Input() gameRequest = false;
+  @Input() isBrowser = false;
   private window!: Window;
-  maxDescriptionLetters = 800;
+  maxDescriptionLetters = 300;
   websiteUrl = environment.url;
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
@@ -127,8 +129,12 @@ export class GameCardComponent {
           this.applyText = 'Гру закрито';
       return true;
     }
-    if (game.master.username === this.user?.username) {
+    if (game.master && game.master.username === this.user?.username) {
       this.applyText = 'Ви майстер';
+      return true;
+    }
+    if (game.creator && game.creator.username === this.user?.username) {
+      this.applyText = 'Ви організатор';
       return true;
     }
     if (game.players.find(player => player.username === this.user?.username)) {
@@ -147,7 +153,7 @@ export class GameCardComponent {
       this.openApplyDialog('Щоб записатися на гру у вас в профілі має бути вказаний телеграм');
       return;
     }
-    if ($event.master.username === this.user?.username) {
+    if ($event.master && $event.master.username === this.user?.username) {
       this.openApplyDialog('Майстер не може бути гравцем на своїй грі');
       return;
     }
@@ -166,7 +172,7 @@ export class GameCardComponent {
 
     dialogRef.afterClosed().pipe(take(1), switchMap(result => {
       if (result) {
-        return this.gameHttpService.applyToGame(this.game._id);
+        return this.gameRequest ? this.gameHttpService.applyToGameRequest(this.game._id) : this.gameHttpService.applyToGame(this.game._id);
       } else {
         return EMPTY;
       }

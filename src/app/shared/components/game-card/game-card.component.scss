@@ -31,6 +31,7 @@ pre {
   //line-clamp: 10;
   //-webkit-box-orient: vertical;
   //overflow: hidden;
+  font-weight: 300;
   word-wrap: break-word;
   white-space: pre-wrap;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -49,7 +50,7 @@ pre {
   }
 }
 .card-content {
-  margin-top: -10px;
+  margin-top: $padding-xs;
 }
 .mw-detailed {
   max-width: calc(100% - 400px);

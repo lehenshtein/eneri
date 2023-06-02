@@ -36,6 +36,14 @@ export class SidebarComponent implements OnInit {
   gameSystems: IGameSystem[] = gameSystems;
   filtersDisabled = false;
   urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games'];
+  links = [
+    {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null},
+    {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both'},
+    {link: 'my-created', text: 'СТВОРЕНІ ІГРИ', permissions: 'both'},
+    {link: 'game-requests', text: 'ЗАПИТИ НА ІГРИ', permissions: null},
+    {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ НА ГРУ', permissions: null},
+    {link: 'my-games', text: 'МОЇ ЗАПИСИ', permissions: null},
+  ]
 
   constructor (
     @Inject(DOCUMENT) private document: Document,

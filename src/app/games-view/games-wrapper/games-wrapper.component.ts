@@ -37,6 +37,8 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
   texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру',
     'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Вільні гравці в твоєму районі хочуть пограти з тобою', 'Привіт, хочеш розповімо тобі про АоСік?'];
   subtitle = this.texts[0];
+  gameRequest = false;
+  isBrowser = false;
   constructor (
     private gameHttpService: GameHttpService,
     private authHttpService: AuthHttpService,
@@ -46,6 +48,8 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     private breakpointObserver: BreakpointObserver,
     ) {
     super();
+    this.gameRequest = this.route.snapshot.data['page'] === 'game-request';
+    this.isBrowser = this.sharedService.isBrowser;
   }
 
   ngOnInit(): void {
@@ -91,7 +95,10 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
         cityCode: queryParams['cityCode'] || null,
         sort: queryParams['sort'] || 0
       }
-      return this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor).pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
+      const request = this.gameRequest ?
+        this.gameHttpService.fetchGameRequests(filter, this.page, this.limit, this.gamesFor) :
+        this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor);
+      return request.pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
     })).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: HttpResponse<IGameResponse[]>) => {
       this.gamesResponseAction(res);
     })

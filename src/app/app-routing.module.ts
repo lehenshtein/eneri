@@ -10,11 +10,14 @@ const routes: Routes = [
   { path: 'admin', component: AdminPanelComponent, canActivate: [RoleGuard] },
   { path: 'verification', title: 'ЕНЕРІ | Верифікація', component: VerificationComponent },
   { path: 'verification/:code', title: 'ЕНЕРІ | Верифікація', component: VerificationComponent },
-  { path: 'create-game', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
-  { path: 'edit-game/:master/:id', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
+  { path: 'create-game-request', title: 'ЕНЕРІ | Створити запит на гру', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule), data: {page: 'game-request'} },
+  { path: 'create-game', title: 'ЕНЕРІ | Створити гру', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule), data: {page: 'game'} },
+  { path: 'edit-game/:master/:id', title: 'ЕНЕРІ | Редагувати гру', loadChildren: () => import('./game-form/game-form.module').then(m => m.GameFormModule) },
   { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-  { path: '', loadChildren: () => import('./games-view/games-view.module').then(m => m.GamesViewModule) },
-  { path: ':master/:id', loadChildren: () => import('./game-details/game-details.module').then(m => m.GameDetailsModule) },
+  { path: 'game-requests', loadChildren: () => import('./games-view/games-view.module').then(m => m.GamesViewModule), data: {page: 'game-request'} },
+  { path: 'game-request/:creator/:id', loadChildren: () => import('./game-details/game-details.module').then(m => m.GameDetailsModule), data: {page: 'game-request'} },
+  { path: '', loadChildren: () => import('./games-view/games-view.module').then(m => m.GamesViewModule), data: {page: 'game'} },
+  { path: ':master/:id', loadChildren: () => import('./game-details/game-details.module').then(m => m.GameDetailsModule), data: {page: 'game'} },
   { path: '**', redirectTo: '' }
   // { path: 'post/:id', loadChildren: () => import('./post-page/post-page.module').then(m => m.PostPageModule) }
 ];
