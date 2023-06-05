@@ -96,6 +96,9 @@ export class GameHttpService {
   applyToGameRequest(gameId: IGameResponse['_id']): Observable<IResponseMessage> {
     return this.http.get<IResponseMessage>(`/game-request/apply/${gameId}`);
   }
+  applyToGameRequestAsMaster(gameId: IGameResponse['_id']): Observable<IResponseMessage> {
+    return this.http.get<IResponseMessage>(`/game-request/apply-as-master/${gameId}`);
+  }
   removePlayerFromGame(gameId: IGameResponse['_id'], username: string): Observable<IResponseMessage> {
     return this.http.patch<IResponseMessage>(`/game/${gameId}/${username}`, {});
   }

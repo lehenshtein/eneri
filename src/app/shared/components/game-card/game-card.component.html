@@ -26,6 +26,13 @@
               <ng-template #noMaster><span class="warn-text">Майстра ще немає</span></ng-template>
             </span>
         </p>
+
+        <p *ngIf="game.creator && game.creator.username"><b>Створювач: </b> <span class="accent-text">
+                <a *ngIf="!isPreview else creatorLink" class="link break-word" [routerLink]="['/', 'user', game.creator.username]">{{game.creator.username}}</a>
+                <ng-template #creatorLink><span class="break-word">{{game.creator.username}}</span></ng-template>
+            </span>
+        </p>
+
         <p><b>Ціна: </b> <span class="primary-text semibold break-word">{{game.price}} грн.</span></p>
         <p *ngIf="game.organizedPlay" class="d-flex align-center" [matTooltipClass]="'tooltip'"
           [matTooltip]="'Гра буде проходити за правилами Adventures League, Pathfinder Society або їх аналогів в інших системах'">
@@ -34,7 +41,7 @@
       </mat-card-subtitle>
     </div>
 
-    <div class="avatar-image" [ngClass]="{detailed: detailedCard && !isPreview}" *ngIf="isBrowser || isPreview">
+    <div class="avatar-image" [ngClass]="{detailed: detailedCard && !isPreview}" *ngIf="isBrowser || isPreview || detailedCard">
       <img mat-card-image
           [src]="game.master && game.master.avatar ? game.master.avatar :
           game.creator && game.creator.avatar ? game.creator.avatar : '../../assets/images/avatar-placeholder.jpg'" alt="avatar">
@@ -45,11 +52,11 @@
   <mat-card-content class="card-content" [ngClass]="{'mw-detailed': detailedCard}">
     <div class="m-b-10">
       <ng-container *ngIf="!detailedCard && game.description.length > maxDescriptionLetters else detailedDescription">
-        <pre>{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span class="accent-text"><a *ngIf="!isPreview else plainText" [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a><ng-template #plainText>Читати далі</ng-template></span>
+        <pre class="secondary-text">{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span class="accent-text"><a *ngIf="!isPreview else plainText" [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a><ng-template #plainText>Читати далі</ng-template></span>
         </pre>
       </ng-container>
       <ng-template #detailedDescription>
-        <pre>{{game.description}}</pre>
+        <pre class="secondary-text">{{game.description}}</pre>
       </ng-template>
     </div>
 
@@ -99,7 +106,7 @@
             <span *ngIf="column.header !== 'Дії' && column.header !== 'Телеграм' && column.header !== 'Нік'">{{column.cell(row)}}</span>
           </td>
         </ng-container>
-        <ng-container *ngIf="(game.master?.username === user?.username) || (game.creator?.username === user?.username) else cols">
+        <ng-container *ngIf="(cardType === 'gameRequest' ? game.creator.username === user?.username : game.master.username === user?.username) else cols">
           <tr mat-header-row *matHeaderRowDef="masterDisplayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: masterDisplayedColumns;"></tr>
         </ng-container>
@@ -140,20 +147,29 @@
         </button>
       </div>
 
-      <div class="buttons">
+      <div class="buttons m-l-5">
         <a *ngIf="!detailedCard && !isPreview" [routerLink]="(cardType === 'gameRequest') ? ['/', 'game-request', game.creator.username, game._id] : ['/', game.master.username, game._id]">
           <button mat-raised-button class="m-r-10">Деталі</button>
         </a>
+
         <a *ngIf="(detailedCard && (user && (((cardType === 'gameRequest') ? user?.username === game.creator.username : user?.username === game.master.username))) && !isPreview)"
-          [routerLink]="['/edit-game', (cardType === 'gameRequest') ? game.creator.username : game.master.username, game._id]"><button mat-raised-button class="m-r-10">Редагувати</button></a>
-        <button mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game) || isPreview" (click)="apply(game)">
+          [routerLink]="[(cardType === 'gameRequest') ? '/edit-game-request' : '/edit-game', (cardType === 'gameRequest') ? game.creator.username : game.master.username, game._id]">
+          <button mat-raised-button class="m-r-10">Редагувати</button>
+        </a>
+
+        <button class="main-btn" mat-raised-button color="primary" [disabled]="checkIfUserCanApply(game) || isPreview" (click)="apply(game)">
           {{applyText || 'Записатися'}}
         </button>
       </div>
     </div>
+
+    <button *ngIf="user?.gameRole === 'both' && checkIfMasterCanApply(game)" class="m-t-10 w-100" mat-stroked-button color="primary" (click)="applyAsMaster(game)">
+      Записатися як майстер
+    </button>
   </mat-card-content>
 
-  <mat-card-footer *ngIf="!detailedCard">
+  <mat-card-footer *ngIf="!detailedCard && game.tags.length">
+    <hr>
     <mat-card-content>
       <mat-chip-set>
         <mat-chip class="tag" *ngFor="let tag of game.tags" (click)="search(tag)">{{tag}}</mat-chip>

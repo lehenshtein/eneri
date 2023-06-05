@@ -1,6 +1,7 @@
 @import './src/assets/scss/variables';
 .header {
   transition: all .2s;
+  word-break: break-word;
   &:hover {
     color: $accent-hover;
   }
@@ -22,8 +23,11 @@ b {
 }
 
 mat-card-footer {
-  background-color: $primary;
+  //background-color: $primary;
   border-radius: 0 0 24px 24px;
+  hr {
+    //margin: 0;
+  }
 }
 pre {
   //display: -webkit-box;
@@ -37,6 +41,15 @@ pre {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
 }
+.buttons {
+  width: 100%;
+}
+.main-btn {
+  width: 100%;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  max-width: 200px;
+}
 .link {
   color: $accent;
   transition: color .2s;
@@ -45,6 +58,7 @@ pre {
   }
 }
 .tag {
+  background-color: $dark-lighter!important;
   ::ng-deep.mat-mdc-chip-action-label {
     cursor: pointer;
   }
@@ -168,5 +182,8 @@ mat-card-content.mw-detailed {
   }
   .avatar-image.detailed {
     margin-top: $padding-s;
+  }
+  .main-btn {
+    font-size: 1.1rem;
   }
 }

@@ -8,6 +8,12 @@
     </div>
   </div>
 </header>
+
+<section class="page-description" *ngIf="getPageDescription() as pageDescription">
+  <h4 class="primary-text">{{pageDescription.title}}</h4>
+  <p class="secondary-text">{{pageDescription.description}}</p>
+</section>
+
 <app-loader *ngIf="loading else gamesData"></app-loader>
 <ng-template #gamesData>
 <div>

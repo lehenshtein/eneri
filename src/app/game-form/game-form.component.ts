@@ -75,7 +75,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   private checkRoute() {
-    if (this.route.snapshot.params['master'] && this.route.snapshot.params['id']) {
+    if ((this.route.snapshot.params['creator'] || this.route.snapshot.params['master']) && this.route.snapshot.params['id']) {
       const request = this.gameRequest ?
         this.gameHttpService.fetchGameRequestById(this.route.snapshot.params['id'], true) :
         this.gameHttpService.fetchGameById(this.route.snapshot.params['id'], true);
@@ -83,9 +83,15 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       request.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
         this.game = res;
         this.gameForPreview = res;
-        if (this.game.master.username === this.route.snapshot.params['master']) {
-          this.editing = true;
+
+        if (this.gameRequest) {
+          if (this.game.creator.username === this.route.snapshot.params['creator']) {
+            this.editing = true;
+          }
+        } else if (this.game.master.username === this.route.snapshot.params['master']) {
+            this.editing = true;
         }
+
         this.fillFormFields();
       })
       this.updateMeta()
@@ -260,7 +266,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
           this.postingText = 'Редаговано'
           if (res) {
             this.notificationService.openSnackBar('success', 'Вдало редаговано');
-            this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
+            this.gameRequest ?
+              this.router.navigate([`game-request/${this.game?.creator.username}/${this.game?._id}`]) :
+              this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
           }
       })
       return;

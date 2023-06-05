@@ -39,9 +39,9 @@ export class SidebarComponent implements OnInit {
   links = [
     {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null},
     {link: '', text: 'ІГРИ', permissions: null},
-    {link: 'game-requests', text: 'ЗАПИТИ НА ІГРИ', permissions: null},
+    {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null},
     {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both'},
-    {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ НА ГРУ', permissions: null},
+    {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ ГРИ', permissions: null},
     {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both'},
     {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null},
   ]

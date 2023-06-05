@@ -34,6 +34,12 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
     cityCode: null,
     sort: 0
   }
+  pageDescription = {
+      games: {title: 'Ігри', description: 'В цьому розділі знаходяться всі ігри створені майстрами. Ви можете записатися на будь-яку гру та обумовити деталі з майстром.'},
+      gameRequests: {title: 'Запити гри', description: 'Перелік ігор створенних гравцями, або партіями які не мали майстра на момент створення. Записатись на таку гру можуть, як гравець (в ролі гравця) так і майстер (в ролі майстра, або гравця).'},
+      myGames: {title: 'Історія гравця', description: 'Це всі ігри де ви були записані в якості гравця. В тому числі створені вами "Запити гри".'},
+      createdGames: {title: 'Історія майстра', description: 'Перелік ігор в яких ви виступали в ролі майстра. В чому числі ігри на які ви записувалися, як майстер у розділі "Запити гри".'},
+      };
   texts: string[] = ['Створюй. Шукай. Грай.', 'Щоб змогти 5 сесій на тиждень треба лише...<br>Записатися на гру',
     'Хочеш поганяти Страдів по Баровії?<br>Записуйся!', 'Вільні гравці в твоєму районі хочуть пограти з тобою', 'Привіт, хочеш розповімо тобі про АоСік?'];
   subtitle = this.texts[0];
@@ -81,6 +87,18 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
 
   private checkQuery() {
     this.sharedService.queryFiltersSet(this.route.snapshot.queryParams);
+  }
+
+  getPageDescription(): {title: string, description: string} {
+    if (this.gameRequest) {
+      return this.pageDescription.gameRequests;
+    } else if (!this.gameRequest && !this.gamesFor) {
+      return this.pageDescription.games;
+    } else if (!this.gameRequest && this.gamesFor === 'player') {
+      return this.pageDescription.myGames;
+    } else {
+      return this.pageDescription.createdGames;
+    }
   }
 
   searchChanges() {

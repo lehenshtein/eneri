@@ -22,10 +22,11 @@ $analogue1: #24c5a5;
 $analogue2: #2445c5;
 $dark: $darkClassic;
 $black: #060606;
+$dark-lighter: map.get($my-darkpalette, 400);
 $dark-medium: map.get($my-darkpalette, 500);
 $dark-deep: map.get($my-darkpalette, 800);
 $white: #ffffff;
-$whiteSecondary: #e3e3e3;
+$whiteSecondary: #cacaca;
 $backdrop: rgba(19, 18, 27, 0.6);
 $input-icons: #1c1b24;
 

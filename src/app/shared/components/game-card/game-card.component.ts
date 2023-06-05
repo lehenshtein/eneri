@@ -127,8 +127,8 @@ export class GameCardComponent {
   }
 
   checkIfUserCanApply (game: IGameResponse) {
-    if (game.isSuspended || game.players.length === game.maxPlayers) {
-          this.applyText = 'Гру закрито';
+    if (game.isSuspended || (game.players.length === game.maxPlayers) && (game.master && game.master.username)) {
+      this.applyText = 'Гру закрито';
       return true;
     }
     if (game.master && game.master.username === this.user?.username) {
@@ -182,6 +182,54 @@ export class GameCardComponent {
       if (res.message === 'success' && this.user && this.user.username) {
         this.game.players = [...this.game.players, {username: this.user.username}];
         this.notificationService.openSnackBar('success', 'Ви записані');
+      }
+    });
+  }
+
+  checkIfMasterCanApply (game: IGameResponse) {
+    if (game.isSuspended || (game.players.length === game.maxPlayers) && (game.master && game.master.username)) {
+      return false;
+    }
+    if (game.master && game.master.username) {
+      return false;
+    }
+    if (game.creator && game.creator.username === this.user?.username) {
+      return false;
+    }
+    if (game.players.find(player => player.username === this.user?.username)) {
+      return false;
+    }
+    return true;
+  }
+  applyAsMaster (game: IGameResponse) {
+    if (!this.user) {
+      this.openApplyDialog('Щоб записатися на гру ви маєте бути зареєстровані або залогінені', false, true);
+      return;
+    }
+    if (!this.user.contactData?.telegram) {
+      this.openApplyDialog('Щоб записатися на гру у вас в профілі має бути вказаний телеграм');
+      return;
+    }
+    this.openApplyMasterDialog()
+  }
+  openApplyMasterDialog() {
+    const text = 'Ви впевнені, що хочете стати МАЙСТРОМ цієї гри?'
+    const dialogRef = this.dialog.open(TextDialogComponent, {
+      data: {title: 'Запис на гру, як майстер', text, withConfirm: true},
+      autoFocus: false,
+      panelClass: 'bordered-dialog'
+    });
+
+    dialogRef.afterClosed().pipe(take(1), switchMap(result => {
+      if (result) {
+        return this.gameHttpService.applyToGameRequestAsMaster(this.game._id);
+      } else {
+        return EMPTY;
+      }
+    })).pipe(take(1)).subscribe((res: IResponseMessage) => {
+      if (res.message === 'success' && this.user && this.user.username) {
+        this.game.master = {username: this.user.username, avatar: this.user.avatar || '', rate: this.user.rate || 0};
+        this.notificationService.openSnackBar('success', 'Ви стали майстром цієї гри');
       }
     });
   }
