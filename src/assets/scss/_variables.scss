@@ -58,7 +58,8 @@ $breakpoint-XS: 600px;
 $breakpoint-S: 748px;
 $breakpoint-M: 1350px;
 
-$page-height: calc(100vh - $page-top-padding - $footer-height);
+$page-height: calc(100vh - $page-top-padding);
+//$page-height: calc(100vh - $page-top-padding - $footer-height);
 $main-height: calc(100vh - 10px);
 
 @media screen and (max-width: $breakpoint-XS) {
