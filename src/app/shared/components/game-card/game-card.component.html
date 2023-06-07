@@ -19,9 +19,14 @@
 
       <mat-card-subtitle class="m-b-10">
         <p><b>Майстер/Ведучий: </b> <span class="accent-text">
-              <ng-container *ngIf="game.master else noMaster">
+              <ng-container *ngIf="game.master && game.master.username else noMaster">
                 <a *ngIf="!isPreview else masterLink" class="link break-word" [routerLink]="['/', 'user', game.master.username]">{{game.master.username}}</a>
                 <ng-template #masterLink><span class="break-word">{{game.master.username}}</span></ng-template>
+                <mat-icon *ngIf="detailedCard && cardType === 'gameRequest' && game.creator.username === user?.username"
+                          color="warn" matTooltipClass="tooltip" matTooltip="Видалити майстра" class="delete-master"
+                          (click)="openRemoveMasterDialog()">
+                  person_remove
+                </mat-icon>
               </ng-container>
               <ng-template #noMaster><span class="warn-text">Майстра ще немає</span></ng-template>
             </span>

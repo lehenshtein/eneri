@@ -19,7 +19,7 @@
       </a>
       <ng-container *ngFor="let item of links">
         <a *ngIf="!item.permissions || item.permissions === user.gameRole" [routerLink]="item.link"
-          routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          routerLinkActive="active" [queryParamsHandling]="item.queryHandling" [routerLinkActiveOptions]="{exact: true}"
           (click)="hideSidebarOnClick ? closeMenu.emit() : null">
           <mat-list-item>{{item.text}}</mat-list-item>
         </a>
@@ -30,12 +30,12 @@
       <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
       <a [routerLink]="''"
-        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="{exact: true}"
         (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>ІГРИ</mat-list-item>
       </a>
       <a [routerLink]="'game-requests'"
-        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="{exact: true}"
         (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>ЗАПИТИ ГРИ</mat-list-item>
       </a>

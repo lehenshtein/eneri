@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { IGameResponse, IGameSystem } from '@shared/models/game.interface';
 import { cities } from '@shared/helpers/cities';
 import { ICity } from '@shared/models/city.interface';
@@ -20,7 +20,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
   templateUrl: './game-card.component.html',
   styleUrls: ['./game-card.component.scss']
 })
-export class GameCardComponent {
+export class GameCardComponent implements OnInit{
   @Input() game!: IGameResponse;
   @Input() user?: Partial<IUser> | null;
   @Input() detailedCard = false;
@@ -82,6 +82,12 @@ export class GameCardComponent {
     ) {
     if (this.document.defaultView) {
       this.window = this.document.defaultView;
+    }
+  }
+
+  ngOnInit() {
+    if (this.game && this.game.creator && this.game.creator.username) {
+      this.cardType = 'gameRequest';
     }
   }
 
@@ -206,8 +212,8 @@ export class GameCardComponent {
       this.openApplyDialog('Щоб записатися на гру ви маєте бути зареєстровані або залогінені', false, true);
       return;
     }
-    if (!this.user.contactData?.telegram) {
-      this.openApplyDialog('Щоб записатися на гру у вас в профілі має бути вказаний телеграм');
+    if (!this.user.contactData?.telegram || !this.user.showContacts) {
+      this.openApplyDialog('Щоб записатися на гру, як майстер, у вас в профілі має бути вказаний телеграм та активовано показ контактів');
       return;
     }
     this.openApplyMasterDialog()
@@ -234,6 +240,26 @@ export class GameCardComponent {
     });
   }
 
+  openRemoveMasterDialog(): void {
+    const text = 'Ви впевнені, що хочете видалити МАЙСТРА цієї гри?';
+    const dialogRef = this.dialog.open(TextDialogComponent, {
+      data: {title: 'Видалення майстра', text, withConfirm: true},
+      autoFocus: false,
+      panelClass: 'bordered-dialog'
+    });
+    dialogRef.afterClosed().pipe(take(1), switchMap(result => {
+      if (result) {
+        return this.gameHttpService.removeMasterFromGameRequest(this.game._id);
+      } else {
+        return EMPTY;
+      }
+    })).subscribe((res: IResponseMessage) => {
+      if (res.message ==='success' && this.user && this.user.username) {
+        this.game.master.username = '';
+        this.notificationService.openSnackBar('success', 'Ви видалили майстра');
+    }})
+  }
+
   search (tag: string) {
     // this.sharedService.searchSubjectSet(tag);
     this.sharedService.tagSearchSubjectSet(tag);
@@ -254,15 +280,20 @@ export class GameCardComponent {
   }
 
   share (social: 'telegram' | 'facebook' | 'copy') {
-    const master = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
+    let user;
+    if (this.cardType === 'gameRequest') {
+      user = this.game.creator.username.replace(/ /ig, '%2520'); //hack for spaces
+    } else {
+      user = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
+    }
     if (social === 'telegram') {
-      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${master}/${this.game._id}`);
+      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${user}/${this.game._id}`);
     }
     if (social === 'facebook') {
-      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${master}/${this.game._id}`);
+      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${user}/${this.game._id}`);
     }
     if (social === 'copy') {
-      this.clipboard.copy(`${this.websiteUrl}/${master}/${this.game._id}`);
+      this.clipboard.copy(`${this.websiteUrl}/${user}/${this.game._id}`);
       this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
     }
   }

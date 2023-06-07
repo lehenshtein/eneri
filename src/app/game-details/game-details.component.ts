@@ -29,12 +29,11 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
   user$: Observable<IUser | undefined> = this.authHttpService.user$.pipe(shareReplay());
   game$: Observable<IGameResponse | undefined> = this.route$.pipe(
     switchMap((params: Params) => { //take id from route
-      console.log(params);
       if (!params['id']) {
         return EMPTY;
       }
       return this.user$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((user: IUser | undefined) => { //take user
-        if (params['master'] === user?.username) { //check master from query for master or default request
+        if (params['creator'] === user?.username || params['master'] === user?.username) { //check master from query for master or default request
           const request = this.gameRequest ?
             this.gameHttpService.fetchGameRequestById(params['id'], true) :
             this.gameHttpService.fetchGameById(params['id'], true);
@@ -43,8 +42,8 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
       }));//:TODO change this 2 requests as 1 with ternar, remove unsubscribe
         }
         const request = this.gameRequest ?
-          this.gameHttpService.fetchGameRequestById(params['id'], ) :
-          this.gameHttpService.fetchGameById(params['id'], );
+          this.gameHttpService.fetchGameRequestById(params['id']) :
+          this.gameHttpService.fetchGameById(params['id']);
         return request.pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
         this.updateMeta(res);
       }));

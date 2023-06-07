@@ -21,6 +21,16 @@
 b {
   font-weight: 500;
 }
+.delete-master {
+  position: absolute;
+  transform: translateY(-5px);
+  margin-left: $padding-s;
+  cursor: pointer;
+  opacity: .8;
+  &:hover {
+    opacity: 1;
+  }
+}
 
 mat-card-footer {
   //background-color: $primary;

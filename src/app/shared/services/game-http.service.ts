@@ -70,10 +70,10 @@ export class GameHttpService {
     }
     return this.http.get<IGameResponse>(`/game/${gameId}`, {params});
   }
-  fetchGameRequestById(gameId: string, master = false): Observable<IGameResponse> {
+  fetchGameRequestById(gameId: string, creator = false): Observable<IGameResponse> {
     let params = new HttpParams();
-    if (master) {
-      params = params.append('master', true)
+    if (creator) {
+      params = params.append('creator', true)
     }
     return this.http.get<IGameResponse>(`/game-request/${gameId}`, {params});
   }
@@ -104,5 +104,8 @@ export class GameHttpService {
   }
   removePlayerFromGameRequest(gameId: IGameResponse['_id'], username: string): Observable<IResponseMessage> {
     return this.http.patch<IResponseMessage>(`/game-request/${gameId}/${username}`, {});
+  }
+  removeMasterFromGameRequest(gameId: IGameResponse['_id']): Observable<IResponseMessage> {
+    return this.http.patch<IResponseMessage>(`/game-request/remove-master/${gameId}`, {});
   }
 }

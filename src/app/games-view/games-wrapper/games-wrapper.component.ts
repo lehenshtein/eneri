@@ -152,7 +152,8 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
 
   fetchGames(): Observable<HttpResponse<IGameResponse[]>> {
     this.loading = true;
-    return this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor).pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
+    const request = this.gameRequest ? this.gameHttpService.fetchGameRequests(this.filters, this.page, this.limit, this.gamesFor) : this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor);
+    return request.pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
   }
   gamesResponseAction(res: HttpResponse<IGameResponse[]>) {
     this.games = res.body || [];
