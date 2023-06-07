@@ -1,6 +1,7 @@
 @import './src/assets/scss/variables';
 .header {
   transition: all .2s;
+  word-break: break-word;
   &:hover {
     color: $accent-hover;
   }
@@ -20,10 +21,23 @@
 b {
   font-weight: 500;
 }
+.delete-master {
+  position: absolute;
+  transform: translateY(-5px);
+  margin-left: $padding-s;
+  cursor: pointer;
+  opacity: .8;
+  &:hover {
+    opacity: 1;
+  }
+}
 
 mat-card-footer {
-  background-color: $primary;
+  //background-color: $primary;
   border-radius: 0 0 24px 24px;
+  hr {
+    //margin: 0;
+  }
 }
 pre {
   //display: -webkit-box;
@@ -31,10 +45,20 @@ pre {
   //line-clamp: 10;
   //-webkit-box-orient: vertical;
   //overflow: hidden;
+  font-weight: 300;
   word-wrap: break-word;
   white-space: pre-wrap;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
+}
+.buttons {
+  width: 100%;
+}
+.main-btn {
+  width: 100%;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  max-width: 200px;
 }
 .link {
   color: $accent;
@@ -44,12 +68,13 @@ pre {
   }
 }
 .tag {
+  background-color: $dark-lighter!important;
   ::ng-deep.mat-mdc-chip-action-label {
     cursor: pointer;
   }
 }
 .card-content {
-  margin-top: -10px;
+  margin-top: $padding-xs;
 }
 .mw-detailed {
   max-width: calc(100% - 400px);
@@ -167,5 +192,8 @@ mat-card-content.mw-detailed {
   }
   .avatar-image.detailed {
     margin-top: $padding-s;
+  }
+  .main-btn {
+    font-size: 1.1rem;
   }
 }

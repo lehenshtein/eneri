@@ -10,7 +10,6 @@ export interface IGamePost {
   tags: string[];
   cityCode: ICity['code'];
   price: number;
-  byInvite: boolean;
   startDateTime: Date;
   maxPlayers: number;
 }
@@ -18,6 +17,7 @@ export interface IGamePost {
 export interface IGameResponse {
   _id: string;
   master: { username: IUser['username'], rate: IUser['rate'], avatar: string };
+  creator: { username: IUser['username'], avatar: string };
   organizedPlay: boolean,
   gameSystemId: IGameSystem['_id'];
   title: string;
@@ -26,7 +26,6 @@ export interface IGameResponse {
   tags: string[];
   cityCode: ICity['code'];
   price: number;
-  byInvite: boolean;
   startDateTime: Date;
   maxPlayers: number;
   players: Partial<IUser>[];

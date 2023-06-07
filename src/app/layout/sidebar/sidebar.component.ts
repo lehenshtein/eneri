@@ -11,11 +11,12 @@ import { cities } from '@app/shared/helpers/cities';
 import { gameSystems } from '@app/shared/helpers/game-systems';
 import { texts } from '@app/shared/helpers/texts';
 import { SearchComponent } from '@shared/components/search/search.component';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, QueryParamsHandling, Router } from '@angular/router';
 import { filter, map, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PartnersDialogComponent } from '@shared/components/partners-dialog/partners-dialog.component';
 import { DOCUMENT } from '@angular/common';
+import { gameRoles } from '@shared/models/gameRoles.type';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,7 +36,16 @@ export class SidebarComponent implements OnInit {
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
   filtersDisabled = false;
-  urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games'];
+  urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games', '/game-requests'];
+  links: {link: string, text: string, permissions: null | gameRoles, queryHandling: QueryParamsHandling | null | undefined}[] = [
+    {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null, queryHandling: null},
+    {link: '', text: 'ІГРИ', permissions: null, queryHandling: 'merge'},
+    {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null, queryHandling: 'merge'},
+    {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both', queryHandling: null},
+    {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ ГРИ', permissions: null, queryHandling: null},
+    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: 'merge'},
+    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: 'merge'},
+  ]
 
   constructor (
     @Inject(DOCUMENT) private document: Document,
@@ -80,7 +90,7 @@ export class SidebarComponent implements OnInit {
       map(e => {
         const urlForNotDisablingFilter = !this.urlsForNotDisablingFilter.find(url => url === e.url.split('?')[0]);
         if (!urlForNotDisablingFilter && e.url.includes('?')) {
-          return
+          return;
         }
         this.filtersDisabled = urlForNotDisablingFilter;
         this.resetFilters();

@@ -8,6 +8,12 @@
     </div>
   </div>
 </header>
+
+<section class="page-description" *ngIf="getPageDescription() as pageDescription">
+  <h4 class="primary-text">{{pageDescription.title}}</h4>
+  <p class="secondary-text">{{pageDescription.description}}</p>
+</section>
+
 <app-loader *ngIf="loading else gamesData"></app-loader>
 <ng-template #gamesData>
 <div>
@@ -19,7 +25,7 @@
     <div class="wrapper" *ngIf="tabletView">
       <div class="container">
         <div *ngFor="let game of games; let i = index" class="item" [ngClass]="{'suspended': game.isSuspended}">
-          <app-game-card [user]="user" [game]="game"></app-game-card>
+          <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
         </div>
       </div>
     </div>
@@ -28,14 +34,14 @@
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
           <div *ngIf="i%2 === 0" class="item" [ngClass]="{'suspended': game.isSuspended}">
-            <app-game-card [user]="user" [game]="game"></app-game-card>
+            <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
           </div>
         </ng-container>
       </div>
       <div class="container">
         <ng-container *ngFor="let game of games; let i = index">
           <div *ngIf="i%2 === 1" class="item" [ngClass]="{'suspended': game.isSuspended}">
-            <app-game-card [user]="user" [game]="game"></app-game-card>
+            <app-game-card [user]="user" [game]="game" [cardType]="gameRequest ? 'gameRequest' : 'default'" [isBrowser]="isBrowser"></app-game-card>
           </div>
         </ng-container>
       </div>

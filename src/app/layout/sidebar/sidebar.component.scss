@@ -7,7 +7,8 @@
   cursor: pointer;
   &:hover {
     .logo {
-      transform: rotateZ(180deg);
+      transition: all .8s cubic-bezier(0,0.1,0.1,1);
+      transform: rotateZ(360deg);
       //&-wrapper {
       //  transform: rotateZ(180deg);
       //}
@@ -23,9 +24,8 @@
     text-shadow: 1px 1px 1px $primary, -1px -1px 1px $primary,  -1px 1px 1px $primary,  1px -1px 1px $primary;
   }
   & .logo {
-    height: calc(100% - 16px);
+    height: calc(100% - 12px);
     margin-right: $padding-xl;
-    transition: all .3s;
     //&-wrapper {
     //  height: calc(100% - 6px);
     //  margin-top: 2px;
@@ -45,7 +45,12 @@
     //}
   }
 }
-
+a.active {
+  mat-list-item {
+    //background-color: rgba(165, 156, 237, 0.2);
+    background-color: rgba(173, 50, 37, 0.1);
+  }
+}
 .sidebar-wrapper {
   min-width: 310px;
   position: sticky;

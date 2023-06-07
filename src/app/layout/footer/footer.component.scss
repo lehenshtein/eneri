@@ -1,0 +1,30 @@
+@import './src/assets/scss/variables';
+footer {
+  height: $footer-height;
+  display: flex;
+  justify-content: center;
+  background: $dark-deep;
+  mat-list-item {
+    height: 30px!important;
+  }
+  h4 {
+    margin: $padding-l 0 0;
+  }
+}
+.columns {
+  width: 100%;
+  justify-content: space-between;
+  div {
+    width: 200px;
+  }
+}
+
+.telegram {
+  color: #2ba6e1;
+}
+
+@media screen and (max-width: $breakpoint-XS) {
+  .columns {
+    flex-direction: column;
+  }
+}

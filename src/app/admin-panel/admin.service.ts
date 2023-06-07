@@ -12,15 +12,15 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   fetchStats(): Observable<IStats> {
-    return this.http.get<IStats>(`/user/admin/stats`);
+    return this.http.get<IStats>(`/admin/stats`);
   }
   fetchUserForAdmin(usernameOrEmail: string): Observable<IUser> {
-    return this.http.get<IUser>(`/user/admin/user/${usernameOrEmail}`);
+    return this.http.get<IUser>(`/admin/user/${usernameOrEmail}`);
   }
   changeGameRole(username: string): Observable<IUser['gameRole']> {
-    return this.http.get<IUser['gameRole']>(`/user/admin/changeGameRole/${username}`);
+    return this.http.get<IUser['gameRole']>(`/admin/changeGameRole/${username}`);
   }
   changeEmailVerification(username: string): Observable<{ verified: boolean, verificationDate: Date }> {
-    return this.http.get<{ verified: boolean, verificationDate: Date }>(`/user/admin/changeEmailVerification/${username}`);
+    return this.http.get<{ verified: boolean, verificationDate: Date }>(`/admin/changeEmailVerification/${username}`);
   }
 }
