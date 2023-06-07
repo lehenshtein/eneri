@@ -32,7 +32,9 @@
             <mat-form-field class="text-area-handler">
               <mat-label>Подробиці</mat-label>
               <textarea matInput formControlName="description" rows="5"
-                        [placeholder]="'Деталі пригоди - хто, де, коли'"></textarea>
+                        [placeholder]="gameRequest ?
+                        'Деталі пригоди, можливо це готовий модуль, або навчальна гра, аба певний сеттинг. Напишіть чого ви очікуєте від гри.' :
+                        'Деталі пригоди - хто, де, коли'"></textarea>
               <mat-error *ngIf="formDescription.hasError('minlength')">
                 {{texts.validations.minLength}}
                 {{ formDescription.getError('minlength')['requiredLength']}}
