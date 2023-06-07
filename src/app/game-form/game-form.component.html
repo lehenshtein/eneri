@@ -30,7 +30,7 @@
             </mat-form-field>
 
             <mat-form-field class="text-area-handler">
-              <mat-label>Подробиці</mat-label>
+              <mat-label>{{gameRequest ? 'Очікування' : 'Подробиці'}}</mat-label>
               <textarea matInput formControlName="description" rows="5"
                         [placeholder]="gameRequest ?
                         'Деталі пригоди, можливо це готовий модуль, або навчальна гра, аба певний сеттинг. Напишіть чого ви очікуєте від гри.' :
