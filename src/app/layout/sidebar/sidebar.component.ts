@@ -43,8 +43,8 @@ export class SidebarComponent implements OnInit {
     {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null, queryHandling: 'merge'},
     {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both', queryHandling: null},
     {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ ГРИ', permissions: null, queryHandling: null},
-    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: null},
-    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: null},
+    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: 'merge'},
+    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: 'merge'},
   ]
 
   constructor (

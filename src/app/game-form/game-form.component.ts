@@ -143,7 +143,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       price: [ game?.price || 0, [ Validators.required ] ],
       maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
       startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
-      booked: this.fb.array([this.formBookedGroup()])
+      booked: this.fb.array(this.gameRequest ? [] : [this.formBookedGroup()])
     });
   }
   get formTitle () {
@@ -212,8 +212,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     //track booked according to maxPlayers
     this.formMaxPlayers.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(100), distinctUntilChanged())
       .subscribe(res => {
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) < res) {
-          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0));
+        const creatorAsPlayerIfGameRequest = this.gameRequest && !this.editing ? 1 : 0;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) < res) {
+          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest);
           for (let i = 0; i < amount; i++) {
             this.formBooked.push(this.formBookedGroup())
           }
@@ -223,8 +224,8 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
             this.isFirstBookedValueFilling = false;
           }
         }
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) > res) {
-          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0)) - res;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) > res) {
+          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) - res;
           for (let i = 0; i < amount; i++) {
             this.formBooked.removeAt(this.formBooked.value.length - 1);
           }
