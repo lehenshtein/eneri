@@ -300,4 +300,15 @@ ngx-mat-datetime-content {
 ::-webkit-scrollbar-thumb:hover {
   background-color: $primary;
 }
+@media screen and (max-width: $breakpoint-S) {
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    border: 1px solid transparent;
+  }
+}
 
