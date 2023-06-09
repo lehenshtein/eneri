@@ -281,19 +281,22 @@ export class GameCardComponent implements OnInit{
 
   share (social: 'telegram' | 'facebook' | 'copy') {
     let user;
+    let route;
     if (this.cardType === 'gameRequest') {
       user = this.game.creator.username.replace(/ /ig, '%2520'); //hack for spaces
+      route = `${this.websiteUrl}/game-request/${user}/${this.game._id}`
     } else {
       user = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
+      route = `${this.websiteUrl}/${user}/${this.game._id}`
     }
     if (social === 'telegram') {
-      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${user}/${this.game._id}`);
+      this.window.open(`https://telegram.me/share/url?url=${route}`);
     }
     if (social === 'facebook') {
-      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${user}/${this.game._id}`);
+      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${route}`);
     }
     if (social === 'copy') {
-      this.clipboard.copy(`${this.websiteUrl}/${user}/${this.game._id}`);
+      this.clipboard.copy(`${route}`);
       this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
     }
   }

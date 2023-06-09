@@ -280,6 +280,15 @@ ngx-mat-datetime-content {
   }
 }
 
+.white-fab-button {
+  background-color: $white!important;
+  svg {
+    fill: $primary;
+    width: 24px;
+    height: 24px;
+  }
+}
+
 
 /* custom scrollbar */
 ::-webkit-scrollbar {

@@ -146,8 +146,8 @@
             </button>
           </mat-menu>
         </div>
-        <button mat-icon-button class="dndme" [color]="'accent'" *ngIf="game.gameSystemId === 1 && !isPreview"
-                [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme" (click)="createCharacter()">
+        <button mat-mini-fab class="dndme white-fab-button" *ngIf="game.gameSystemId === 1 && !isPreview"
+                [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme.club" (click)="createCharacter()">
           <svg-icon src="/assets/images/icons/add-user.svg"></svg-icon>
         </button>
       </div>
