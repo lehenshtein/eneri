@@ -172,7 +172,7 @@ mat-card {
 .card-special {
   position: relative;
   border-radius: $border-radius-xl!important;
-  background: linear-gradient(0deg, rgba(19,18,27,1) 0%, rgba(54,54,61,1) 100%);
+  background: linear-gradient(0deg, $dark-medium 0%, $dark-lighter 100%);
   box-shadow: 0 10px 20px 0 $primary-shadow-color;
 }
 

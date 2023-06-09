@@ -35,7 +35,7 @@ $facebook: #4867aa;
 $discord: #5562ea;
 $instagram: #fe4164;
 
-$primary-gradient: linear-gradient(90deg, #4f4fff 0%, map.get($my-darkpalette, 500) 100%);
+$primary-gradient: linear-gradient(90deg, #4f4fff 0%, $dark-medium 100%);
 $primary-shadow-color: rgba(0,0,0,0.5);
 $primary-shadow: 0 5px 5px 0 $primary-shadow-color;
 
