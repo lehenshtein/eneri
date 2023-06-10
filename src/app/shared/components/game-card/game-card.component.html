@@ -8,7 +8,7 @@
       <mat-card-title>
         <h2 class="header">
           <ng-container *ngIf="cardType === 'gameRequest' else linkByMaster">
-            <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', game.creator.username, game._id]">{{game.title}}</a>
+            <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', 'game-request', game.creator.username, game._id]">{{game.title}}</a>
           </ng-container>
           <ng-template #linkByMaster>
             <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', game.master.username, game._id]">{{game.title}}</a>
