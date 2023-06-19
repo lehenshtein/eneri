@@ -36,6 +36,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   isShowBooked = false;
   isFirstBookedValueFilling = true;
   maxImageSize = 1024 * 1024 * 3; // 3 MB
+  gameRequest = false;
 
   constructor (
     private route: ActivatedRoute,
@@ -47,6 +48,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     private authService: AuthHttpService
     ) {
     super();
+    this.gameRequest = this.route.snapshot.data['page'] === 'game-request';
     this.gameForPreview = {
       title: 'Тут буде назва',
       description: 'Тут буде опис',
@@ -54,7 +56,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       cityCode: 0,
       tags: [],
       price: 0,
-      master: {username: this.authService.getUser?.username || 'Ваш нікнейм', rate: 0, avatar: this.authService.getUser?.avatar || ''},
+      master: {username: this.gameRequest ? 'Нікнейм майбутнього майстра' : this.authService.getUser?.username || 'Нікнейм майстра', rate: 0, avatar: this.authService.getUser?.avatar || ''},
       maxPlayers: 1,
       players: [],
       imgUrl: 'https://eneri.com.ua/assets/images/img-placeholder.jpg',
@@ -73,13 +75,23 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   private checkRoute() {
-    if (this.route.snapshot.params['master'] && this.route.snapshot.params['id']) {
-      this.gameHttpService.fetchGameById(this.route.snapshot.params['id'], true).pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
+    if ((this.route.snapshot.params['creator'] || this.route.snapshot.params['master']) && this.route.snapshot.params['id']) {
+      const request = this.gameRequest ?
+        this.gameHttpService.fetchGameRequestById(this.route.snapshot.params['id'], true) :
+        this.gameHttpService.fetchGameById(this.route.snapshot.params['id'], true);
+
+      request.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
         this.game = res;
         this.gameForPreview = res;
-        if (this.game.master.username === this.route.snapshot.params['master']) {
-          this.editing = true;
+
+        if (this.gameRequest) {
+          if (this.game.creator.username === this.route.snapshot.params['creator']) {
+            this.editing = true;
+          }
+        } else if (this.game.master.username === this.route.snapshot.params['master']) {
+            this.editing = true;
         }
+
         this.fillFormFields();
       })
       this.updateMeta()
@@ -130,9 +142,8 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       cityCode: [ (game?.cityCode || game?.cityCode === 0) ? game?.cityCode : null, [ Validators.required ] ],
       price: [ game?.price || 0, [ Validators.required ] ],
       maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
-      byInvite: [ false, [ Validators.required ] ],
       startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
-      booked: this.fb.array([this.formBookedGroup()])
+      booked: this.fb.array(this.gameRequest ? [] : [this.formBookedGroup()])
     });
   }
   get formTitle () {
@@ -161,9 +172,6 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   }
   get formMaxPlayers () {
     return this.form.get('maxPlayers') as FormControl;
-  }
-  get formByInvite () {
-    return this.form.get('byInvite') as FormControl;
   }
   get formStartDateTime () {
     return this.form.get('startDateTime') as FormControl;
@@ -204,8 +212,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     //track booked according to maxPlayers
     this.formMaxPlayers.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(100), distinctUntilChanged())
       .subscribe(res => {
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) < res) {
-          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0));
+        const creatorAsPlayerIfGameRequest = this.gameRequest && !this.editing ? 1 : 0;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) < res) {
+          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest);
           for (let i = 0; i < amount; i++) {
             this.formBooked.push(this.formBookedGroup())
           }
@@ -215,8 +224,8 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
             this.isFirstBookedValueFilling = false;
           }
         }
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0)) > res) {
-          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0)) - res;
+        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) > res) {
+          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) - res;
           for (let i = 0; i < amount; i++) {
             this.formBooked.removeAt(this.formBooked.value.length - 1);
           }
@@ -246,7 +255,10 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     const formData = createFormDataWithFile(formValue, 'imgUrl');
 
     if (this.editing && this.game) {
-      this.gameHttpService.updateGame(formData, this.game._id).pipe(takeUntil(this.ngUnsubscribe$),
+      const updateGame = this.gameRequest ?
+        this.gameHttpService.updateGameRequest(formData, this.game._id) :
+        this.gameHttpService.updateGame(formData, this.game._id);
+      updateGame.pipe(takeUntil(this.ngUnsubscribe$),
         catchError(() => {
           this.postingText = '';
           return throwError(() => 'Error');
@@ -255,12 +267,17 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
           this.postingText = 'Редаговано'
           if (res) {
             this.notificationService.openSnackBar('success', 'Вдало редаговано');
-            this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
+            this.gameRequest ?
+              this.router.navigate([`game-request/${this.game?.creator.username}/${this.game?._id}`]) :
+              this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
           }
       })
       return;
     }
-    this.gameHttpService.createGame(formData).pipe(takeUntil(this.ngUnsubscribe$),
+    const createGame = this.gameRequest ?
+      this.gameHttpService.createGameRequest(formData) :
+      this.gameHttpService.createGame(formData);
+    createGame.pipe(takeUntil(this.ngUnsubscribe$),
       catchError(() => {
         this.postingText = '';
         return throwError(() => 'Error');
@@ -269,7 +286,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
         this.postingText = 'Створено'
         if (res) {
           this.notificationService.openSnackBar('success', 'Вдало створено');
-          this.router.navigate([`/${res.master.username}/${res._id}`]);
+          this.router.navigate([`/${this.gameRequest ? 'game-request/' + res.creator.username : res.master.username}/${res._id}`]);
         }
     })
   }

@@ -1,0 +1,32 @@
+<footer>
+  <div class="wrapper">
+    <div class="d-flex columns">
+<!--      <div>-->
+<!--        <h4>Підтримати проект:</h4>-->
+<!--      </div>-->
+
+      <div>
+        <mat-nav-list>
+          <a [routerLink]="'/about'">
+            <mat-list-item>Про ЕНЕРІ</mat-list-item>
+          </a>
+          <mat-list-item (click)="partnersDialog()">Партнери</mat-list-item>
+<!--          <mat-list-item (click)="partnersDialog()">Партнери</mat-list-item>-->
+<!--          <mat-list-item (click)="partnersDialog()">Партнери</mat-list-item>-->
+        </mat-nav-list>
+      </div>
+
+      <div>
+        <h4>Соц. мережі:</h4>
+        <button class="telegram" mat-icon-button
+                (click)="openTg()" matTooltipClass="tooltip" matTooltip="Новини Енері">
+          <mat-icon>telegram</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <h4>Над проектом працювали:</h4>
+      </div>
+    </div>
+  </div>
+</footer>

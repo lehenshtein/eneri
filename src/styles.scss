@@ -35,6 +35,9 @@ h2 {
 }
 button {
   font-size: 1rem;
+  &:not(.mdc-fab):not(.mdc-icon-button):not(.button-browse) {
+    border-radius: 12px!important;
+  }
 }
 
 input {
@@ -58,8 +61,17 @@ input {
 .accent-text {
   color: $accent;
 }
+.warn-text {
+  color: $warning;
+}
+.super-accent-text {
+  color: $accentText;
+}
 .primary-text {
   color: $primary;
+}
+.secondary-text {
+  color: $whiteSecondary;
 }
 .semibold {
   font-weight: 600!important;

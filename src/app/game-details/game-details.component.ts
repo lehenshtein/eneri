@@ -15,11 +15,15 @@ import { environment } from '@environment/environment';
   styleUrls: ['./game-details.component.scss']
 })
 export class GameDetailsComponent extends UnsubscribeAbstract {
+  gameRequest = false;
   constructor (private route: ActivatedRoute,
               private gameHttpService: GameHttpService,
               private authHttpService: AuthHttpService,
               private metaHelper: MetaHelper,) {
     super();
+    if (this.route.snapshot.data['page'] === 'game-request') {
+      this.gameRequest = true;
+    }
   }
   route$ = this.route.params.pipe(shareReplay(1), takeUntil(this.ngUnsubscribe$));
   user$: Observable<IUser | undefined> = this.authHttpService.user$.pipe(shareReplay());
@@ -29,12 +33,18 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
         return EMPTY;
       }
       return this.user$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((user: IUser | undefined) => { //take user
-        if (params['master'] === user?.username) { //check master from query for master or default request
-          return this.gameHttpService.fetchGameById(params['id'], true).pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
+        if (params['creator'] === user?.username || params['master'] === user?.username) { //check master from query for master or default request
+          const request = this.gameRequest ?
+            this.gameHttpService.fetchGameRequestById(params['id'], true) :
+            this.gameHttpService.fetchGameById(params['id'], true);
+          return request.pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
         this.updateMeta(res);
       }));//:TODO change this 2 requests as 1 with ternar, remove unsubscribe
         }
-        return this.gameHttpService.fetchGameById(params['id']).pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
+        const request = this.gameRequest ?
+          this.gameHttpService.fetchGameRequestById(params['id']) :
+          this.gameHttpService.fetchGameById(params['id']);
+        return request.pipe(takeUntil(this.ngUnsubscribe$),tap((res: IGameResponse) => {
         this.updateMeta(res);
       }));
       }))
@@ -47,9 +57,9 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
       tags: item.tags,
       text: item.description,
       type: 'article',
-      url: `${environment.url}/${item.master.username}/${item._id}`,
+      url: `${environment.url}/${item.creator ? item.creator.username : item.master.username}/${item._id}`,
       imgUrl: item.imgUrl || 'https://eneri.com.ua/assets/images/eneri-social.jpg',
-      author: item.master.username
+      author: item.master? item.master.username : 'В пошуку майстра'
     });
   }
 

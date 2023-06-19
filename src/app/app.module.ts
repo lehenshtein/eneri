@@ -18,6 +18,7 @@ import { GoogleAnalyticsComponent } from '@app/google-analytics/google-analytics
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { VerificationComponent } from './verification/verification.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { FooterComponent } from './layout/footer/footer.component';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -28,7 +29,8 @@ registerLocaleData(localeUK);
     AboutComponent,
     GoogleAnalyticsComponent,
     AdminPanelComponent,
-    VerificationComponent
+    VerificationComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
