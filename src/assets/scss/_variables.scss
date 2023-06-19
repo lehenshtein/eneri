@@ -62,7 +62,7 @@ $page-height: calc(100vh - $page-top-padding);
 //$page-height: calc(100vh - $page-top-padding - $footer-height);
 $main-height: calc(100vh - 10px);
 
-@media screen and (max-width: $breakpoint-XS) {
+@media screen and (max-width: $breakpoint-M) {
   :root {
     --footer-height: auto;
   }

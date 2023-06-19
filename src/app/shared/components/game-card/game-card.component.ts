@@ -265,21 +265,7 @@ export class GameCardComponent implements OnInit{
     this.sharedService.tagSearchSubjectSet(tag);
   }
 
-  openShare () {
-    if (!this.sharedService.isBrowser) {
-      return;
-    }
-    if (this.isDeviceMobile) {
-      const master = this.game.master.username.replace(/ /ig, '%2520');
-      navigator.share({
-        url: `${this.websiteUrl}/${master}/${this.game._id}`,
-        title: this.game.title,
-      })
-        .then().catch(err => console.log(err));
-    }
-  }
-
-  share (social: 'telegram' | 'facebook' | 'copy') {
+  getShareRoute (): string {
     let user;
     let route;
     if (this.cardType === 'gameRequest') {
@@ -289,14 +275,31 @@ export class GameCardComponent implements OnInit{
       user = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
       route = `${this.websiteUrl}/${user}/${this.game._id}`
     }
+    return route;
+  }
+
+  openShare () {
+    if (!this.sharedService.isBrowser) {
+      return;
+    }
+    if (this.isDeviceMobile) {
+      navigator.share({
+        url: this.getShareRoute(),
+        title: this.game.title,
+      })
+        .then().catch(err => console.log(err));
+    }
+  }
+
+  share (social: 'telegram' | 'facebook' | 'copy') {
     if (social === 'telegram') {
-      this.window.open(`https://telegram.me/share/url?url=${route}`);
+      this.window.open(`https://telegram.me/share/url?url=${this.getShareRoute()}`);
     }
     if (social === 'facebook') {
-      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${route}`);
+      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.getShareRoute()}`);
     }
     if (social === 'copy') {
-      this.clipboard.copy(`${route}`);
+      this.clipboard.copy(`${this.getShareRoute()}`);
       this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
     }
   }
