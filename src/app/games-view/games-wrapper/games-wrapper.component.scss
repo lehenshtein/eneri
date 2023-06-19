@@ -84,7 +84,7 @@
   max-width: 800px;
   box-sizing: border-box;
   align-self: center;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.04);
   margin: 0 10px;
   border-radius: $border-radius-xl;
   padding: 0 $padding-xs 1rem;
@@ -116,7 +116,7 @@
     //column-gap: 0;
     width: 100%;
     & .item {
-      min-width: 320px;
+      //min-width: 320px;
       max-width: 440px;
       margin: 0 auto 60px;
       display: block;

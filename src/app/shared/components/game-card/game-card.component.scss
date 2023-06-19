@@ -52,20 +52,15 @@ pre {
   margin: 0;
 }
 .buttons {
-  width: 100%;
+  flex: 1 1 auto;
+  //max-width: 100%;
+  //min-width: calc(100% - 100px);
 }
 .main-btn {
   width: 100%;
   font-size: 1.3rem;
   letter-spacing: 1px;
   max-width: 200px;
-}
-.link {
-  color: $accent;
-  transition: color .2s;
-  &:hover {
-    color: $accent-hover
-  }
 }
 .tag {
   background-color: $dark-lighter!important;

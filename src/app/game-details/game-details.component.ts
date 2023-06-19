@@ -33,7 +33,7 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
         return EMPTY;
       }
       return this.user$.pipe(takeUntil(this.ngUnsubscribe$), switchMap((user: IUser | undefined) => { //take user
-        if (params['creator'] === user?.username || params['master'] === user?.username) { //check master from query for master or default request
+        if (user?.username && (params['creator'] === user?.username || params['master'] === user?.username)) { //check master from query for master or default request
           const request = this.gameRequest ?
             this.gameHttpService.fetchGameRequestById(params['id'], true) :
             this.gameHttpService.fetchGameById(params['id'], true);
@@ -52,12 +52,14 @@ export class GameDetailsComponent extends UnsubscribeAbstract {
   );
 
   private updateMeta (item: IGameResponse) {
+    const url = item.creator ? `${environment.url}/game-request/${item.creator.username}/${item._id}` :
+      `${environment.url}/${item.master.username}/${item._id}`
     this.metaHelper.updateMeta({
       title: item.title,
       tags: item.tags,
       text: item.description,
       type: 'article',
-      url: `${environment.url}/${item.creator ? item.creator.username : item.master.username}/${item._id}`,
+      url: url,
       imgUrl: item.imgUrl || 'https://eneri.com.ua/assets/images/eneri-social.jpg',
       author: item.master? item.master.username : 'В пошуку майстра'
     });

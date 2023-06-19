@@ -9,22 +9,54 @@ footer {
   }
   h4 {
     margin: $padding-l 0 0;
+    font-weight: 500;
   }
 }
 .columns {
   width: 100%;
   justify-content: space-between;
-  div {
-    width: 200px;
+  padding-left: 10px;
+  padding-right: 10px;
+  &>div {
+    width: 160px;
+  }
+  .fill-space-col {
+    width: 270px;
+  }
+  .support-buttons {
+    display: flex;
+    padding-top: $padding-s;
   }
 }
 
 .telegram {
   color: #2ba6e1;
 }
+.mono-btn {
+  width: 40px;
+  height: 40px;
+  margin-left: $padding-l;
+  a, img {
+    width: 40px;
+    height: 40px;
+  }
+}
 
-@media screen and (max-width: $breakpoint-XS) {
+@media screen and (max-width: $breakpoint-M) {
   .columns {
     flex-direction: column;
+    align-items: center;
+    div {
+      text-align: center;
+    }
+    .support-buttons {
+      justify-content: center;
+      .sup-btn {
+        transition: all 0.3s;
+        &:hover {
+          transform: translateY(-3px);
+        }
+      }
+    }
   }
 }
