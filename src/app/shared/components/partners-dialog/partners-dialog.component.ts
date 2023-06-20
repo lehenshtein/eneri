@@ -55,6 +55,12 @@ export class PartnersDialogComponent {
       text: 'Створи персонажа для ДнД за кілька простих кроків.',
       link: 'https://dndme.club/'
     },
+    {
+      img: 'huhy.jpg',
+      title: 'Хухи.space',
+      text: 'Простір де можна пограти в НРІ та настільні ігри.',
+      link: 'https://t.me/huhyclub'
+    },
     // {
     //   img: 'inriumIcon.jpg',
     //   title: 'Інріум',
