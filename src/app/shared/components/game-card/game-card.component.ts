@@ -265,14 +265,26 @@ export class GameCardComponent implements OnInit{
     this.sharedService.tagSearchSubjectSet(tag);
   }
 
+  getShareRoute (): string {
+    let user;
+    let route;
+    if (this.cardType === 'gameRequest') {
+      user = this.game.creator.username.replace(/ /ig, '%2520'); //hack for spaces
+      route = `${this.websiteUrl}/game-request/${user}/${this.game._id}`
+    } else {
+      user = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
+      route = `${this.websiteUrl}/${user}/${this.game._id}`
+    }
+    return route;
+  }
+
   openShare () {
     if (!this.sharedService.isBrowser) {
       return;
     }
     if (this.isDeviceMobile) {
-      const master = this.game.master.username.replace(/ /ig, '%2520');
       navigator.share({
-        url: `${this.websiteUrl}/${master}/${this.game._id}`,
+        url: this.getShareRoute(),
         title: this.game.title,
       })
         .then().catch(err => console.log(err));
@@ -280,20 +292,14 @@ export class GameCardComponent implements OnInit{
   }
 
   share (social: 'telegram' | 'facebook' | 'copy') {
-    let user;
-    if (this.cardType === 'gameRequest') {
-      user = this.game.creator.username.replace(/ /ig, '%2520'); //hack for spaces
-    } else {
-      user = this.game.master.username.replace(/ /ig, '%2520'); //hack for spaces
-    }
     if (social === 'telegram') {
-      this.window.open(`https://telegram.me/share/url?url=${this.websiteUrl}/${user}/${this.game._id}`);
+      this.window.open(`https://telegram.me/share/url?url=${this.getShareRoute()}`);
     }
     if (social === 'facebook') {
-      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.websiteUrl}/${user}/${this.game._id}`);
+      this.window.open(`https://www.facebook.com/sharer/sharer.php?u=${this.getShareRoute()}`);
     }
     if (social === 'copy') {
-      this.clipboard.copy(`${this.websiteUrl}/${user}/${this.game._id}`);
+      this.clipboard.copy(`${this.getShareRoute()}`);
       this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
     }
   }

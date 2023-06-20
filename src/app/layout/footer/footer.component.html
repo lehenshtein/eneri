@@ -1,9 +1,23 @@
 <footer>
   <div class="wrapper">
     <div class="d-flex columns">
-<!--      <div>-->
-<!--        <h4>Підтримати проект:</h4>-->
-<!--      </div>-->
+      <div>
+        <h4>Підтримати проект:</h4>
+          <div class="support-buttons">
+            <button mat-mini-fab class="sup-btn white-fab-button"
+                    [matTooltipClass]="'tooltip'" matTooltip="Купити нам каву на buymeacoffee">
+              <a href="https://www.buymeacoffee.com/eneri" target="_blank">
+                <svg-icon src="/assets/images/icons/buymeacoffee.svg"></svg-icon>
+              </a>
+            </button>
+
+            <div class="sup-btn mono-btn">
+              <a href="https://send.monobank.ua/jar/4k2t79Pkf2" target="_blank" [matTooltipClass]="'tooltip'" matTooltip="Скинути на монобанку">
+                <img src="/assets/images/icons/mono.png" alt="monobank">
+              </a>
+            </div>
+          </div>
+      </div>
 
       <div>
         <mat-nav-list>
@@ -24,8 +38,11 @@
         </button>
       </div>
 
-      <div>
+      <div class="fill-space-col">
         <h4>Над проектом працювали:</h4>
+        <p class="p-t-5 p-b-5"><a href="https://t.me/shoshanna_5" target="_blank" class="link">@shoshanna_5</a> - допомога з текстами</p>
+        <p class="p-t-5 p-b-5"><a href="https://t.me/Lootgvfr" target="_blank" class="link">@Lootgvfr</a> - найскладніше на бекенді</p>
+        <p class="p-t-5 p-b-5"><a href="https://t.me/lehenshtein" target="_blank" class="link">@lehenshtein</a> - все інше</p>
       </div>
     </div>
   </div>

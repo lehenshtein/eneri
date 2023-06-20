@@ -8,7 +8,7 @@
       <mat-card-title>
         <h2 class="header">
           <ng-container *ngIf="cardType === 'gameRequest' else linkByMaster">
-            <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', game.creator.username, game._id]">{{game.title}}</a>
+            <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', 'game-request', game.creator.username, game._id]">{{game.title}}</a>
           </ng-container>
           <ng-template #linkByMaster>
             <a *ngIf="!detailedCard && !isPreview else title" [routerLink]="['/', game.master.username, game._id]">{{game.title}}</a>
@@ -125,7 +125,7 @@
   </mat-card-content>
 
   <mat-card-content class="m-b-10" >
-    <div class="d-flex justify-space-between align-center m-t-10">
+    <div class="d-flex justify-space-between align-center m-t-10 flex-wrap">
       <div class="d-flex">
         <div class="social">
           <button [disabled]="isPreview" mat-mini-fab [color]="'accent'" [matMenuTriggerFor]="isDeviceMobile ? null : menu"
@@ -146,8 +146,8 @@
             </button>
           </mat-menu>
         </div>
-        <button mat-icon-button class="dndme" [color]="'accent'" *ngIf="game.gameSystemId === 1 && !isPreview"
-                [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme" (click)="createCharacter()">
+        <button mat-mini-fab class="dndme white-fab-button" *ngIf="game.gameSystemId === 1 && !isPreview"
+                [matTooltipClass]="'tooltip'" matTooltip="Створити персонажа на dndme.club" (click)="createCharacter()">
           <svg-icon src="/assets/images/icons/add-user.svg"></svg-icon>
         </button>
       </div>
