@@ -55,11 +55,11 @@ export class PartnersDialogComponent {
       text: 'Створи персонажа для ДнД за кілька простих кроків.',
       link: 'https://dndme.club/'
     },
-    {
-      img: 'inriumIcon.jpg',
-      title: 'Інріум',
-      text: 'Найбільша НРІ спільнота України.',
-      link: 'https://t.me/dnd_ua'
-    },
+    // {
+    //   img: 'inriumIcon.jpg',
+    //   title: 'Інріум',
+    //   text: 'Найбільша НРІ спільнота України.',
+    //   link: 'https://t.me/dnd_ua'
+    // },
   ]
 }
