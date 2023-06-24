@@ -57,7 +57,7 @@
   <mat-card-content class="card-content" [ngClass]="{'mw-detailed': detailedCard}">
     <div class="m-b-10">
       <ng-container *ngIf="!detailedCard && game.description.length > maxDescriptionLetters else detailedDescription">
-        <pre class="secondary-text">{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span class="accent-text"><a *ngIf="!isPreview else plainText" [routerLink]="['/', game.master.username, game._id]" class="link">Читати далі</a><ng-template #plainText>Читати далі</ng-template></span>
+        <pre class="secondary-text">{{game.description.slice(0, maxDescriptionLetters)}}{{'...'}} <span class="accent-text"><a *ngIf="!isPreview else plainText" [routerLink]="(cardType === 'gameRequest') ? ['/', 'game-request', game.creator.username, game._id] : ['/', game.master.username, game._id]" class="link">Читати далі</a><ng-template #plainText>Читати далі</ng-template></span>
         </pre>
       </ng-container>
       <ng-template #detailedDescription>
