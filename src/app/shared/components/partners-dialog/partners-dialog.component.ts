@@ -56,10 +56,16 @@ export class PartnersDialogComponent {
       link: 'https://dndme.club/'
     },
     {
-      img: 'inriumIcon.jpg',
-      title: 'Інріум',
-      text: 'Найбільша НРІ спільнота України.',
-      link: 'https://t.me/dnd_ua'
+      img: 'huhy.jpg',
+      title: 'Хухи.space',
+      text: 'Простір де можна пограти в НРІ та настільні ігри.',
+      link: 'https://t.me/huhyclub'
     },
+    // {
+    //   img: 'inriumIcon.jpg',
+    //   title: 'Інріум',
+    //   text: 'Найбільша НРІ спільнота України.',
+    //   link: 'https://t.me/dnd_ua'
+    // },
   ]
 }
