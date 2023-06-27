@@ -146,13 +146,20 @@
               </mat-form-field>
 
               <div class="form-field-wrapper">
-                <mat-slide-toggle [checked]="isShowBooked" [matTooltipClass]="'tooltip'"
-                                  [matTooltip]="'Просунуті налаштування\nВикористовувати уважно'"
-                                  (change)="changeBooking()" class="m-l-15">
-                  Заброньовані місця
+                <mat-slide-toggle [matTooltipClass]="'tooltip'"
+                                  [matTooltip]="'Ігри будуть видимі лише за прямим посиланням, або у вас в профілі за спеціальним посиланням'"
+                                  formControlName="linkOnly"
+                                  class="m-l-15">
+                  Доступ за посиланням чи ключем
                 </mat-slide-toggle>
               </div>
             </div>
+
+            <mat-slide-toggle [checked]="isShowBooked" [matTooltipClass]="'tooltip'"
+                              [matTooltip]="'Просунуті налаштування\nВикористовувати уважно'"
+                              (change)="changeBooking()" class="m-l-15 m-b-15">
+              Заброньовані місця
+            </mat-slide-toggle>
 
             <div *ngIf="isShowBooked">
               <hr class="m-b-25">

@@ -34,6 +34,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   gameForPreview?: any;
   postingText = '';
   isShowBooked = false;
+  isLinkOnly = false;
   isFirstBookedValueFilling = true;
   maxImageSize = 1024 * 1024 * 3; // 3 MB
   gameRequest = false;
@@ -134,6 +135,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     this.form = this.fb.group({
       title: [ game?.title || '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
       organizedPlay: [ game?.organizedPlay || false ],
+      linkOnly: [ game?.linkOnly || false ],
       description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
       tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
       imgUrl: [ game?.imgUrl || null, [ Validators.maxLength(240) ] ],
