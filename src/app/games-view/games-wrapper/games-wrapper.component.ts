@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GameHttpService } from '@shared/services/game-http.service';
 import { finalize, Observable, switchMap, takeUntil } from 'rxjs';
 import { IGameResponse } from '@shared/models/game.interface';
@@ -19,6 +19,8 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./games-wrapper.component.scss']
 })
 export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit {
+  @Input() userProfilePage = false;
+  fullAccessKey?: string;
   loading = false;
   tabletView = false;
   games: IGameResponse[] = [];
@@ -87,6 +89,7 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
   }
 
   private checkQuery() {
+    this.fullAccessKey = this.route.snapshot.queryParams['fullAccessKey'];
     this.sharedService.queryFiltersSet(this.route.snapshot.queryParams);
   }
 
@@ -114,7 +117,9 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
         cityCode: queryParams['cityCode'] || null,
         sort: queryParams['sort'] || 0
       }
-      const request = this.gameRequest ?
+      const request = this.userProfilePage ?
+        this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor, this.route.snapshot.params['username'], this.fullAccessKey) :
+        this.gameRequest ?
         this.gameHttpService.fetchGameRequests(filter, this.page, this.limit, this.gamesFor) :
         this.gameHttpService.fetchGames(filter, this.page, this.limit, this.gamesFor);
       return request.pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
@@ -153,7 +158,9 @@ export class GamesWrapperComponent extends UnsubscribeAbstract implements OnInit
 
   fetchGames(): Observable<HttpResponse<IGameResponse[]>> {
     this.loading = true;
-    const request = this.gameRequest ? this.gameHttpService.fetchGameRequests(this.filters, this.page, this.limit, this.gamesFor) : this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor);
+    const request = this.userProfilePage ?
+      this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor, this.route.snapshot.params['username'], this.fullAccessKey) :
+      this.gameRequest ? this.gameHttpService.fetchGameRequests(this.filters, this.page, this.limit, this.gamesFor) : this.gameHttpService.fetchGames(this.filters, this.page, this.limit, this.gamesFor);
     return request.pipe(takeUntil(this.ngUnsubscribe$), finalize(() => this.loading = false));
   }
   gamesResponseAction(res: HttpResponse<IGameResponse[]>) {

@@ -5,6 +5,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { SharedModule } from '@shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { GamesViewModule } from '@app/games-view/games-view.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   imports: [
     CommonModule,
     UserRoutingModule,
-    SharedModule
+    SharedModule,
+    GamesViewModule
   ]
 })
 export class UserModule { }

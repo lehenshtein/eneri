@@ -36,5 +36,8 @@
             [src]="user.avatar ? user.avatar : '../../../assets/images/avatar-placeholder.jpg'" alt="avatar">
       </div>
     </mat-card>
+
+    <app-games-wrapper *ngIf="user && user.gameRole === 'both'" [userProfilePage]="true"></app-games-wrapper>
   </div>
 </div>
+
