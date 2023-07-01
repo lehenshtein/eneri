@@ -201,7 +201,7 @@
         <mat-card-content>
           <mat-card-footer>
             <div class="buttons">
-              <button mat-raised-button color="primary" [disabled]="!!postingText || form.invalid" (click)="submit()">
+              <button mat-raised-button color="primary" [disabled]="!!postingText || form.invalid" (click)="openModal()">
                 {{postingText ? postingText : editing ? 'Редагувати' : 'Створити'}}
               </button>
             </div>
