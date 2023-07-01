@@ -145,7 +145,7 @@
                 <mat-error *ngIf="formCityCode.getError('required')">{{texts.validations.required}}</mat-error>
               </mat-form-field>
 
-              <div class="form-field-wrapper">
+              <div class="form-field-wrapper" *ngIf="!gameRequest">
                 <mat-slide-toggle [matTooltipClass]="'tooltip'"
                                   [matTooltip]="'Ігри будуть видимі лише за прямим посиланням, або у вас в профілі за спеціальним посиланням'"
                                   formControlName="linkOnly"
