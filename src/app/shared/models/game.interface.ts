@@ -10,7 +10,7 @@ export interface IGamePost {
   tags: string[];
   cityCode: ICity['code'];
   price: number;
-  startDateTime: Date;
+  startDateTime: Date | undefined;
   maxPlayers: number;
 }
 
@@ -26,7 +26,7 @@ export interface IGameResponse {
   tags: string[];
   cityCode: ICity['code'];
   price: number;
-  startDateTime: Date;
+  startDateTime: Date | undefined;
   maxPlayers: number;
   players: Partial<IUser>[];
   isSuspended: boolean;
@@ -34,6 +34,7 @@ export interface IGameResponse {
   updatedAt: Date;
   booked: string[];
   bookedAmount: number;
+  linkOnly: boolean;
 }
 
 export interface IGameSystem {

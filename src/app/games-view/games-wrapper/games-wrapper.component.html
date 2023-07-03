@@ -1,18 +1,20 @@
-<header class="primary-banner">
-  <div class="primary-banner__image"></div>
-  <div class="darken"></div>
-  <div class="title">
-    <div>
-      <h1>ЕНЕРІ</h1>
-      <h3 class="subtitle" [innerHTML]="subtitle | safePipe: 'html'"></h3>
+<ng-container *ngIf="!userProfilePage">
+  <header class="primary-banner">
+    <div class="primary-banner__image"></div>
+    <div class="darken"></div>
+    <div class="title">
+      <div>
+        <h1>ЕНЕРІ</h1>
+        <h3 class="subtitle" [innerHTML]="subtitle | safePipe: 'html'"></h3>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<section class="page-description" *ngIf="getPageDescription() as pageDescription">
-  <h4 class="primary-text">{{pageDescription.title}}</h4>
-  <p class="secondary-text">{{pageDescription.description}}</p>
-</section>
+  <section class="page-description" *ngIf="getPageDescription() as pageDescription">
+    <h4 class="primary-text">{{pageDescription.title}}</h4>
+    <p class="secondary-text">{{pageDescription.description}}</p>
+  </section>
+</ng-container>
 
 <app-loader *ngIf="loading else gamesData"></app-loader>
 <ng-template #gamesData>

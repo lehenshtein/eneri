@@ -42,6 +42,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { FileToImgPipe } from '@shared/pipes/file-to-img.pipe';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { DonateDialogComponent } from './components/donate-dialog/donate-dialog.component';
 
 const Material = [
   MatSlideToggleModule,
@@ -82,7 +83,8 @@ const Material = [
     SafePipe,
     FileToImgPipe,
     PartnersDialogComponent,
-    LoaderComponent
+    LoaderComponent,
+    DonateDialogComponent
   ],
   imports: [
     CommonModule,

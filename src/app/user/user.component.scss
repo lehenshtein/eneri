@@ -3,6 +3,11 @@ $padding-for-phone-prefix: 55px;
 .edit-btn {
   transform: translateY(-3px);
 }
+.copy-icon {
+  transform: translateY(7px);
+  margin-left: $padding-s;
+  cursor: pointer;
+}
 .phone {
   &__form-wrapper {
     position: relative;

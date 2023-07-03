@@ -13,6 +13,7 @@ import { NotificationService } from '@shared/services/notification.service';
 import { telegramPattern } from '@shared/helpers/regex-patterns';
 import { createFormDataWithFile } from '@shared/helpers/forms.helper';
 import { MaxSizeValidator } from '@angular-material-components/file-input';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-user.content',
@@ -35,6 +36,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
     private dialog: MatDialog,
     private dom: DomSanitizer,
     private notificationService: NotificationService,
+    private clipboard: Clipboard
   ) {
     super();
   }
@@ -56,6 +58,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
     this.form = this.fb.group({
       name: [this.user.name || '', [Validators.maxLength(30)]],
       about: [this.user.about, [Validators.maxLength(600)]],
+      fullAccessCode: [this.user.fullAccessCode || '', [Validators.maxLength(30)]],
       showContacts: [this.user.showContacts || false],
       file: [ null, [MaxSizeValidator(this.maxImageSize)] ],
       contactData: this.contactDataGroup
@@ -81,6 +84,10 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
 
   get formFile () {
     return this.form.get('file') as FormControl;
+  }
+
+  get formFullAccessCode(): FormControl {
+    return this.form.get('fullAccessCode') as FormControl;
   }
 
   get formContactDataGroup(): FormGroup {
@@ -167,5 +174,10 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   private updateNextEmailDate(nextDate: Date) {
     const date = new Date(nextDate);
     this.nextEmailDate = new Date(date.setHours(date.getHours() + 1));
+  }
+
+  copy() {
+    this.clipboard.copy(`https://eneri.com.ua/user/${this.user?.username}?fullAccessKey=${this.formFullAccessCode.value}`);
+    this.notificationService.openSnackBar('info', 'Скопійовано, тепер надішли це кудись.', 'Ура!')
   }
 }

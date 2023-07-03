@@ -30,6 +30,7 @@ export interface IUser {
   avatar: string,
   updatedAt: Date,
   createdAt: Date,
+  fullAccessCode?: string
 }
 
 interface IContactData {

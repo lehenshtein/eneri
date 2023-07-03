@@ -6,7 +6,7 @@ import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { catchError, debounceTime, distinctUntilChanged, takeUntil, throwError } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, take, takeUntil, throwError } from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +16,8 @@ import { MetaHelper } from '@shared/helpers/meta.helper';
 import { MaxSizeValidator } from '@angular-material-components/file-input';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { createFormDataWithFile, tagsForSendDto } from '@shared/helpers/forms.helper';
+import { MatDialog } from '@angular/material/dialog';
+import { DonateDialogComponent } from '@shared/components/donate-dialog/donate-dialog.component';
 
 @Component({
   selector: 'app-game-form.content',
@@ -34,6 +36,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   gameForPreview?: any;
   postingText = '';
   isShowBooked = false;
+  isLinkOnly = false;
   isFirstBookedValueFilling = true;
   maxImageSize = 1024 * 1024 * 3; // 3 MB
   gameRequest = false;
@@ -45,7 +48,8 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     private notificationService: NotificationService,
     private router: Router,
     private metaHelper: MetaHelper,
-    private authService: AuthHttpService
+    private authService: AuthHttpService,
+    private dialogRef: MatDialog
     ) {
     super();
     this.gameRequest = this.route.snapshot.data['page'] === 'game-request';
@@ -106,6 +110,9 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     this.form.patchValue(this.game);
     (this.game.tags && this.game.tags.length) ? this.formTags.patchValue(this.game.tags.toString()) : this.formTags.patchValue('');
     this.form.updateValueAndValidity();
+    if (this.game.booked.length) {
+      this.fillFormBooked()
+    }
   }
 
   private fillFormBooked() {
@@ -134,6 +141,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     this.form = this.fb.group({
       title: [ game?.title || '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
       organizedPlay: [ game?.organizedPlay || false ],
+      linkOnly: [ game?.linkOnly || false ],
       description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
       tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
       imgUrl: [ game?.imgUrl || null, [ Validators.maxLength(240) ] ],
@@ -231,6 +239,17 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
           }
         }
       })
+  }
+
+  openModal() {
+    const dialog = this.dialogRef.open(DonateDialogComponent, {data: {title: this.editing ? 'Редагувати':'Створити'}, minWidth: '50%', width: '700px', maxWidth: '90vw', autoFocus: false,
+      panelClass: 'bordered-dialog'});
+
+    dialog.afterClosed().pipe(take(1)).subscribe(res => {
+      if (res) {
+        this.submit();
+      }
+    })
   }
 
   submit () {

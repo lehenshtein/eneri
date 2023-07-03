@@ -11,8 +11,15 @@ import { cities } from '@app/shared/helpers/cities';
 import { gameSystems } from '@app/shared/helpers/game-systems';
 import { texts } from '@app/shared/helpers/texts';
 import { SearchComponent } from '@shared/components/search/search.component';
-import { ActivatedRoute, NavigationEnd, Params, QueryParamsHandling, Router } from '@angular/router';
-import { filter, map, take } from 'rxjs';
+import {
+  ActivatedRoute,
+  IsActiveMatchOptions,
+  NavigationEnd,
+  Params,
+  QueryParamsHandling,
+  Router
+} from '@angular/router';
+import { filter, map, Observable, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PartnersDialogComponent } from '@shared/components/partners-dialog/partners-dialog.component';
 import { DOCUMENT } from '@angular/common';
@@ -28,6 +35,7 @@ export class SidebarComponent implements OnInit {
   @ViewChild('searchComponent') searchComponent!: SearchComponent;
   @Input() hideSidebarOnClick: boolean = false;
   @Output() closeMenu: EventEmitter<any> = new EventEmitter<any>();
+  routerActiveLinkOptions: IsActiveMatchOptions = { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' };
   form!: FormGroup;
   user$ = this.authHttpService.user$;
   searchText = '';
@@ -39,12 +47,12 @@ export class SidebarComponent implements OnInit {
   urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games', '/game-requests'];
   links: {link: string, text: string, permissions: null | gameRoles, queryHandling: QueryParamsHandling | null | undefined}[] = [
     {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null, queryHandling: null},
-    {link: '', text: 'ІГРИ', permissions: null, queryHandling: 'merge'},
-    {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null, queryHandling: 'merge'},
+    {link: '', text: 'ІГРИ', permissions: null, queryHandling: null},
+    {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null, queryHandling: null},
     {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both', queryHandling: null},
     {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ ГРИ', permissions: null, queryHandling: null},
-    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: 'merge'},
-    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: 'merge'},
+    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: null},
+    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: null},
   ]
 
   constructor (

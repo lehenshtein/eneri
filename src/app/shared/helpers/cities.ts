@@ -27,6 +27,12 @@ export const cities: ICity[] =
     },
     {
       "category": "Місто",
+      "name": "ДНІПРО",
+      "code": 510101010,
+      "region": "ДНІПРОВСЬКА ОБЛАСТЬ"
+    },
+    {
+      "category": "Місто",
       "name": "ЖИТОМИР",
       "code": 510111111,
       "region": "ЖИТОМИРСЬКА ОБЛАСТЬ"

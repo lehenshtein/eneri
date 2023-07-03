@@ -11,7 +11,7 @@ import { IGameFilters } from '@shared/models/game-filters.interface';
 export class GameHttpService {
 
   constructor(private http: HttpClient) { }
-  fetchGames(filters: IGameFilters, page: number, limit: number, forWhom?: 'master' | 'player'): Observable<HttpResponse<IGameResponse[]>> {
+  fetchGames(filters: IGameFilters, page: number, limit: number, forWhom?: 'master' | 'player', master?: string, fullAccessCode?: string): Observable<HttpResponse<IGameResponse[]>> {
     let params = new HttpParams()
       .set('page', page)
       .set('limit', limit);
@@ -29,6 +29,12 @@ export class GameHttpService {
     }
     if (filters.sort) {
       params = params.append('sort', filters.sort)
+    }
+    if (master) {
+      params = params.append('master', master)
+    }
+    if (fullAccessCode) {
+      params = params.append('fullAccessCode', fullAccessCode)
     }
 
     if (forWhom) {

@@ -1,0 +1,9 @@
+@import './src/assets/scss/variables';
+mat-card {
+  padding: 10px 15px;
+  border-radius: $border-radius-xl!important;
+}
+.support-buttons {
+  display: flex;
+  padding-top: $padding-s;
+}
