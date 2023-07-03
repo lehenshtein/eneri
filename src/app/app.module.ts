@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +19,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { VerificationComponent } from './verification/verification.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { FooterComponent } from './layout/footer/footer.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -39,6 +40,12 @@ registerLocaleData(localeUK);
     HttpClientModule,
     AngularSvgIconModule.forRoot(),
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
 
   ],
   exports: [
