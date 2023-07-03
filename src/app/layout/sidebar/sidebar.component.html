@@ -14,12 +14,12 @@
       <button *ngIf="user && user.role === 'superAdmin'" class="admin-btn" mat-icon-button [routerLink]="['/', 'admin']">
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
-      <a [routerLink]="['user', user.username]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+      <a [routerLink]="['user', user.username]" routerLinkActive="active" [routerLinkActiveOptions]="routerActiveLinkOptions" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>{{user.gameRole === 'both' ? 'Майстер:' : 'Гравець:'}} <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
       </a>
       <ng-container *ngFor="let item of links">
         <a *ngIf="!item.permissions || item.permissions === user.gameRole" [routerLink]="item.link"
-          routerLinkActive="active" [queryParamsHandling]="item.queryHandling" [routerLinkActiveOptions]="{exact: true}"
+          routerLinkActive="active" [queryParamsHandling]="item.queryHandling" [routerLinkActiveOptions]="routerActiveLinkOptions"
           (click)="hideSidebarOnClick ? closeMenu.emit() : null">
           <mat-list-item>{{item.text}}</mat-list-item>
         </a>
@@ -30,12 +30,12 @@
       <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
       <a [routerLink]="''"
-        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="routerActiveLinkOptions"
         (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>ІГРИ</mat-list-item>
       </a>
       <a [routerLink]="'game-requests'"
-        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="routerActiveLinkOptions"
         (click)="hideSidebarOnClick ? closeMenu.emit() : null">
         <mat-list-item>ЗАПИТИ ГРИ</mat-list-item>
       </a>

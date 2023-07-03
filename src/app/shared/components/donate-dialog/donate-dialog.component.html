@@ -1,0 +1,30 @@
+<mat-card>
+  <h1 mat-dialog-title>{{data.title}} гру</h1>
+  <div mat-dialog-content>
+    <p>
+        Звісно ти можеш просто {{data.title | lowercase}} гру.
+        Однак, якщо ти хочеш, щоб проект існував та розвивався, щоб з'являлися нові фічі та виправлялися помилки, тоді <span class="primary-text">підтримай</span> проект.
+        Це допоможе нам сплачувати хостинг, домен, маркетингові витрати. Пришвидшити та покращити розробку. Рости та залучати нових людей.
+    </p>
+    <p>:)</p>
+
+    <div class="support-buttons">
+      <button mat-mini-fab class="sup-btn white-fab-button"
+              [matTooltipClass]="'tooltip'" matTooltip="Купити нам каву на buymeacoffee">
+        <a href="https://www.buymeacoffee.com/eneri" target="_blank">
+          <svg-icon src="/assets/images/icons/buymeacoffee.svg"></svg-icon>
+        </a>
+      </button>
+
+      <div class="sup-btn mono-btn">
+        <a href="https://send.monobank.ua/jar/4k2t79Pkf2" target="_blank" [matTooltipClass]="'tooltip'" matTooltip="Скинути на монобанку">
+          <img src="/assets/images/icons/mono.png" alt="monobank">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Закрити</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="true">{{data.title}}</button>
+  </div>
+</mat-card>

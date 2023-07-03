@@ -145,14 +145,21 @@
                 <mat-error *ngIf="formCityCode.getError('required')">{{texts.validations.required}}</mat-error>
               </mat-form-field>
 
-              <div class="form-field-wrapper">
-                <mat-slide-toggle [checked]="isShowBooked" [matTooltipClass]="'tooltip'"
-                                  [matTooltip]="'Просунуті налаштування\nВикористовувати уважно'"
-                                  (change)="changeBooking()" class="m-l-15">
-                  Заброньовані місця
+              <div class="form-field-wrapper" *ngIf="!gameRequest">
+                <mat-slide-toggle [matTooltipClass]="'tooltip'"
+                                  [matTooltip]="'Ігри будуть видимі лише за прямим посиланням, або у вас в профілі за спеціальним посиланням'"
+                                  formControlName="linkOnly"
+                                  class="m-l-15">
+                  Доступ за посиланням чи ключем
                 </mat-slide-toggle>
               </div>
             </div>
+
+            <mat-slide-toggle [checked]="isShowBooked" [matTooltipClass]="'tooltip'"
+                              [matTooltip]="'Просунуті налаштування\nВикористовувати уважно'"
+                              (change)="changeBooking()" class="m-l-15 m-b-15">
+              Заброньовані місця
+            </mat-slide-toggle>
 
             <div *ngIf="isShowBooked">
               <hr class="m-b-25">
@@ -194,7 +201,7 @@
         <mat-card-content>
           <mat-card-footer>
             <div class="buttons">
-              <button mat-raised-button color="primary" [disabled]="!!postingText || form.invalid" (click)="submit()">
+              <button mat-raised-button color="primary" [disabled]="!!postingText || form.invalid" (click)="openModal()">
                 {{postingText ? postingText : editing ? 'Редагувати' : 'Створити'}}
               </button>
             </div>

@@ -58,6 +58,26 @@
             </mat-error>
           </mat-form-field>
 
+          <mat-form-field *ngIf="user?.gameRole === 'both'">
+            <mat-label>Ключ для доступних за посиланням ігор</mat-label>
+            <input matInput formControlName="fullAccessCode" [placeholder]="'Придумайте щось цікаве'"  [matTooltipClass]="'tooltip'" matTooltip="Користувачі, у яких є посиланням з ключем, зможуть на вашій сторінці бачити ігри, які доступні лише за посиланням" matTooltipPosition="above">
+            <mat-icon matSuffix [color]="'primary'" *ngIf="formFullAccessCode.valid || !formFullAccessCode.touched">key
+            </mat-icon>
+            <mat-icon matSuffix [color]="'warn'" *ngIf="formFullAccessCode.invalid && formFullAccessCode.touched">
+              key_off
+            </mat-icon>
+            <mat-error *ngIf="formFullAccessCode.getError('maxlength')">
+              {{texts.validations.maxLength}}
+              {{ formFullAccessCode.getError('maxlength')['requiredLength']}}
+            </mat-error>
+          </mat-form-field>
+          <p class="m-b-20" *ngIf="formFullAccessCode.value">
+            Посилання на ваш профіль з ключем:
+            <span class="primary-text">eneri.com.ua/user/{{user.username}}?fullAccessKey={{formFullAccessCode.value}}</span>
+            <mat-icon class="copy-icon" [color]="'accent'" [matTooltipClass]="'tooltip'" matTooltip="Скопіювати посилання"
+                      (click)="copy()">link</mat-icon>
+          </p>
+
           <div formGroupName="contactData">
             <div class="phone__form-wrapper">
               <mat-form-field class="phone__code">
@@ -93,7 +113,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="form-field-wrapper m-t-20" *ngIf="user.gameRole === 'both'">
+          <div class="form-field-wrapper" *ngIf="user.gameRole === 'both'">
             <mat-slide-toggle formControlName="showContacts" [matTooltipClass]="'tooltip'"
                               [matTooltip]="'Якщо вибрано, будь-який користувач зможе побачити ваш телеграм, якщо ви майстер'"
                               class="m-t-10 m-b-10">

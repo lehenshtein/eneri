@@ -32,15 +32,6 @@ footer {
 .telegram {
   color: #2ba6e1;
 }
-.mono-btn {
-  width: 40px;
-  height: 40px;
-  margin-left: $padding-l;
-  a, img {
-    width: 40px;
-    height: 40px;
-  }
-}
 
 @media screen and (max-width: $breakpoint-M) {
   .columns {

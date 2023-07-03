@@ -10,6 +10,9 @@ import { SharedModule } from '@shared/shared.module';
   declarations: [
     GamesWrapperComponent
   ],
+  exports: [
+    GamesWrapperComponent
+  ],
   imports: [
     CommonModule,
     GamesViewRoutingModule,
