@@ -5,6 +5,8 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 import { SharedService } from '@shared/services/shared.service';
 import { isPlatformBrowser, Location } from '@angular/common';
 import { navigatorHelper } from '@shared/helpers/navigator.helper';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit {
   backdropSidebar = false;
   hideSidebarOnClick = false;
   constructor (
+    private swUpdate: SwUpdate,
     private authHttpService: AuthHttpService,
     private breakpointObserver: BreakpointObserver,
     private location: Location,
@@ -33,6 +36,7 @@ export class AppComponent implements OnInit {
   ngOnInit (): void {
     this.tryLogin();
     this.resize();
+    this.checkSw();
   }
 
   private tryLogin () {
@@ -67,5 +71,18 @@ export class AppComponent implements OnInit {
 
   back () {
     this.location.back();
+  }
+
+  private checkSw (): void {
+    if (!this.swUpdate.isEnabled) {//if no service worker
+      return;
+    }
+    this.swUpdate.versionUpdates.pipe(
+      filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
+    ).subscribe(() => {
+      if (confirm('Доступна нова версія. Оновити?')) {
+        window.location.reload();
+      }
+    });
   }
 }
