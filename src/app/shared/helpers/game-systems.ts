@@ -27,6 +27,7 @@ export const gameSystems: IGameSystem[] = [
   {_id: 24, name: 'Space cowboy: bounty hunter'},
   {_id: 25, name: 'The Hunters Hunted'},
   {_id: 26, name: 'Inczer'},
+  {_id: 27, name: 'Mutant: Year Zero'},
 
   {_id: 998, name: 'Narrative Adventure'},
   {_id: 999, name: 'Інша гра'},

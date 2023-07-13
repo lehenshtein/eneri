@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserHttpService } from '@app/user/user-http.service';
 import { take } from 'rxjs';
 import { IUserAsMaster, IUserAsPlayer } from '@shared/models/user.interface';
+import { AuthHttpService } from '@shared/services/auth-http.service';
 
 @Component({
   selector: 'app-user-profile.content',
@@ -12,7 +13,8 @@ import { IUserAsMaster, IUserAsPlayer } from '@shared/models/user.interface';
 export class UserProfileComponent implements OnInit {
   userName = '';
   user?: IUserAsMaster | IUserAsPlayer;
-  constructor (private route: ActivatedRoute, private userHttpService: UserHttpService,) {
+  currentUser$ = this.authHttpService.user$;
+  constructor (private route: ActivatedRoute, private userHttpService: UserHttpService, private authHttpService: AuthHttpService) {
   }
   ngOnInit (): void {
     this.fetchMaster();

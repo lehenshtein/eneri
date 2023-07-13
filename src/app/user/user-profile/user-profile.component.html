@@ -7,12 +7,13 @@
             <h2 class="header">{{user.gameRole === 'both' ? 'Майстер:' : 'Гравець:'}} {{userName}}</h2>
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content>
 
+        <mat-card-content>
           <div class="d-flex align-center m-b-10" *ngIf="getUserTelegram() as telegram">
-            <b class="primary-text semibold">Телеграм:&nbsp;</b>  <span class="link">
-            <a [href]='"https://t.me/" + telegram' target="_blank">{{telegram}}</a>
-          </span>
+            <b class="primary-text semibold">Телеграм:&nbsp;</b>  <span *ngIf="currentUser$ | async else tgPlaceholder" class="link">
+              <a [href]='"https://t.me/" + telegram' target="_blank">{{telegram}}</a>
+            </span>
+            <ng-template #tgPlaceholder><span>Якщо ви хочете побачити телеграм майстра - авторизуйтеся</span></ng-template>
           </div>
 
           <div class="d-flex align-center m-b-10" *ngIf="user.name">
