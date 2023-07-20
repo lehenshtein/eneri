@@ -28,6 +28,9 @@ export const gameSystems: IGameSystem[] = [
   {_id: 25, name: 'The Hunters Hunted'},
   {_id: 26, name: 'Inczer'},
   {_id: 27, name: 'Mutant: Year Zero'},
+  {_id: 28, name: 'Vaesen'},
+  {_id: 29, name: 'Alien RPG'},
+  {_id: 30, name: 'Dragonbane'},
 
   {_id: 998, name: 'Narrative Adventure'},
   {_id: 999, name: 'Інша гра'},
