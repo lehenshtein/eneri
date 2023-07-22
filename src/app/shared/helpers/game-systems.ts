@@ -31,6 +31,7 @@ export const gameSystems: IGameSystem[] = [
   {_id: 28, name: 'Vaesen'},
   {_id: 29, name: 'Alien RPG'},
   {_id: 30, name: 'Dragonbane'},
+  {_id: 31, name: 'Tales from the Loop'},
 
   {_id: 998, name: 'Narrative Adventure'},
   {_id: 999, name: 'Інша гра'},
