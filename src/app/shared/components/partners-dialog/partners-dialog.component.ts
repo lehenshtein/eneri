@@ -38,6 +38,12 @@ export class PartnersDialogComponent {
       link: 'https://t.me/larpempireUA'
     },
     {
+      img: 'cbgames.png',
+      title: 'CBGames',
+      text: 'Магазин та клуб настільних ігор та НРІ у Києві.',
+      link: 'https://www.cbgames.kiev.ua/'
+    },
+    {
       img: 'grighammer.jpg',
       title: 'Grighammer',
       text: 'Канал про вархаммер та настільні рольові ігри.',

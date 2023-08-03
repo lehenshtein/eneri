@@ -1,4 +1,4 @@
-<mat-card class="card-special" [ngClass]="{'detailed-margin': detailedCard, 'link-only-card': game.linkOnly, 'event-card': allowEventCard()}">
+<mat-card class="card-special" [ngClass]="{'detailed-margin': detailedCard, 'link-only-card': game.linkOnly, 'event-card': false}">
   <div class="image-wrapper" [ngClass]="{'detailed-image': detailedCard}" *ngIf="detailedCard || isBrowser || isPreview">
     <img mat-card-image appImg src="{{game.imgUrl || './assets/images/img-placeholder.jpg'}}" alt="Preview">
   </div>

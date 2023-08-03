@@ -309,9 +309,9 @@ export class GameCardComponent implements OnInit{
   }
 
   //remove after event
-  allowEventCard (): boolean {
-    const today = new Date();
-    const eventDate = new Date('July 30, 2023 23:59:59');
-    return today < eventDate && this.game.master?.username === 'lex_sanchez';
-  }
+  // allowEventCard (): boolean {
+  //   // const today = new Date();
+  //   // const eventDate = new Date('July 30, 2023 23:59:59');
+  //   // return today < eventDate &&
+  // }
 }
