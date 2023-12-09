@@ -5,7 +5,7 @@ import { UnsubscribeAbstract } from '@shared/helpers/unsubscribe.abstract';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { texts } from '@shared/helpers/texts';
 import { UserHttpService } from '@app/user/user-http.service';
-import { finalize, take } from 'rxjs';
+import { finalize, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { TextDialogComponent } from '@shared/components/text-dialog/text-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -42,7 +42,7 @@ export class UserComponent extends UnsubscribeAbstract implements OnInit {
   }
 
   ngOnInit () {
-    this.authHttpService.user$.subscribe((user: IUser | undefined) => {
+    this.authHttpService.user$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((user: IUser | undefined) => {
       this.user = user;
       if (this.user && !this.user.verified) {
         this.updateNextEmailDate(this.user.verificationDate);
