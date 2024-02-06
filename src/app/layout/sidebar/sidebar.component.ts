@@ -96,13 +96,13 @@ export class SidebarComponent implements OnInit {
       queryHandling: null,
     },
     {
-      link: 'my-created',
+      link: 'games/my-created',
       text: 'ІСТОРІЯ МАЙСТРА',
       permissions: 'both',
       queryHandling: null,
     },
     {
-      link: 'my-games',
+      link: 'games/my-games',
       text: 'ІСТОРІЯ ГРАВЦЯ',
       permissions: null,
       queryHandling: null,
