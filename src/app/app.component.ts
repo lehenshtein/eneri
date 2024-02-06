@@ -11,20 +11,21 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   showSidebar = false;
   modeSidebar: MatDrawerMode = 'side';
   backdropSidebar = false;
   hideSidebarOnClick = false;
-  constructor (
+  constructor(
     private swUpdate: SwUpdate,
     private authHttpService: AuthHttpService,
     private breakpointObserver: BreakpointObserver,
     private location: Location,
     public sharedService: SharedService,
-    @Inject(PLATFORM_ID) private platformId: Object) {
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     sharedService.setBrowser = isPlatformBrowser(this.platformId);
     if (this.sharedService.isBrowser) {
       (async () => {
@@ -33,56 +34,58 @@ export class AppComponent implements OnInit {
     }
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.tryLogin();
     this.resize();
     this.checkSw();
   }
 
-  private tryLogin () {
+  private tryLogin() {
     const token = this.authHttpService.token;
     if (token && !this.authHttpService.isTokenExpired()) {
       this.authHttpService.setAllUserData(token);
     }
   }
 
-  private resize () {
-    this.breakpointObserver.observe([
-      '(max-width: 900px)',
-      '(max-width: 1180px)'
-    ]).subscribe((result: BreakpointState) => {
-      if (result.breakpoints['(max-width: 1180px)']) {
-        this.showSidebar = false;
-        this.modeSidebar = 'over';
-        this.backdropSidebar = true;
-        this.hideSidebarOnClick = true;
-      } else {
-        this.showSidebar = true;
-        this.modeSidebar = 'side';
-        this.backdropSidebar = false;
-        this.hideSidebarOnClick = false;
-      }
-    });
+  private resize() {
+    this.breakpointObserver
+      .observe(['(max-width: 900px)', '(max-width: 1180px)'])
+      .subscribe((result: BreakpointState) => {
+        if (result.breakpoints['(max-width: 1180px)']) {
+          this.showSidebar = false;
+          this.modeSidebar = 'over';
+          this.backdropSidebar = true;
+          this.hideSidebarOnClick = true;
+        } else {
+          this.showSidebar = true;
+          this.modeSidebar = 'side';
+          this.backdropSidebar = false;
+          this.hideSidebarOnClick = false;
+        }
+      });
   }
 
-  closeMenu ($event: any) {
+  closeMenu($event: any) {
     this.showSidebar = false;
   }
 
-  back () {
+  back() {
     this.location.back();
   }
 
-  private checkSw (): void {
-    if (!this.swUpdate.isEnabled) {//if no service worker
+  private checkSw(): void {
+    if (!this.swUpdate.isEnabled) {
+      //if no service worker
       return;
     }
-    this.swUpdate.versionUpdates.pipe(
-      filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-    ).subscribe(() => {
-      if (confirm('Доступна нова версія. Оновити?')) {
-        window.location.reload();
-      }
-    });
+    this.swUpdate.versionUpdates
+      .pipe(
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+      )
+      .subscribe(() => {
+        if (confirm('Доступна нова версія. Оновити?')) {
+          window.location.reload();
+        }
+      });
   }
 }

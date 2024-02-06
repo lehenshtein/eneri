@@ -1,22 +1,40 @@
 <app-google-analytics></app-google-analytics>
-<button class="back" mat-icon-button (click)="back()" *ngIf="!hideSidebarOnClick || (!drawer.opened)">
+<button
+  class="back"
+  mat-icon-button
+  (click)="back()"
+  *ngIf="!hideSidebarOnClick || !drawer.opened"
+>
   <mat-icon>chevron_left</mat-icon>
 </button>
 
 <button class="menu" mat-icon-button (click)="drawer.toggle()">
   <mat-icon>more_vert</mat-icon>
-  <div [matBadge]="(sharedService.search$ | async) ? 'search' : null" matBadgeColor="warn" matBadgePosition="before"></div>
-<!--  <div [matBadge]="'1'" matBadgeColor="accent" matBadgePosition="after"></div>-->
+  <div
+    [matBadge]="(sharedService.search$ | async) ? 'search' : null"
+    matBadgeColor="warn"
+    matBadgePosition="before"
+  ></div>
+  <!--  <div [matBadge]="'1'" matBadgeColor="accent" matBadgePosition="after"></div>-->
 </button>
 
-<mat-drawer-container autosize  [hasBackdrop]="backdropSidebar">
-  <mat-drawer style="position: fixed" [opened]="showSidebar" #drawer class="sidenav" [mode]="modeSidebar" position="end">
-    <app-sidebar (closeMenu)="drawer.close()" [hideSidebarOnClick]="hideSidebarOnClick"></app-sidebar>
+<mat-drawer-container autosize [hasBackdrop]="backdropSidebar">
+  <mat-drawer
+    style="position: fixed"
+    [opened]="showSidebar"
+    #drawer
+    class="sidenav"
+    [mode]="modeSidebar"
+    position="end"
+  >
+    <app-sidebar
+      (closeMenu)="drawer.close()"
+      [hideSidebarOnClick]="hideSidebarOnClick"
+    ></app-sidebar>
   </mat-drawer>
-<!--  <app-header (toggleMenu)="drawer.toggle()" [showNavbar]="showNavbar"></app-header>-->
+  <!--  <app-header (toggleMenu)="drawer.toggle()" [showNavbar]="showNavbar"></app-header>-->
   <main>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
   </main>
 </mat-drawer-container>
-
