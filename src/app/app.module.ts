@@ -20,6 +20,7 @@ import { VerificationComponent } from './verification/verification.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { FooterComponent } from './layout/footer/footer.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HomeComponent } from './home/home.component';
 registerLocaleData(localeUK);
 
 @NgModule({
@@ -31,7 +32,8 @@ registerLocaleData(localeUK);
     GoogleAnalyticsComponent,
     AdminPanelComponent,
     VerificationComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
