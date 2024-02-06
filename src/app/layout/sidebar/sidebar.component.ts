@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { AuthModalService } from '@shared/services/auth-modal.service';
 import { AuthHttpService } from '@shared/services/auth-http.service';
 import { SignUpFormComponent } from '@shared/components/sign-up-form/sign-up-form.component';
@@ -17,7 +25,7 @@ import {
   NavigationEnd,
   Params,
   QueryParamsHandling,
-  Router
+  Router,
 } from '@angular/router';
 import { filter, map, Observable, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,14 +36,19 @@ import { gameRoles } from '@shared/models/gameRoles.type';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
   private window!: Window;
   @ViewChild('searchComponent') searchComponent!: SearchComponent;
   @Input() hideSidebarOnClick: boolean = false;
   @Output() closeMenu: EventEmitter<any> = new EventEmitter<any>();
-  routerActiveLinkOptions: IsActiveMatchOptions = { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' };
+  routerActiveLinkOptions: IsActiveMatchOptions = {
+    paths: 'exact',
+    queryParams: 'ignored',
+    matrixParams: 'ignored',
+    fragment: 'ignored',
+  };
   form!: FormGroup;
   user$ = this.authHttpService.user$;
   searchText = '';
@@ -44,18 +57,59 @@ export class SidebarComponent implements OnInit {
   cities: ICity[] = cities;
   gameSystems: IGameSystem[] = gameSystems;
   filtersDisabled = false;
-  urlsForNotDisablingFilter = ['', '/', '/my-created', '/my-games', '/game-requests'];
-  links: {link: string, text: string, permissions: null | gameRoles, queryHandling: QueryParamsHandling | null | undefined}[] = [
-    {link: 'user', text: 'РЕДАГУВАТИ ПРОФІЛЬ', permissions: null, queryHandling: null},
-    {link: '', text: 'ІГРИ', permissions: null, queryHandling: null},
-    {link: 'game-requests', text: 'ЗАПИТИ ГРИ', permissions: null, queryHandling: null},
-    {link: 'create-game', text: 'СТВОРИТИ ПРИГОДУ', permissions: 'both', queryHandling: null},
-    {link: 'create-game-request', text: 'СТВОРИТИ ЗАПИТ ГРИ', permissions: null, queryHandling: null},
-    {link: 'my-created', text: 'ІСТОРІЯ МАЙСТРА', permissions: 'both', queryHandling: null},
-    {link: 'my-games', text: 'ІСТОРІЯ ГРАВЦЯ', permissions: null, queryHandling: null},
-  ]
+  urlsForNotDisablingFilter = [
+    '',
+    '/',
+    '/my-created',
+    '/my-games',
+    '/game-requests',
+  ];
+  links: {
+    link: string;
+    text: string;
+    permissions: null | gameRoles;
+    queryHandling: QueryParamsHandling | null | undefined;
+  }[] = [
+    {
+      link: 'user',
+      text: 'РЕДАГУВАТИ ПРОФІЛЬ',
+      permissions: null,
+      queryHandling: null,
+    },
+    { link: 'games', text: 'ІГРИ', permissions: null, queryHandling: null },
+    {
+      link: 'games/game-requests',
+      text: 'ЗАПИТИ ГРИ',
+      permissions: null,
+      queryHandling: null,
+    },
+    {
+      link: 'create-game',
+      text: 'СТВОРИТИ ПРИГОДУ',
+      permissions: 'both',
+      queryHandling: null,
+    },
+    {
+      link: 'create-game-request',
+      text: 'СТВОРИТИ ЗАПИТ ГРИ',
+      permissions: null,
+      queryHandling: null,
+    },
+    {
+      link: 'my-created',
+      text: 'ІСТОРІЯ МАЙСТРА',
+      permissions: 'both',
+      queryHandling: null,
+    },
+    {
+      link: 'my-games',
+      text: 'ІСТОРІЯ ГРАВЦЯ',
+      permissions: null,
+      queryHandling: null,
+    },
+  ];
 
-  constructor (
+  constructor(
     @Inject(DOCUMENT) private document: Document,
     private authModalService: AuthModalService,
     private authHttpService: AuthHttpService,
@@ -70,7 +124,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.filtersChanging();
     this.tagsSearch();
     this.initForm();
@@ -78,33 +132,41 @@ export class SidebarComponent implements OnInit {
   }
 
   private checkQuery() {
-    this.sharedService.queryFilters$.pipe(take(1)).subscribe(res => {
+    this.sharedService.queryFilters$.pipe(take(1)).subscribe((res) => {
       if (this.form) {
-        res['gameSystemId'] && this.formGameSystemId.patchValue(+res['gameSystemId']);
+        res['gameSystemId'] &&
+          this.formGameSystemId.patchValue(+res['gameSystemId']);
         res['cityCode'] && this.formCityCode.patchValue(+res['cityCode']);
         res['sort'] && this.formSort.patchValue(+res['sort']);
         if (res['search']) {
           this.searchText = res['search'];
           this.searchComponent.text = res['search'];
         }
-        this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent?.text});
+        this.sharedService.filtersSet({
+          ...this.form.getRawValue(),
+          search: this.searchComponent?.text,
+        });
       }
-    })
+    });
   }
 
   private filtersChanging() {
-    this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map(e => {
-        const urlForNotDisablingFilter = !this.urlsForNotDisablingFilter.find(url => url === e.url.split('?')[0]);
-        if (!urlForNotDisablingFilter && e.url.includes('?')) {
-          return;
-        }
-        this.filtersDisabled = urlForNotDisablingFilter;
-        this.resetFilters();
-        this.filtersDisabled ? this.form.disable() : this.form.enable();
-      })
-    ).subscribe();
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        map((e) => {
+          const urlForNotDisablingFilter = !this.urlsForNotDisablingFilter.find(
+            (url) => url === e.url.split('?')[0]
+          );
+          if (!urlForNotDisablingFilter && e.url.includes('?')) {
+            return;
+          }
+          this.filtersDisabled = urlForNotDisablingFilter;
+          this.resetFilters();
+          this.filtersDisabled ? this.form.disable() : this.form.enable();
+        })
+      )
+      .subscribe();
   }
 
   private resetFilters() {
@@ -117,38 +179,37 @@ export class SidebarComponent implements OnInit {
   }
   private tagsSearch() {
     this.sharedService.tagSearch$.subscribe((text: string | null) => {
-
       if (text === null) {
         return;
       }
       this.searchComponent.text = text;
       this.search(text);
-    })
-  };
-
-  private initForm () {
-    this.form = this.fb.group({
-      gameSystemId: [ {value: null, disabled: this.filtersDisabled} ],
-      cityCode: [ {value: null, disabled: this.filtersDisabled} ],
-      sort: [ {value: 0, disabled: this.filtersDisabled} ]
     });
   }
 
-  get formGameSystemId () {
+  private initForm() {
+    this.form = this.fb.group({
+      gameSystemId: [{ value: null, disabled: this.filtersDisabled }],
+      cityCode: [{ value: null, disabled: this.filtersDisabled }],
+      sort: [{ value: 0, disabled: this.filtersDisabled }],
+    });
+  }
+
+  get formGameSystemId() {
     return this.form.get('gameSystemId') as FormControl;
   }
-  get formCityCode () {
+  get formCityCode() {
     return this.form.get('cityCode') as FormControl;
   }
-  get formSort () {
+  get formSort() {
     return this.form.get('sort') as FormControl;
   }
 
   tryCloseMenu() {
-    this.closeMenu.emit()
+    this.closeMenu.emit();
   }
 
-  dialog (type: 'signup' | 'signin') {
+  dialog(type: 'signup' | 'signin') {
     if (this.hideSidebarOnClick) {
       this.closeMenu.emit();
     }
@@ -156,23 +217,27 @@ export class SidebarComponent implements OnInit {
       this.authModalService.openDialog(SignUpFormComponent);
       return;
     }
-    this.authModalService.openDialog(SignInFormComponent)
+    this.authModalService.openDialog(SignInFormComponent);
   }
 
   partnersDialog() {
     if (this.hideSidebarOnClick) {
       this.closeMenu.emit();
     }
-    this.dialogRef.open(PartnersDialogComponent, {minWidth: '50%', width: '700px', maxWidth: '90vw', autoFocus: false,
-      panelClass: 'bordered-dialog'})
-
+    this.dialogRef.open(PartnersDialogComponent, {
+      minWidth: '50%',
+      width: '700px',
+      maxWidth: '90vw',
+      autoFocus: false,
+      panelClass: 'bordered-dialog',
+    });
   }
 
-  logout () {
+  logout() {
     this.authHttpService.logout();
   }
 
-  showSuspended () {
+  showSuspended() {
     this.isShowSuspended = !this.isShowSuspended;
     this.sharedService.showSuspendedSet(this.isShowSuspended);
   }
@@ -192,30 +257,31 @@ export class SidebarComponent implements OnInit {
     this.addQuery();
   }
 
-  submit () {
+  submit() {
     if (this.hideSidebarOnClick) {
       this.closeMenu.emit();
     }
     this.addQuery();
-    this.sharedService.filtersSet({...this.form.getRawValue(), search: this.searchComponent?.text});
+    this.sharedService.filtersSet({
+      ...this.form.getRawValue(),
+      search: this.searchComponent?.text,
+    });
   }
 
   addQuery() {
     const queryParams: Params = {
       search: this.searchText || null,
-      ...this.form.getRawValue()
+      ...this.form.getRawValue(),
     };
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams: queryParams,
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
-        preserveFragment: true,
-      });
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge', // remove to replace all query params by provided
+      preserveFragment: true,
+    });
   }
 
-  openTg () {
-      this.window.open(`https://telegram.me/EneriNews`, '_blank');
+  openTg() {
+    this.window.open(`https://telegram.me/EneriNews`, '_blank');
   }
 }

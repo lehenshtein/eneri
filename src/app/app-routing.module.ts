@@ -7,6 +7,10 @@ import { VerificationComponent } from '@app/verification/verification.component'
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
   { path: 'about', title: 'ЕНЕРІ | Про нас', component: AboutComponent },
   { path: 'admin', component: AdminPanelComponent, canActivate: [RoleGuard] },
   {
@@ -52,16 +56,12 @@ const routes: Routes = [
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
   {
-    path: 'game-request/:creator/:id',
+    path: 'games/game-request/:creator/:id',
     loadChildren: () =>
       import('./game-details/game-details.module').then(
         (m) => m.GameDetailsModule
       ),
     data: { page: 'game-request' },
-  },
-  {
-    path: '',
-    component: HomeComponent,
   },
   {
     path: 'games',
