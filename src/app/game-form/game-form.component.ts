@@ -1,12 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { cities } from '@app/shared/helpers/cities';
 import { imgPattern } from '@app/shared/helpers/regex-patterns';
 import { texts } from '@app/shared/helpers/texts';
 import { GameHttpService } from '../shared/services/game-http.service';
 import { IGameResponse, IGameSystem } from '../shared/models/game.interface';
 import { UnsubscribeAbstract } from '../shared/helpers/unsubscribe.abstract';
-import { catchError, debounceTime, distinctUntilChanged, take, takeUntil, throwError } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  take,
+  takeUntil,
+  throwError,
+} from 'rxjs';
 import { gameSystems } from '@shared/helpers/game-systems';
 import { ICity } from '@shared/models/city.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,14 +28,17 @@ import { environment } from '@environment/environment';
 import { MetaHelper } from '@shared/helpers/meta.helper';
 import { MaxSizeValidator } from '@angular-material-components/file-input';
 import { AuthHttpService } from '@shared/services/auth-http.service';
-import { createFormDataWithFile, tagsForSendDto } from '@shared/helpers/forms.helper';
+import {
+  createFormDataWithFile,
+  tagsForSendDto,
+} from '@shared/helpers/forms.helper';
 import { MatDialog } from '@angular/material/dialog';
 import { DonateDialogComponent } from '@shared/components/donate-dialog/donate-dialog.component';
 
 @Component({
   selector: 'app-game-form.content',
   templateUrl: './game-form.component.html',
-  styleUrls: ['./game-form.component.scss']
+  styleUrls: ['./game-form.component.scss'],
 })
 export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   form!: FormGroup;
@@ -41,7 +57,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   maxImageSize = 1024 * 1024 * 3; // 3 MB
   gameRequest = false;
 
-  constructor (
+  constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private gameHttpService: GameHttpService,
@@ -50,7 +66,7 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     private metaHelper: MetaHelper,
     private authService: AuthHttpService,
     private dialogRef: MatDialog
-    ) {
+  ) {
     super();
     this.gameRequest = this.route.snapshot.data['page'] === 'game-request';
     this.gameForPreview = {
@@ -60,7 +76,13 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       cityCode: 0,
       tags: [],
       price: 0,
-      master: {username: this.gameRequest ? 'Нікнейм майбутнього майстра' : this.authService.getUser?.username || 'Нікнейм майстра', rate: 0, avatar: this.authService.getUser?.avatar || ''},
+      master: {
+        username: this.gameRequest
+          ? 'Нікнейм майбутнього майстра'
+          : this.authService.getUser?.username || 'Нікнейм майстра',
+        rate: 0,
+        avatar: this.authService.getUser?.avatar || '',
+      },
       maxPlayers: 1,
       players: [],
       imgUrl: 'https://eneri.com.ua/assets/images/img-placeholder.jpg',
@@ -68,37 +90,54 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       startDateTime: new Date(),
       isSuspended: false,
       booked: [],
-      bookedAmount: 0
-    }
+      bookedAmount: 0,
+    };
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.initForm();
     this.checkRoute();
     this.trackFormChanges();
   }
 
   private checkRoute() {
-    if ((this.route.snapshot.params['creator'] || this.route.snapshot.params['master']) && this.route.snapshot.params['id']) {
-      const request = this.gameRequest ?
-        this.gameHttpService.fetchGameRequestById(this.route.snapshot.params['id'], true) :
-        this.gameHttpService.fetchGameById(this.route.snapshot.params['id'], true);
+    if (
+      (this.route.snapshot.params['creator'] ||
+        this.route.snapshot.params['master']) &&
+      this.route.snapshot.params['id']
+    ) {
+      const request = this.gameRequest
+        ? this.gameHttpService.fetchGameRequestById(
+            this.route.snapshot.params['id'],
+            true
+          )
+        : this.gameHttpService.fetchGameById(
+            this.route.snapshot.params['id'],
+            true
+          );
 
-      request.pipe(takeUntil(this.ngUnsubscribe$)).subscribe((res: IGameResponse) => {
-        this.game = res;
-        this.gameForPreview = res;
+      request
+        .pipe(takeUntil(this.ngUnsubscribe$))
+        .subscribe((res: IGameResponse) => {
+          this.game = res;
+          this.gameForPreview = res;
 
-        if (this.gameRequest) {
-          if (this.game.creator.username === this.route.snapshot.params['creator']) {
+          if (this.gameRequest) {
+            if (
+              this.game.creator.username ===
+              this.route.snapshot.params['creator']
+            ) {
+              this.editing = true;
+            }
+          } else if (
+            this.game.master.username === this.route.snapshot.params['master']
+          ) {
             this.editing = true;
           }
-        } else if (this.game.master.username === this.route.snapshot.params['master']) {
-            this.editing = true;
-        }
 
-        this.fillFormFields();
-      })
-      this.updateMeta()
+          this.fillFormFields();
+        });
+      this.updateMeta();
       return;
     }
   }
@@ -108,10 +147,12 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       return;
     }
     this.form.patchValue(this.game);
-    (this.game.tags && this.game.tags.length) ? this.formTags.patchValue(this.game.tags.toString()) : this.formTags.patchValue('');
+    this.game.tags && this.game.tags.length
+      ? this.formTags.patchValue(this.game.tags.toString())
+      : this.formTags.patchValue('');
     this.form.updateValueAndValidity();
     if (this.game.booked.length) {
-      this.fillFormBooked()
+      this.fillFormBooked();
     }
   }
 
@@ -123,71 +164,100 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
       this.isShowBooked = true;
       this.game.booked.forEach((el: string, index: number) => {
         this.formBookedTelegramIndex(index)?.patchValue(el);
-      })
+      });
     }
   }
 
-  private updateMeta () {
+  private updateMeta() {
     this.metaHelper.updateMeta({
       title: this.editing ? 'Редагувати гру' : 'Створити гру',
       tags: [this.editing ? 'Редагування гри' : 'Створення гри'],
-      text: this.editing ? 'Онови або зміни свою гру на ЕНЕРІ' : 'Створи нову гру та знайти гравців на ЕНЕРІ',
+      text: this.editing
+        ? 'Онови або зміни свою гру на ЕНЕРІ'
+        : 'Створи нову гру та знайти гравців на ЕНЕРІ',
       type: 'article',
-      url: this.editing ? `${environment.url}/edit-game/${this.game?.master.username}/${this.game?._id}` : `${environment.url}/create-game`
+      url: this.editing
+        ? `${environment.url}/edit-game/${this.game?.master.username}/${this.game?._id}`
+        : `${environment.url}/create-game`,
     });
   }
 
-  private initForm (game: IGameResponse | undefined = undefined) {
+  private initForm(game: IGameResponse | undefined = undefined) {
     this.form = this.fb.group({
-      title: [ game?.title || '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
-      organizedPlay: [ game?.organizedPlay || false ],
-      linkOnly: [ game?.linkOnly || false ],
-      description: [ game?.description || '', [ Validators.required, Validators.minLength(10), Validators.maxLength(2000) ] ],
-      tags: [ (game?.tags && game?.tags.length) ? game?.tags.toString() : '', Validators.maxLength(100) ],
-      imgUrl: [ game?.imgUrl || null, [ Validators.maxLength(240) ] ],
-      file: [ null, [MaxSizeValidator(this.maxImageSize)] ],
-      gameSystemId: [ (game?.gameSystemId || game?.gameSystemId === 0) ? game?.gameSystemId : null, [ Validators.required ] ],
-      cityCode: [ (game?.cityCode || game?.cityCode === 0) ? game?.cityCode : null, [ Validators.required ] ],
-      price: [ game?.price || 0, [ Validators.required ] ],
-      maxPlayers: [ game?.maxPlayers || 1, [ Validators.required ] ],
-      startDateTime: [ game?.startDateTime || '', [ Validators.required ] ],
-      booked: this.fb.array(this.gameRequest ? [] : [this.formBookedGroup()])
+      title: [
+        game?.title || '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(50),
+        ],
+      ],
+      organizedPlay: [game?.organizedPlay || false],
+      linkOnly: [game?.linkOnly || false],
+      description: [
+        game?.description || '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(2000),
+        ],
+      ],
+      tags: [
+        game?.tags && game?.tags.length ? game?.tags.toString() : '',
+        Validators.maxLength(100),
+      ],
+      imgUrl: [game?.imgUrl || null, [Validators.maxLength(240)]],
+      file: [null, [MaxSizeValidator(this.maxImageSize)]],
+      gameSystemId: [
+        game?.gameSystemId || game?.gameSystemId === 0
+          ? game?.gameSystemId
+          : null,
+        [Validators.required],
+      ],
+      cityCode: [
+        game?.cityCode || game?.cityCode === 0 ? game?.cityCode : null,
+        [Validators.required],
+      ],
+      price: [game?.price || 0, [Validators.required]],
+      maxPlayers: [game?.maxPlayers || 1, [Validators.required]],
+      startDateTime: [game?.startDateTime || '', [Validators.required]],
+      booked: this.fb.array(this.gameRequest ? [] : [this.formBookedGroup()]),
     });
   }
-  get formTitle () {
+  get formTitle() {
     return this.form.get('title') as FormControl;
   }
-  get formDescription () {
+  get formDescription() {
     return this.form.get('description') as FormControl;
   }
-  get formTags () {
+  get formTags() {
     return this.form.get('tags') as FormControl;
   }
-  get formFile () {
+  get formFile() {
     return this.form.get('file') as FormControl;
   }
-  get formImgUrl () {
+  get formImgUrl() {
     return this.form.get('imgUrl') as FormControl;
   }
-  get formGameSystemId () {
+  get formGameSystemId() {
     return this.form.get('gameSystemId') as FormControl;
   }
-  get formCityCode () {
+  get formCityCode() {
     return this.form.get('cityCode') as FormControl;
   }
-  get formPrice () {
+  get formPrice() {
     return this.form.get('price') as FormControl;
   }
-  get formMaxPlayers () {
+  get formMaxPlayers() {
     return this.form.get('maxPlayers') as FormControl;
   }
-  get formStartDateTime () {
+  get formStartDateTime() {
     return this.form.get('startDateTime') as FormControl;
   }
-  get formBooked (): FormArray {
+  get formBooked(): FormArray {
     return this.form.get('booked') as FormArray;
   }
-  formBookedIndex (index: number) {
+  formBookedIndex(index: number) {
     return this.formBooked.controls[index];
   }
   formBookedTelegramIndex(index: number) {
@@ -195,36 +265,64 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
   }
   formBookedGroup() {
     return this.fb.group({
-      userTelegram: ['', [ Validators.minLength(3), Validators.maxLength(30) ]],
+      userTelegram: ['', [Validators.minLength(3), Validators.maxLength(30)]],
     });
   }
 
   trackFormChanges() {
     //fill preview
-    this.form.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(1000), distinctUntilChanged())
-      .subscribe(res => {
+    this.form.valueChanges
+      .pipe(
+        takeUntil(this.ngUnsubscribe$),
+        debounceTime(1000),
+        distinctUntilChanged()
+      )
+      .subscribe((res) => {
         for (const [key, value] of Object.entries(res)) {
-          if ((value || value === false) && (key !== 'booked' && key !== 'players' && key !== 'master') && value !== (this.gameForPreview![key] as any)) {
+          if (
+            (value || value === false) &&
+            key !== 'booked' &&
+            key !== 'players' &&
+            key !== 'master' &&
+            value !== (this.gameForPreview![key] as any)
+          ) {
             if (key === 'tags') {
               const tags = tagsForSendDto(this.formTags.getRawValue());
-              this.gameForPreview.tags = [...tags.filter((tag: string) => tag !== '')];
+              this.gameForPreview.tags = [
+                ...tags.filter((tag: string) => tag !== ''),
+              ];
             } else if (key === 'file') {
-              this.gameForPreview.imgUrl = URL.createObjectURL(value as File)
+              this.gameForPreview.imgUrl = URL.createObjectURL(value as File);
             } else {
               this.gameForPreview![key] = value;
             }
           }
         }
-      })
+      });
 
     //track booked according to maxPlayers
-    this.formMaxPlayers.valueChanges.pipe(takeUntil(this.ngUnsubscribe$), debounceTime(100), distinctUntilChanged())
-      .subscribe(res => {
-        const creatorAsPlayerIfGameRequest = this.gameRequest && !this.editing ? 1 : 0;
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) < res) {
-          const amount = res - (this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest);
+    this.formMaxPlayers.valueChanges
+      .pipe(
+        takeUntil(this.ngUnsubscribe$),
+        debounceTime(100),
+        distinctUntilChanged()
+      )
+      .subscribe((res) => {
+        const creatorAsPlayerIfGameRequest =
+          this.gameRequest && !this.editing ? 1 : 0;
+        if (
+          this.formBooked.value.length +
+            (this.game?.players?.length || 0) +
+            creatorAsPlayerIfGameRequest <
+          res
+        ) {
+          const amount =
+            res -
+            (this.formBooked.value.length +
+              (this.game?.players?.length || 0) +
+              creatorAsPlayerIfGameRequest);
           for (let i = 0; i < amount; i++) {
-            this.formBooked.push(this.formBookedGroup())
+            this.formBooked.push(this.formBookedGroup());
           }
           if (this.isFirstBookedValueFilling) {
             this.fillFormBooked();
@@ -232,39 +330,57 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
             this.isFirstBookedValueFilling = false;
           }
         }
-        if ((this.formBooked.value.length + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) > res) {
-          const amount = (this.formBooked.value.length  + (this.game?.players?.length || 0) + creatorAsPlayerIfGameRequest) - res;
+        if (
+          this.formBooked.value.length +
+            (this.game?.players?.length || 0) +
+            creatorAsPlayerIfGameRequest >
+          res
+        ) {
+          const amount =
+            this.formBooked.value.length +
+            (this.game?.players?.length || 0) +
+            creatorAsPlayerIfGameRequest -
+            res;
           for (let i = 0; i < amount; i++) {
             this.formBooked.removeAt(this.formBooked.value.length - 1);
           }
         }
-      })
+      });
   }
 
   openModal() {
-    const dialog = this.dialogRef.open(DonateDialogComponent, {data: {title: this.editing ? 'Редагувати':'Створити'}, minWidth: '50%', width: '700px', maxWidth: '90vw', autoFocus: false,
-      panelClass: 'bordered-dialog'});
+    const dialog = this.dialogRef.open(DonateDialogComponent, {
+      data: { title: this.editing ? 'Редагувати' : 'Створити' },
+      minWidth: '50%',
+      width: '700px',
+      maxWidth: '90vw',
+      autoFocus: false,
+      panelClass: 'bordered-dialog',
+    });
 
-    dialog.afterClosed().pipe(take(1)).subscribe(res => {
-      if (res) {
-        this.submit();
-      }
-    })
+    dialog
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.submit();
+        }
+      });
   }
 
-  submit () {
+  submit() {
     if (this.form.invalid) {
-      return
+      return;
     }
     this.postingText = 'Зачекайте...';
     const formValue = this.form.getRawValue();
     if (!this.isShowBooked) {
-      formValue.booked = '[]'
+      formValue.booked = '[]';
     } else {
       formValue.booked = [];
-      this.form.getRawValue().booked.forEach((el: {userTelegram: string}) => {
-        el.userTelegram ? formValue.booked.push(el.userTelegram) : null
-      })
+      this.form.getRawValue().booked.forEach((el: { userTelegram: string }) => {
+        el.userTelegram ? formValue.booked.push(el.userTelegram) : null;
+      });
       formValue.booked = JSON.stringify(formValue.booked);
     }
     const tags = tagsForSendDto(formValue.tags);
@@ -274,43 +390,62 @@ export class GameFormComponent extends UnsubscribeAbstract implements OnInit {
     const formData = createFormDataWithFile(formValue, 'imgUrl');
 
     if (this.editing && this.game) {
-      const updateGame = this.gameRequest ?
-        this.gameHttpService.updateGameRequest(formData, this.game._id) :
-        this.gameHttpService.updateGame(formData, this.game._id);
-      updateGame.pipe(takeUntil(this.ngUnsubscribe$),
+      const updateGame = this.gameRequest
+        ? this.gameHttpService.updateGameRequest(formData, this.game._id)
+        : this.gameHttpService.updateGame(formData, this.game._id);
+      updateGame
+        .pipe(
+          takeUntil(this.ngUnsubscribe$),
+          catchError(() => {
+            this.postingText = '';
+            return throwError(() => 'Error');
+          })
+        )
+        .subscribe((res) => {
+          this.postingText = 'Редаговано';
+          if (res) {
+            this.notificationService.openSnackBar(
+              'success',
+              'Вдало редаговано'
+            );
+            this.gameRequest
+              ? this.router.navigate([
+                  `games/game-request/${this.game?.creator.username}/${this.game?._id}`,
+                ])
+              : this.router.navigate([
+                  `games/${this.game?.master.username}/${this.game?._id}`,
+                ]);
+          }
+        });
+      return;
+    }
+    const createGame = this.gameRequest
+      ? this.gameHttpService.createGameRequest(formData)
+      : this.gameHttpService.createGame(formData);
+    createGame
+      .pipe(
+        takeUntil(this.ngUnsubscribe$),
         catchError(() => {
           this.postingText = '';
           return throwError(() => 'Error');
-        }))
-        .subscribe(res => {
-          this.postingText = 'Редаговано'
-          if (res) {
-            this.notificationService.openSnackBar('success', 'Вдало редаговано');
-            this.gameRequest ?
-              this.router.navigate([`game-request/${this.game?.creator.username}/${this.game?._id}`]) :
-              this.router.navigate([`/${this.game?.master.username}/${this.game?._id}`]);
-          }
-      })
-      return;
-    }
-    const createGame = this.gameRequest ?
-      this.gameHttpService.createGameRequest(formData) :
-      this.gameHttpService.createGame(formData);
-    createGame.pipe(takeUntil(this.ngUnsubscribe$),
-      catchError(() => {
-        this.postingText = '';
-        return throwError(() => 'Error');
-      }))
-      .subscribe(res => {
-        this.postingText = 'Створено'
+        })
+      )
+      .subscribe((res) => {
+        this.postingText = 'Створено';
         if (res) {
           this.notificationService.openSnackBar('success', 'Вдало створено');
-          this.router.navigate([`/${this.gameRequest ? 'game-request/' + res.creator.username : res.master.username}/${res._id}`]);
+          this.router.navigate([
+            `/${
+              this.gameRequest
+                ? 'games/game-request/' + res.creator.username
+                : res.master.username
+            }/${res._id}`,
+          ]);
         }
-    })
+      });
   }
 
-  changeBooking () {
+  changeBooking() {
     this.isShowBooked = !this.isShowBooked;
   }
 }

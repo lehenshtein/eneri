@@ -1,58 +1,101 @@
 <div class="sidebar-wrapper">
-  <div class="site-info" [routerLink]="'/'" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-    <img class="logo" appImg src="../../../assets/images/eneri-loader.png" alt="logo">
-<!--    <div class="logo-wrapper">-->
-<!--      <img class="logo logo&#45;&#45;left" appImg src="../../../assets/images/eneritestlogoMinimalLeft.png" alt="logo">-->
-<!--      <img class="logo logo&#45;&#45;center" appImg src="../../../assets/images/eneritestlogoMinimalCenter.png" alt="logo">-->
-<!--      <img class="logo logo&#45;&#45;right" appImg src="../../../assets/images/eneritestlogoMinimalRight.png" alt="logo">-->
-<!--    </div>-->
+  <div
+    class="site-info"
+    [routerLink]="'/'"
+    (click)="hideSidebarOnClick ? closeMenu.emit() : null"
+  >
+    <img
+      class="logo"
+      appImg
+      src="../../../assets/images/eneri-loader.png"
+      alt="logo"
+    />
+    <!--    <div class="logo-wrapper">-->
+    <!--      <img class="logo logo&#45;&#45;left" appImg src="../../../assets/images/eneritestlogoMinimalLeft.png" alt="logo">-->
+    <!--      <img class="logo logo&#45;&#45;center" appImg src="../../../assets/images/eneritestlogoMinimalCenter.png" alt="logo">-->
+    <!--      <img class="logo logo&#45;&#45;right" appImg src="../../../assets/images/eneritestlogoMinimalRight.png" alt="logo">-->
+    <!--    </div>-->
     <h1>Е<span class="glow">Н</span>Е<span class="glow">РІ</span></h1>
   </div>
 
   <mat-nav-list>
-    <ng-container *ngIf="user$ | async as user else notAuthenticated">
-      <button *ngIf="user && user.role === 'superAdmin'" class="admin-btn" mat-icon-button [routerLink]="['/', 'admin']">
+    <ng-container *ngIf="user$ | async as user; else notAuthenticated">
+      <button
+        *ngIf="user && user.role === 'superAdmin'"
+        class="admin-btn"
+        mat-icon-button
+        [routerLink]="['/', 'admin']"
+      >
         <mat-icon>admin_panel_settings</mat-icon>
       </button>
-      <a [routerLink]="['user', user.username]" routerLinkActive="active" [routerLinkActiveOptions]="routerActiveLinkOptions" (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-        <mat-list-item>{{user.gameRole === 'both' ? 'Майстер:' : 'Гравець:'}} <span class="primary-text semibold">{{user.username}}</span></mat-list-item>
+      <a
+        [routerLink]="['user', user.username]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="routerActiveLinkOptions"
+        (click)="hideSidebarOnClick ? closeMenu.emit() : null"
+      >
+        <mat-list-item
+          >{{ user.gameRole === "both" ? "Майстер:" : "Гравець:" }}
+          <span class="primary-text semibold">{{
+            user.username
+          }}</span></mat-list-item
+        >
       </a>
       <ng-container *ngFor="let item of links">
-        <a *ngIf="!item.permissions || item.permissions === user.gameRole" [routerLink]="item.link"
-          routerLinkActive="active" [queryParamsHandling]="item.queryHandling" [routerLinkActiveOptions]="routerActiveLinkOptions"
-          (click)="hideSidebarOnClick ? closeMenu.emit() : null">
-          <mat-list-item>{{item.text}}</mat-list-item>
+        <a
+          *ngIf="!item.permissions || item.permissions === user.gameRole"
+          [routerLink]="item.link"
+          routerLinkActive="active"
+          [queryParamsHandling]="item.queryHandling"
+          [routerLinkActiveOptions]="routerActiveLinkOptions"
+          (click)="hideSidebarOnClick ? closeMenu.emit() : null"
+        >
+          <mat-list-item>{{ item.text }}</mat-list-item>
         </a>
       </ng-container>
     </ng-container>
 
     <ng-template #notAuthenticated>
-      <mat-list-item (click)="dialog('signup')">СТАТИ АВАНТЮРИСТОМ</mat-list-item>
+      <mat-list-item (click)="dialog('signup')"
+        >СТАТИ АВАНТЮРИСТОМ</mat-list-item
+      >
       <mat-list-item (click)="dialog('signin')">ЗАЙТИ У ГІЛЬДІЮ</mat-list-item>
-      <a [routerLink]="''"
-        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="routerActiveLinkOptions"
-        (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+      <a
+        [routerLink]="'/games'"
+        routerLinkActive="active"
+        [queryParamsHandling]="'merge'"
+        [routerLinkActiveOptions]="routerActiveLinkOptions"
+        (click)="hideSidebarOnClick ? closeMenu.emit() : null"
+      >
         <mat-list-item>ІГРИ</mat-list-item>
       </a>
-      <a [routerLink]="'game-requests'"
-        routerLinkActive="active" [queryParamsHandling]="'merge'" [routerLinkActiveOptions]="routerActiveLinkOptions"
-        (click)="hideSidebarOnClick ? closeMenu.emit() : null">
+      <a
+        [routerLink]="['/games', 'game-requests']"
+        routerLinkActive="active"
+        [queryParamsHandling]="'merge'"
+        [routerLinkActiveOptions]="routerActiveLinkOptions"
+        (click)="hideSidebarOnClick ? closeMenu.emit() : null"
+      >
         <mat-list-item>ЗАПИТИ ГРИ</mat-list-item>
       </a>
     </ng-template>
   </mat-nav-list>
 
-  <hr class="m-t-0">
+  <hr class="m-t-0" />
 
   <div class="p-l-16 p-r-16 p-t-8">
-    <app-search [disabled]="filtersDisabled" (searchText)="search($event)" #searchComponent></app-search>
+    <app-search
+      [disabled]="filtersDisabled"
+      (searchText)="search($event)"
+      #searchComponent
+    ></app-search>
 
     <form class="form" [formGroup]="form">
       <mat-form-field>
         <mat-label>Сортувати</mat-label>
         <mat-select formControlName="sort" (selectionChange)="submit()">
-          <mat-option  [value]="0">Найближчі</mat-option>
-          <mat-option  [value]="1">Нові</mat-option>
+          <mat-option [value]="0">Найближчі</mat-option>
+          <mat-option [value]="1">Нові</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -62,30 +105,47 @@
         <mat-label>Обери гру</mat-label>
         <mat-select formControlName="gameSystemId">
           <mat-option [value]="null">Будь-яка</mat-option>
-          <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{item.name}}</mat-option>
+          <mat-option *ngFor="let item of gameSystems" [value]="item._id">{{
+            item.name
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Місто, або онлайн</mat-label>
         <mat-select formControlName="cityCode">
-          <mat-option  [value]="null">Будь-яке</mat-option>
-          <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+          <mat-option [value]="null">Будь-яке</mat-option>
+          <mat-option *ngFor="let city of cities" [value]="city.code">{{
+            city.name
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </form>
 
     <div class="d-flex justify-end align-center">
-<!--      <mat-slide-toggle [disabled]="filtersDisabled" [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Закриті ігри</mat-slide-toggle>-->
-      <button mat-raised-button color="primary" (click)="submit()" [disabled]="filtersDisabled">
+      <!--      <mat-slide-toggle [disabled]="filtersDisabled" [checked]="isShowSuspended" (change)="showSuspended()" class="m-l-15">Закриті ігри</mat-slide-toggle>-->
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submit()"
+        [disabled]="filtersDisabled"
+      >
         Фільтрувати
       </button>
     </div>
   </div>
 
-  <hr class="m-t-20">
+  <hr class="m-t-20" />
 
   <div class="p-l-16 p-r-16 p-t-8 p-b-10" *ngIf="user$ | async">
-    <button mat-stroked-button color="warn" (click)="logout()" [routerLink]="'/'" class="w-100 m-t-10">Вийти</button>
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="logout()"
+      [routerLink]="'/'"
+      class="w-100 m-t-10"
+    >
+      Вийти
+    </button>
   </div>
 </div>
